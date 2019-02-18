@@ -35,6 +35,17 @@ export const constantRouterMap = [
   { path: '/404', component: () => import('@/views/404'), hidden: true },
 
   {
+    path: '/home',
+    meta: {
+      title: 'Home',
+      hideInMenu: true
+    },
+    name: 'Home',
+    component: () => import('@/views/home/index'),
+    hidden: true
+  },
+
+  {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
@@ -153,15 +164,8 @@ export const constantRouterMap = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-const router = new Router({
-  mode: 'history',
+export default new Router({
+  mode: 'history', // 后端支持可开
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
-
-router.beforeEach((to, from, next) => {
-  window.document.title = to.meta.title;
-  next();
-})
-
-export default router

@@ -23,13 +23,12 @@
         </span>
       </el-form-item>
       <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin" disabled>
+        <el-button :loading="loading" type="primary" style="width:100%;" disabled @click.native.prevent="handleLogin">
           Sign in
         </el-button>
       </el-form-item>
       <div class="tips">
-        <span style="margin-right:20px;"></span>
-        <span></span>
+        <span style="margin-right:20px;">:)</span>
       </div>
     </el-form>
   </div>
