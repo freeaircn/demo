@@ -161,7 +161,7 @@ export const constantRouterMap = [
     ]
   },
 
-  { path: '*', redirect: '/404', hidden: true }
+  { path: '*', name: '404', redirect: '/404', hidden: true }
 ]
 
 export default new Router({
