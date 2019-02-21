@@ -1,12 +1,24 @@
 <template>
   <div class="home-container">
     <h3 class="title">Home Page</h3>
+    <el-form ref="Form" :model="Msg" label-position="left">
+      <el-form-item prop="message">
+        <el-input v-model="Msg" name="Msg" type="text" auto-complete="on" />
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
+import { Constants } from '@/Constants'
+
 export default {
-  name: 'Home'
+  name: 'Home',
+  data() {
+    return {
+      Msg: Constants.TEST_MSG
+    }
+  }
 }
 </script>
 

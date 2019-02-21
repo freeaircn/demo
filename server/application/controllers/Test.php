@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use \Freeair_App_SDK\Constants as Constants;
+use \Freeair_App_SDK\conf\Conf as Conf;
+
 class Test extends CI_Controller {
 
 	/**
@@ -20,6 +23,8 @@ class Test extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('test_message');
+    $this->data['a'] = Constants::TEST_MSG;
+    $this->data['b'] = Conf::getTestMsg();
+		$this->load->view('test_message', $this->data);
 	}
 }

@@ -12,7 +12,15 @@
 	},
 	"require": {
 		"php": ">=5.3.7"
-	},
+  },
+  "config": {
+        "optimize-autoloader": true
+  },
+  "autoload": {
+    "psr-4": {
+        "Freeair_App_SDK\\": "vendor/freeair/"
+    }
+  },
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
 	}
