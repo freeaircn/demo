@@ -24,6 +24,16 @@ import Layout from '../views/layout/Layout'
 **/
 export const constantRouterMap = [
   {
+    path: '/signup',
+    name: 'signup',
+    meta: {
+      title: '注册|Bing',
+      hideInMenu: true
+    },
+    component: () => import('@/views/signup/index'),
+    hidden: true
+  },
+  {
     path: '/login',
     meta: {
       title: 'Welcome',
