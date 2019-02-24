@@ -7,7 +7,6 @@ import { getToken } from '@/utils/auth' // 验权
 
 const whiteList = ['/login'] // 不重定向白名单
 
-
 router.afterEach(() => {
   NProgress.done() // 结束Progress
 })

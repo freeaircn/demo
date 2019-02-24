@@ -1,19 +1,19 @@
 <template>
   <div class="signup-container">
     <el-steps :active="activeStep" finish-status="success" align-center>
-      <el-step title="步骤1" description="新建用户"></el-step>
-      <el-step title="步骤2" description="用户信息"></el-step>
-      <el-step title="步骤3" description="任职信息"></el-step>
+      <el-step title="步骤1" description="新建用户" />
+      <el-step title="步骤2" description="用户信息" />
+      <el-step title="步骤3" description="完成" />
     </el-steps>
 
-    <el-form ref="form1" :model="form1" :rules="form1Rules" class="signup-form" status-icon label-position="left">
+    <el-form ref="form1" :model="form1" :rules="form1Rules" class="signup-form" label-position="left" @validate="form1ValidateEvent" >
       <h3 class="title">欢迎加入我们</h3>
 
       <el-form-item prop="userphone">
         <span class="svg-container">
           <svg-icon icon-class="icon_mobilephone" />
         </span>
-        <el-input v-model="form1.userphone" name="userphone" type="text" placeholder="手机号" />
+        <el-input v-model="form1.userphone" name="userphone" type="text" placeholder="手机号" clearable />
       </el-form-item>
 
       <el-form-item prop="password">
@@ -24,7 +24,8 @@
           :type="pwdType"
           v-model="form1.password"
           name="password"
-          placeholder="密码" />
+          placeholder="密码"
+          clearable />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
         </span>
@@ -38,7 +39,8 @@
           :type="pwdType"
           v-model="form1.confirmPassword"
           name="confirmPassword"
-          placeholder="确认密码" />
+          placeholder="确认密码"
+          clearable />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
         </span>
@@ -72,9 +74,12 @@ export default {
         callback()
       }
     }
-    var validatePssword = (rule, value, callback) => {
+    const pwdReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/
+    const validatePssword = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
+      } else if (!pwdReg.test(value)) {
+        callback(new Error('密码最小长度为8位，必须包含大写、小写字母、数字！'))
       } else {
         if (this.form1.confirmPassword !== '') {
           this.$refs.form1.validateField('confirmPassword')
@@ -82,7 +87,7 @@ export default {
         callback()
       }
     }
-    var validateconfirmPassword = (rule, value, callback) => {
+    const validateconfirmPassword = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
       } else if (value !== this.form1.password) {
@@ -91,7 +96,6 @@ export default {
         callback()
       }
     }
-
     return {
       activeStep: 0,
       form1: {
@@ -102,7 +106,6 @@ export default {
       form1Rules: {
         userphone: [{ required: true, trigger: 'blur', validator: validateUserphone }],
         password: [
-          { trigger: 'blur', min: 8, message: '密码长度至少8位！' },
           { required: true, trigger: 'blur', validator: validatePssword }
         ],
         confirmPassword: [{ required: true, trigger: 'blur', validator: validateconfirmPassword }]
@@ -129,9 +132,16 @@ export default {
       }
     },
 
+    form1ValidateEvent(formItem, isValidate) {
+      if (formItem === 'userphone' && isValidate) {
+        this.$message('Goto check phone')
+      }
+    },
+
     handleCreateAccount() {
       this.activeStep += 1
     },
+
     handleCreateAccount2() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
@@ -168,7 +178,7 @@ $light_gray:#eee;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
+      // color: $light_gray;
       height: 47px;
       &:-webkit-autofill {
         -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
@@ -177,10 +187,11 @@ $light_gray:#eee;
     }
   }
   .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 1);
+    border: 1px solid #ddd;
+    // background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    color: #454545;
+    // color: #454545;
   }
 }
 
@@ -194,7 +205,7 @@ $light_gray:#eee;
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: $bg;
+  // background-color: $bg;
   .signup-form {
     position: absolute;
     left: 0;
@@ -206,7 +217,7 @@ $light_gray:#eee;
   }
   .tips {
     font-size: 14px;
-    color: #fff;
+    // color: #fff;
     margin-bottom: 10px;
     span {
       &:first-of-type {
@@ -224,7 +235,7 @@ $light_gray:#eee;
   .title {
     font-size: 26px;
     font-weight: 400;
-    color: $light_gray;
+    // color: $light_gray;
     margin: 0px auto 40px auto;
     text-align: center;
     font-weight: bold;

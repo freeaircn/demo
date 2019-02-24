@@ -120,7 +120,7 @@ $light_gray:#eee;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
+      // color: $light_gray;
       height: 47px;
       &:-webkit-autofill {
         -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
@@ -130,9 +130,10 @@ $light_gray:#eee;
   }
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    //background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    color: #454545;
+    //color: #454545;
   }
 }
 
@@ -146,7 +147,7 @@ $light_gray:#eee;
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: $bg;
+  // background-color: $bg;
   .login-form {
     position: absolute;
     left: 0;
@@ -158,7 +159,7 @@ $light_gray:#eee;
   }
   .tips {
     font-size: 14px;
-    color: #fff;
+    // color: #fff;
     margin-bottom: 10px;
     span {
       &:first-of-type {
@@ -176,7 +177,7 @@ $light_gray:#eee;
   .title {
     font-size: 26px;
     font-weight: 400;
-    color: $light_gray;
+    // color: $light_gray;
     margin: 0px auto 40px auto;
     text-align: center;
     font-weight: bold;
@@ -186,7 +187,7 @@ $light_gray:#eee;
     right: 10px;
     top: 7px;
     font-size: 16px;
-    color: $dark_gray;
+    // color: $dark_gray;
     cursor: pointer;
     user-select: none;
   }
