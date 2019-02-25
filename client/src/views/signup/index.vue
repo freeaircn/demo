@@ -7,7 +7,12 @@
     </el-steps>
 
     <el-form ref="form1" :model="form1" :rules="form1Rules" class="signup-form" label-position="left" @validate="form1ValidateEvent" >
-      <h3 class="title">欢迎加入我们</h3>
+      <div class="logo-container">
+        <svg-icon icon-class="logo" />
+      </div>
+      <h3 class="title">
+        欢迎加入我们
+      </h3>
 
       <el-form-item prop="userphone">
         <span class="svg-container">
@@ -224,6 +229,14 @@ $light_gray:#eee;
         margin-right: 16px;
       }
     }
+  }
+  .logo-container {
+    padding: 6px;
+    // color: $dark_gray;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: block;
   }
   .svg-container {
     padding: 6px 5px 6px 15px;
