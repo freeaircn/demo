@@ -266,7 +266,7 @@ $border_gray: #DCDFE6;
     left: 0;
     right: 0;
     width: 450px;
-    max-width: 100%;
+    max-width: 80%;
     margin: 20px auto;
   }
   .signup-form {
@@ -276,7 +276,7 @@ $border_gray: #DCDFE6;
     width: 520px;
     max-width: 100%;
     padding: 15px 35px 15px 35px;
-    margin: 20px auto 20px auto;
+    margin: 20px auto;
   }
   .tips {
     font-size: 14px;
