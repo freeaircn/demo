@@ -8,7 +8,7 @@
 
     <el-form ref="form1" :model="form1" :rules="form1Rules" class="signup-form" label-position="left" @validate="form1ValidateEvent" >
       <div class="logo-container">
-        <svg-icon icon-class="logo" />
+        <svg-logo logo-class="logo" />
       </div>
       <h3 class="title">
         欢迎加入我们
