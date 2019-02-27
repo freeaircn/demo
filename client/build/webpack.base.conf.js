@@ -59,9 +59,17 @@ module.exports = {
       {
         test: /\.svg$/,
         loader: 'svg-sprite-loader',
-        include: [resolve('src/icons'), resolve('src/logos')],
+        include: [resolve('src/icons')],
         options: {
           symbolId: 'icon-[name]'
+        }
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-sprite-loader',
+        include: [resolve('src/logos')],
+        options: {
+          symbolId: 'logo-[name]'
         }
       },
       {

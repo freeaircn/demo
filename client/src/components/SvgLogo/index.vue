@@ -34,8 +34,8 @@ export default {
 
 <style scoped>
 .svg-logo {
-  width: 20 px;
-  height: 20 px;
+  width: 15%;
+  height: 15%;
   fill: currentColor;
   overflow: hidden;
 }
