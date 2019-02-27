@@ -1,7 +1,7 @@
 
 export const Constants = {
 
-  TEST_MSG: 'Test Here',
+  TEST_MSG: 'Test message',
   AUTH_SUCCESS: 0,
   AUTH_FAILED: -1,
 

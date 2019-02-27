@@ -24,39 +24,37 @@ import Layout from '../views/layout/Layout'
 **/
 export const constantRouterMap = [
   {
-    path: '/signup',
-    name: 'signup',
-    meta: {
-      title: '注册|Bing',
-      hideInMenu: true
-    },
-    component: () => import('@/views/signup/index'),
-    hidden: true
-  },
-  {
-    path: '/login',
-    meta: {
-      title: 'Welcome',
-      hideInMenu: true
-    },
-    component: () => import('@/views/login/index'),
-    hidden: true
-  },
-  { path: '/404', component: () => import('@/views/404'), hidden: true },
-
-  {
-    path: '/home',
+    path: '/',
+    name: 'home',
+    component: () => import('@/views/home/index'),
     meta: {
       title: 'Home',
       hideInMenu: true
     },
-    name: 'Home',
-    component: () => import('@/views/home/index'),
     hidden: true
   },
-
   {
-    path: '/',
+    path: '/signup',
+    name: 'signup',
+    component: () => import('@/views/signup/index'),
+    meta: {
+      title: '注册|B',
+      hideInMenu: true
+    },
+    hidden: true
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login/index'),
+    meta: {
+      title: '登录|B',
+      hideInMenu: true
+    },
+    hidden: true
+  },
+  {
+    path: '/tempboard',
     component: Layout,
     redirect: '/dashboard',
     name: 'Dashboard',
@@ -170,7 +168,11 @@ export const constantRouterMap = [
       }
     ]
   },
-
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
   { path: '*', name: '404', redirect: '/404', hidden: true }
 ]
 

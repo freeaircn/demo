@@ -1,63 +1,81 @@
 <template>
   <div class="signup-container">
-    <el-form ref="form1" :model="form1" :rules="form1Rules" class="signup-form" label-position="left" @validate="form1ValidateEvent" >
-      <div class="logo-container">
-        <svg-logo logo-class="main_logo" />
-      </div>
-      <h3 class="title">欢迎加入我们</h3>
+    <div class="logo-container">
+      <svg-logo logo-class="main_logo" />
+    </div>
+    <h3 class="title">欢迎加入我们</h3>
 
-      <el-form-item prop="userphone">
-        <span class="svg-container">
-          <svg-icon icon-class="icon_mobilephone" />
-        </span>
-        <el-input v-model="form1.userphone" name="userphone" type="text" placeholder="手机号" clearable />
-      </el-form-item>
-
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :type="pwdType"
-          v-model="form1.password"
-          name="password"
-          placeholder="密码"
-          clearable />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
-
-      <el-form-item prop="confirmPassword">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :type="pwdType"
-          v-model="form1.confirmPassword"
-          name="confirmPassword"
-          placeholder="确认密码"
-          clearable />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleCreateAccount">
-          下一步
-        </el-button>
-      </el-form-item>
-      <div class="tips">
-        <span style="margin-right:20px;">:)</span>
-      </div>
-    </el-form>
-    
     <el-steps :active="activeStep" class="signup-steps" finish-status="success">
       <el-step title="步骤1" description="新建用户" />
       <el-step title="步骤2" description="用户信息" />
       <el-step title="步骤3" description="完成" />
     </el-steps>
+
+    <div v-if="activeStep === 0">
+      <el-form ref="form1" :model="form1" :rules="form1Rules" class="signup-form" label-position="left" @validate="form1ValidateEvent" >
+        <el-form-item prop="userphone">
+          <span class="svg-container">
+            <svg-icon icon-class="icon_mobilephone" />
+          </span>
+          <el-input v-model="form1.userphone" name="userphone" type="text" placeholder="手机号" clearable />
+        </el-form-item>
+
+        <el-form-item prop="password">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input
+            :type="pwdType"
+            v-model="form1.password"
+            name="password"
+            placeholder="密码"
+            clearable />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
+
+        <el-form-item prop="confirmPassword">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input
+            :type="pwdType"
+            v-model="form1.confirmPassword"
+            name="confirmPassword"
+            placeholder="确认密码"
+            clearable />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleCreateAccount">创建</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <div v-if="activeStep === 1">
+      <el-form ref="form2" :model="form2" :rules="form2Rules" class="signup-form" label-position="left" @validate="form2ValidateEvent" >
+        <el-form-item>
+          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleCreateAccount">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <div v-if="activeStep === 2">
+      <el-form ref="form3" :model="form3" class="signup-form" label-position="left" >
+        <el-form-item>
+          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleCreateAccount">完成</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <div class="tips">
+      <p style="margin-right:20px;">:)</p>
+    </div>
+
   </div>
 </template>
 
@@ -111,6 +129,16 @@ export default {
         password: [{ required: true, trigger: 'blur', validator: validatePssword }],
         confirmPassword: [{ required: true, trigger: 'blur', validator: validateconfirmPassword }]
       },
+      //
+      form2: {
+
+      },
+      form2Rules: {
+
+      },
+      form3: {
+
+      },
       loading: false,
       pwdType: 'password',
       redirect: undefined
@@ -139,8 +167,16 @@ export default {
       }
     },
 
+    form2ValidateEvent(formItem, isValidate) {
+
+    },
+
     handleCreateAccount() {
-      this.activeStep += 1
+      if (this.activeStep > 2) {
+        this.activeStep = 0
+      } else {
+        this.activeStep += 1
+      }
     },
 
     handleCreateAccount2() {
@@ -164,7 +200,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-$bg:#ffffff;
+$bg:#fefefe;
 $light_gray:#eee;
 $dark_gray:#606266;
 $border_gray: #DCDFE6;
@@ -180,7 +216,7 @@ $border_gray: #DCDFE6;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
-      padding: 12px 5px 12px 15px;
+      padding: 5px;
       color: $dark_gray;
       height: 47px;
       &:-webkit-autofill {
@@ -193,13 +229,14 @@ $border_gray: #DCDFE6;
     border: 1px solid $border_gray;
     background: transparent;
     border-radius: 5px;
+    // margin: 30px;
     // color: #454545;
   }
 }
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-$bg:#ffffff;
+$bg:#fefefe;
 $light_gray:#eee;
 $dark_gray:#606266;
 $border_gray: #DCDFE6;
@@ -209,14 +246,21 @@ $border_gray: #DCDFE6;
   height: 100%;
   width: 100%;
   background-color: $bg;
-  .signup-form {
-    // position: absolute;
-    left: 0;
-    right: 0;
-    width: 520px;
-    max-width: 100%;
-    padding: 15px 35px 15px 35px;
-    margin: 40px auto 20px auto;
+  .logo-container {
+    margin: 5% auto 10px auto;
+    color: $dark_gray;
+    text-align: center;
+    width: 100%;
+    height: 60px;
+    display: block;
+  }
+  .title {
+    font-size: 26px;
+    font-weight: 400;
+    color: $dark_gray;
+    // margin: 0px auto 40px auto;
+    text-align: center;
+    font-weight: bold;
   }
   .signup-steps {
     left: 0;
@@ -225,23 +269,20 @@ $border_gray: #DCDFE6;
     max-width: 100%;
     margin: 20px auto;
   }
+  .signup-form {
+    // position: absolute;
+    left: 0;
+    right: 0;
+    width: 520px;
+    max-width: 100%;
+    padding: 15px 35px 15px 35px;
+    margin: 20px auto 20px auto;
+  }
   .tips {
     font-size: 14px;
     color: $dark_gray;
-    margin-bottom: 10px;
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
-  }
-  .logo-container {
-    padding: 6px;
-    color: $dark_gray;
     text-align: center;
-    width: 100%;
-    height: 100%;
-    display: block;
+    margin: 10px auto 10px auto;
   }
   .svg-container {
     padding: 6px 5px 6px 15px;
@@ -249,14 +290,6 @@ $border_gray: #DCDFE6;
     vertical-align: middle;
     width: 30px;
     display: inline-block;
-  }
-  .title {
-    font-size: 26px;
-    font-weight: 400;
-    color: $dark_gray;
-    margin: 0px auto 40px auto;
-    text-align: center;
-    font-weight: bold;
   }
   .show-pwd {
     position: absolute;
