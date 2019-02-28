@@ -17,7 +17,7 @@
           <span class="svg-container">
             <svg-icon icon-class="icon_mobilephone" />
           </span>
-          <el-input v-model="form1.userphone" name="userphone" type="text" placeholder="手机号" clearable />
+          <el-input v-model="form1.userphone" :validate-event="false" name="userphone" type="text" placeholder="手机号" clearable @blur="validatePhoneNum" />
         </el-form-item>
 
         <el-form-item prop="password">
@@ -26,6 +26,7 @@
           </span>
           <el-input
             :type="pwdType"
+            :validate-event="false"
             v-model="form1.password"
             name="password"
             placeholder="密码"
@@ -41,6 +42,7 @@
           </span>
           <el-input
             :type="pwdType"
+            :validate-event="false"
             v-model="form1.confirmPassword"
             name="confirmPassword"
             placeholder="确认密码"
@@ -125,9 +127,9 @@ export default {
         confirmPassword: ''
       },
       form1Rules: {
-        userphone: [{ required: true, trigger: 'blur', validator: validateUserphone }],
-        password: [{ required: true, trigger: 'blur', validator: validatePssword }],
-        confirmPassword: [{ required: true, trigger: 'blur', validator: validateconfirmPassword }]
+        userphone: [{ required: true, validator: validateUserphone }],
+        password: [{ required: true, validator: validatePssword }],
+        confirmPassword: [{ required: true, validator: validateconfirmPassword }]
       },
       //
       form2: {
@@ -160,7 +162,9 @@ export default {
         this.pwdType = 'password'
       }
     },
-
+    validatePhoneNum() {
+      this.$message(this.form1.userphone)
+    },
     form1ValidateEvent(formItem, isValidate) {
       if (formItem === 'userphone' && isValidate) {
         this.$message('Goto check phone')
