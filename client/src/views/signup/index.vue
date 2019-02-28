@@ -1,8 +1,8 @@
 <template>
   <div class="signup-container">
-    <div class="logo-container">
+    <!-- <div class="logo-container">
       <svg-logo logo-class="main_logo" />
-    </div>
+    </div> -->
     <h3 class="title">欢迎加入我们</h3>
 
     <el-steps :active="activeStep" class="signup-steps" finish-status="success">
@@ -12,12 +12,12 @@
     </el-steps>
 
     <div v-if="activeStep === 0">
-      <el-form ref="form1" :model="form1" :rules="form1Rules" class="signup-form" label-position="left" @validate="form1ValidateEvent" >
+      <el-form ref="form1" :model="form1" :rules="form1Rules" class="signup-form" label-position="left" >
         <el-form-item prop="userphone">
           <span class="svg-container">
             <svg-icon icon-class="icon_mobilephone" />
           </span>
-          <el-input v-model="form1.userphone" :validate-event="false" name="userphone" type="text" placeholder="手机号" clearable @blur="validatePhoneNum" />
+          <el-input v-model="form1.userphone" name="userphone" type="text" placeholder="手机号" clearable @blur="isPhoneExisting" />
         </el-form-item>
 
         <el-form-item prop="password">
@@ -26,7 +26,6 @@
           </span>
           <el-input
             :type="pwdType"
-            :validate-event="false"
             v-model="form1.password"
             name="password"
             placeholder="密码"
@@ -42,7 +41,6 @@
           </span>
           <el-input
             :type="pwdType"
-            :validate-event="false"
             v-model="form1.confirmPassword"
             name="confirmPassword"
             placeholder="确认密码"
@@ -59,9 +57,9 @@
     </div>
 
     <div v-if="activeStep === 1">
-      <el-form ref="form2" :model="form2" :rules="form2Rules" class="signup-form" label-position="left" @validate="form2ValidateEvent" >
+      <el-form ref="form2" :model="form2" :rules="form2Rules" class="signup-form" label-position="left" >
         <el-form-item>
-          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleCreateAccount">提交</el-button>
+          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleTodo">提交</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -69,7 +67,7 @@
     <div v-if="activeStep === 2">
       <el-form ref="form3" :model="form3" class="signup-form" label-position="left" >
         <el-form-item>
-          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleCreateAccount">完成</el-button>
+          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleTodo">完成</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -127,9 +125,9 @@ export default {
         confirmPassword: ''
       },
       form1Rules: {
-        userphone: [{ required: true, validator: validateUserphone }],
-        password: [{ required: true, validator: validatePssword }],
-        confirmPassword: [{ required: true, validator: validateconfirmPassword }]
+        userphone: [{ required: true, trigger: 'change', validator: validateUserphone }],
+        password: [{ required: true, trigger: 'change', validator: validatePssword }],
+        confirmPassword: [{ required: true, trigger: 'change', validator: validateconfirmPassword }]
       },
       //
       form2: {
@@ -162,20 +160,31 @@ export default {
         this.pwdType = 'password'
       }
     },
-    validatePhoneNum() {
-      this.$message(this.form1.userphone)
-    },
-    form1ValidateEvent(formItem, isValidate) {
-      if (formItem === 'userphone' && isValidate) {
-        this.$message('Goto check phone')
+    isPhoneExisting() {
+      const phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/
+      if (!phoneReg.test(this.form1.userphone)) {
+        this.$message('invalid phone num')
+      } else {
+        this.$message(this.form1.userphone)
       }
     },
 
-    form2ValidateEvent(formItem, isValidate) {
-
+    handleCreateAccount() {
+      this.$refs.form1.validate((valid) => {
+        if (valid) {
+          if (this.activeStep > 2) {
+            this.activeStep = 0
+          } else {
+            this.activeStep += 1
+          }
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
 
-    handleCreateAccount() {
+    handleTodo() {
       if (this.activeStep > 2) {
         this.activeStep = 0
       } else {
@@ -250,14 +259,14 @@ $border_gray: #DCDFE6;
   height: 100%;
   width: 100%;
   background-color: $bg;
-  .logo-container {
-    margin: 5% auto 10px auto;
-    color: $dark_gray;
-    text-align: center;
-    width: 100%;
-    height: 60px;
-    display: block;
-  }
+  // .logo-container {
+  //   margin: 5% auto 10px auto;
+  //   color: $dark_gray;
+  //   text-align: center;
+  //   width: 100%;
+  //   height: 60px;
+  //   display: block;
+  // }
   .title {
     font-size: 26px;
     font-weight: 400;

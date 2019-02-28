@@ -33,14 +33,8 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
-$bg:#2d3a4b;
-$light_gray:#eee;
-
-</style>
-
 <style rel="stylesheet/scss" lang="scss" scoped>
-$bg:#ffffff;
+$bg:#fefefe;
 $light_gray:#eee;
 $dark_gray:#606266;
 $border_gray: #DCDFE6;
@@ -64,7 +58,7 @@ $border_gray: #DCDFE6;
     width: 520px;
     max-width: 100%;
     padding: 15px 35px 15px 35px;
-    margin: 40px auto 20px auto;
+    margin: 20px auto 20px auto;
     .el-button {
       margin: 8px;
     }

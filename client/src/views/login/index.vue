@@ -105,8 +105,10 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-$bg:#2d3a4b;
+$bg:#fefefe;
 $light_gray:#eee;
+$dark_gray:#606266;
+$border_gray: #DCDFE6;
 
 /* reset element-ui css */
 .login-container {
@@ -120,7 +122,7 @@ $light_gray:#eee;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      // color: $light_gray;
+      color: $dark_gray;
       height: 47px;
       &:-webkit-autofill {
         -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
@@ -129,9 +131,8 @@ $light_gray:#eee;
     }
   }
   .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border: 1px solid #ddd;
-    //background: rgba(0, 0, 0, 0.1);
+    border: 1px solid $border_gray;
+    background: transparent;
     border-radius: 5px;
     //color: #454545;
   }
@@ -140,26 +141,28 @@ $light_gray:#eee;
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
+$bg:#fefefe;
 $light_gray:#eee;
+$dark_gray:#606266;
+$border_gray: #DCDFE6;
+
 .login-container {
   // position: fixed;
   height: 100%;
   width: 100%;
-  // background-color: $bg;
+  background-color: $bg;
   .login-form {
     position: absolute;
     left: 0;
     right: 0;
     width: 520px;
     max-width: 100%;
-    padding: 35px 35px 15px 35px;
+    padding: 15px 35px 15px 35px;
     margin: 120px auto;
   }
   .tips {
     font-size: 14px;
-    // color: #fff;
+    color: $dark_gray;
     margin-bottom: 10px;
     span {
       &:first-of-type {
@@ -177,7 +180,7 @@ $light_gray:#eee;
   .title {
     font-size: 26px;
     font-weight: 400;
-    // color: $light_gray;
+    color: $dark_gray;
     margin: 0px auto 40px auto;
     text-align: center;
     font-weight: bold;
@@ -187,7 +190,7 @@ $light_gray:#eee;
     right: 10px;
     top: 7px;
     font-size: 16px;
-    // color: $dark_gray;
+    color: $dark_gray;
     cursor: pointer;
     user-select: none;
   }
