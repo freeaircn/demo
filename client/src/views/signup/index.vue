@@ -213,25 +213,25 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-$bg:#fefefe;
-$light_gray:#eee;
-$dark_gray:#606266;
+$bg         : #fefefe;
+$light_gray : #eee;
+$dark_gray  : #606266;
 $border_gray: #DCDFE6;
 
 /* reset element-ui css */
 .signup-container {
   .el-input {
     display: inline-block;
-    height: 47px;
-    width: 85%;
+    height : 47px;
+    width  : 85%;
     input {
-      background: transparent;
-      border: 0px;
+      background        : transparent;
+      border            : 0px;
       -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 5px;
-      color: $dark_gray;
-      height: 47px;
+      border-radius     : 0px;
+      padding           : 5px;
+      color             : $dark_gray;
+      height            : 47px;
       &:-webkit-autofill {
         -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: #fff !important;
