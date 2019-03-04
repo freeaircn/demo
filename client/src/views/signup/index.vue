@@ -162,10 +162,9 @@ export default {
     },
     isPhoneExisting() {
       const phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/
-      if (!phoneReg.test(this.form1.userphone)) {
-        this.$message('invalid phone num')
-      } else {
-        this.$message(this.form1.userphone)
+      if (phoneReg.test(this.form1.userphone)) {
+        // TODO: 发送手机号至后端，检查是否已存在
+
       }
     },
 
