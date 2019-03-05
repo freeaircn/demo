@@ -11,7 +11,8 @@
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
-		"php": ">=5.3.7"
+		"php": ">=5.3.7",
+		"owasp/phprbac": "2.0.*@dev"
   },
   "config": {
         "optimize-autoloader": true

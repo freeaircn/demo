@@ -17,7 +17,7 @@
           <span class="svg-container">
             <svg-icon icon-class="icon_mobilephone" />
           </span>
-          <el-input v-model="form1.userphone" name="userphone" type="text" placeholder="手机号" clearable @blur="isPhoneExisting" />
+          <el-input v-model="form1.userphone" name="userphone" type="text" placeholder="手机号" clearable @blur="sendPhone" />
         </el-form-item>
 
         <el-form-item prop="password">
@@ -80,10 +80,11 @@
 </template>
 
 <script>
-import { isvalidUsername } from '@/utils/validate'
+// import { isvalidUsername } from '@/utils/validate'
+import { isPhoneExisting } from '@/api/signup'
 
 export default {
-  name: 'signup',
+  name: 'Signup',
   data() {
     const phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/
     const validateUserphone = (rule, value, callback) => {
@@ -160,11 +161,23 @@ export default {
         this.pwdType = 'password'
       }
     },
-    isPhoneExisting() {
+    sendPhone() {
+      const userPhone = this.form1.userphone
       const phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/
-      if (phoneReg.test(this.form1.userphone)) {
-        // TODO: 发送手机号至后端，检查是否已存在
-
+      if (phoneReg.test(userPhone)) {
+        isPhoneExisting(userPhone)
+          .then(function(data) {
+            // const data = res.data
+            console.log(data)
+            // if (data.state === Constants.AUTH_SUCCESS) {
+            //   this.curStep += 1
+            // } else if (data.state === Constants.AUTH_REGISTER_DUPLICATED_IDENTITY) {
+            //   this.$Message.error('输入的手机号已是注册用户，请输入新的手机号!')
+            // }
+          }.bind(this))
+          .catch(function(err) {
+            console.log(err)
+          })
       }
     },
 
