@@ -36,10 +36,12 @@ service.interceptors.request.use(
 // response 拦截器
 service.interceptors.response.use(
   response => {
-    return response.data
+    if (response.status === 200) {
+      return response.data
+    }
   },
   error => {
-    console.log('err' + error) // for debug
+    console.log(error) // for debug
     return Promise.reject(error)
   }
 )

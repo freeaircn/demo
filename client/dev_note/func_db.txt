@@ -1,1 +1,2 @@
 1 创建数据库：db_users，用于用户和权限管理
+  1 将Ion auth和rbac两个模块默认的数据库表添加到db_users.

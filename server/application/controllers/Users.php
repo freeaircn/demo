@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \Freeair_App_SDK\Constants as Constants;
 use \Freeair_App_SDK\conf\Conf as Conf;
+
 use PhpRbac\Rbac;
 
 class Users extends CI_Controller {
@@ -11,38 +12,51 @@ class Users extends CI_Controller {
     {
       parent::__construct();
 
-      // $this->load->library('fr_auth');
+      $this->config->load('ion_auth', TRUE);
+      $db_group_name = $this->config->item('database_group_name', 'ion_auth');
+
+      $this->load->database($db_group_name, TRUE, TRUE);
+      $this->load->library(['ion_auth']);
     }
 
-    // public function index()
-    // {
-    //   $this->load->view('index.html');
-    // }
-
-    public function phone()
+    public function check_phone()
     {
-      $phone = $this->input->post('phone');
+      $response['code'] = Constants::USERS_SIGNUP_IDENTITY_NOT_EXISTING;
+      $identity = $this->input->post('phone');
 
-      $response['state'] = 'Got it!';
-      $response['msg'] = $phone;
-
-      $rbac = new Rbac();
-      $res = $rbac->Permissions->remove(1);
-      if ($res)
-      {
-        $response['rbac'] = 'delete success';
+      if (empty($identity))
+		  {
+			  $response['code'] = Constants::POST_INPUT_EMPTY;
       }
       else
       {
-        $response['rbac'] = 'delete failed';
+        $query = $this->ion_auth->identity_check($identity);
+        if ($query)
+        {
+          $response['code'] = Constants::USERS_SIGNUP_IDENTITY_EXISTING;
+        }
       }
-      // $response['state'] = Constants::AUTH_REGISTER_DUPLICATED_IDENTITY;
 
-      // $result = $this->fr_auth->is_duplicated_user_phone($phone);
-      // if (!$result)
-      // {
-      //   $response['state'] = Constants::AUTH_SUCCESS;
-      // }
+      echo json_encode($response);
+    }
+
+    public function check_email()
+    {
+      $response['code'] = Constants::USERS_SIGNUP_EMAIL_NOT_EXISTING;
+      $email = $this->input->post('email');
+
+      if (empty($email))
+		  {
+			  $response['code'] = Constants::POST_INPUT_EMPTY;
+      }
+      else
+      {
+        $query = $this->ion_auth->email_check($email);
+        if ($query)
+        {
+          $response['code'] = Constants::USERS_SIGNUP_EMAIL_EXISTING;
+        }
+      }
 
       echo json_encode($response);
     }
