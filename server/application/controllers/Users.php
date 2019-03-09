@@ -17,6 +17,7 @@ class Users extends CI_Controller {
 
       $this->load->database($db_group_name, TRUE, TRUE);
       $this->load->library(['ion_auth']);
+      $this->load->library('email');
     }
 
     public function check_phone()
@@ -59,6 +60,112 @@ class Users extends CI_Controller {
       }
 
       echo json_encode($response);
+    }
+
+    public function create_user()
+    {
+      $phone = $this->input->post('phone');
+      $email = $this->input->post('email');
+      $password = $this->input->post('password');
+      $identity = $phone;
+
+      $additional_data = [
+				'phone' => $phone
+      ];
+
+      $res = $this->ion_auth->register($identity, $password, $email, $additional_data);
+      if ($res)
+      {
+        $response['code'] = Constants::SUCCESS;
+        $response['msg'] = 'successful';
+      }
+      else
+      {
+        $response['code'] = Constants::USERS_SIGNUP_USER_CREATE_FAILED;
+        $response['msg'] =  'failed';
+      }
+      echo json_encode($response);
+    }
+
+    /**
+     * Activate the user
+     *
+     * @param int         $id   The user ID
+     * @param string|bool $code The activation code
+    */
+    public function activate($id, $code = FALSE)
+    {
+      $activation = FALSE;
+      $repeat_activation = FALSE;
+
+      $user = $this->ion_auth->user($id)->row();
+      if ($user && $user->active == 0)
+      {
+        if ($code !== FALSE)
+        {
+          $activation = $this->ion_auth->activate($id, $code);
+        }
+      }
+      if ($user && $user->active == 1)
+      {
+        $repeat_activation = TRUE;
+      }
+      // if ($code !== FALSE)
+      // {
+      //   $activation = $this->ion_auth->activate($id, $code);
+      // }
+      // else if ($this->ion_auth->is_admin())
+      // {
+      //   $activation = $this->ion_auth->activate($id);
+      // }
+
+      // if ($activation)
+      // {
+      //   $response['code'] = Constants::SUCCESS;
+      // }
+      // else
+      // {
+      //   $response['code'] = Constants::USERS_SIGNUP_USER_ACTIVATE_FAILED;
+      // }
+      // echo json_encode($response);
+
+      if ($user)
+      {
+        $this->data['phone'] = $user->phone;
+        $this->data['email'] = $user->email;
+      }
+      $this->data['activation'] = $activation;
+      $this->data['repeat_activation'] = $repeat_activation;
+      $this->load->view('activate_message', $this->data);
+
+    }
+
+    public function check_phone22()
+    {
+      $config['protocol'] = 'smtp';
+      $config['smtp_host'] = 'ssl://smtp.163.com';
+      $config['smtp_user'] = 'officehouqiao@163.com';
+      $config['smtp_pass'] = 'HQ1101';
+      $config['smtp_port'] = 465;
+      $config['mailtype'] = 'html';
+      $config['charset'] = 'utf-8';
+      $config['validate'] = true;
+      $config['priority'] = 1;
+      $config['crlf'] = '\r\n';
+      $config['newline'] = '\r\n';
+
+      $this->email->initialize($config);
+      $this->email->set_newline('\r\n');
+
+      $this->email->from('officehouqiao@163.com', 'null');
+      $this->email->to('freeaircn@163.com');
+
+      $this->email->subject('Email Test');
+      $this->email->message('Testing the email class.');
+
+      echo $this->email->send(FALSE);
+      echo $this->email->print_debugger(array('headers', 'subject', 'body'));
+
     }
 
     // public function handle_signup()

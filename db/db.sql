@@ -82,31 +82,31 @@ INSERT INTO `auth_groups` (`id`, `name`, `description`) VALUES
 DROP TABLE IF EXISTS `auth_users`;
 CREATE TABLE `auth_users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) NULL,
+  `username` char(20) NULL,
   `gender` char(1) NULL,
-  `email` varchar(254) NULL,
-  `phone` varchar(20) NOT NULL,
+  `email` char(30) NULL,
+  `phone` char(20) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `ip_address` varchar(45) NOT NULL,
+  `parties` tinyint(1) unsigned DEFAULT NULL,
+  `ip_address` char(45) NOT NULL,
   `activation_selector` varchar(255) DEFAULT NULL,
-  `activation_code` varchar(40) DEFAULT NULL,
+  `activation_code` varchar(255) DEFAULT NULL,
+  `activation_exptime` int(11) DEFAULT NULL,
   `forgotten_password_selector` varchar(255) DEFAULT NULL,
-  `forgotten_password_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_code` varchar(255) DEFAULT NULL,
   `forgotten_password_time` int(11) unsigned DEFAULT NULL,
   `remember_selector` varchar(255) DEFAULT NULL,
-  `remember_code` varchar(40) DEFAULT NULL,
+  `remember_code` varchar(255) DEFAULT NULL,
   `created_on` int(11) unsigned NOT NULL,
   `last_login` int(11) unsigned DEFAULT NULL,
   `active` tinyint(1) unsigned DEFAULT NULL,
-  `first_name` varchar(8) DEFAULT NULL,
-  `last_name` varchar(8) DEFAULT NULL,
-  `company` varchar(50) DEFAULT NULL,
-  `dept_level_1` varchar(50) DEFAULT NULL,
-  `dept_level_2` varchar(50) DEFAULT NULL,
-  `dept_level_3` varchar(50) DEFAULT NULL,
-  `dept_level_4` varchar(50) DEFAULT NULL,
-  `dept_level_5` varchar(50) DEFAULT NULL,
-  `userjob` varchar(50) NULL,
+  `company` tinyint(1) unsigned DEFAULT NULL,
+  `dept_level_1` tinyint(1) unsigned DEFAULT NULL,
+  `dept_level_2` tinyint(1) unsigned DEFAULT NULL,
+  `dept_level_3` tinyint(1) unsigned DEFAULT NULL,
+  `dept_level_4` tinyint(1) unsigned DEFAULT NULL,
+  `dept_level_5` tinyint(1) unsigned DEFAULT NULL,
+  `userjob` tinyint(1) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `uc_email` UNIQUE (`email`),
   CONSTRAINT `uc_phone` UNIQUE (`phone`),
@@ -115,8 +115,8 @@ CREATE TABLE `auth_users` (
   CONSTRAINT `uc_remember_selector` UNIQUE (`remember_selector`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `auth_users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-     ('1','127.0.0.1','administrator','$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa','admin@admin.com','',NULL,'1268889823','1268889823','1', 'Admin','istrator','ADMIN','13812345678');
+INSERT INTO `auth_users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `created_on`, `last_login`, `active`, `company`, `phone`) VALUES
+     ('1','127.0.0.1','administrator','$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa','admin@admin.com','',NULL,'1268889823','1268889823','1', '1','13812345678');
 
 DROP TABLE IF EXISTS `auth_users_groups`;
 CREATE TABLE `auth_users_groups` (

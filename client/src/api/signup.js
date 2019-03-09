@@ -19,3 +19,15 @@ export function isEmailExisting(email) {
     }
   })
 }
+
+export function createUser(phone, email, password) {
+  return request({
+    url: '/users/create_user',
+    method: 'post',
+    data: {
+      phone,
+      email,
+      password
+    }
+  })
+}

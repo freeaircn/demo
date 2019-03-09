@@ -58,7 +58,10 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleCreateAccount">注 册</el-button>
+          <el-button-group style="width:100%;">
+            <el-button :loading="loading" type="primary" style="width:50%;" @click.native.prevent="handleCreateUser">注 册</el-button>
+            <el-button :loading="loading" style="width:50%;" @click.native.prevent="handleResetBaseInfo">重 置</el-button>
+          </el-button-group>
         </el-form-item>
 
         <div class="tips">
@@ -125,6 +128,7 @@
 
         <el-form-item>
           <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleMoreInfo">提 交</el-button>
+          <el-button :loading="loading" style="width:100%;" @click.native.prevent="handleResetMoreInfo">重 置</el-button>
         </el-form-item>
 
       </el-form>
@@ -143,7 +147,7 @@
 <script>
 // import { isvalidUsername } from '@/utils/validate'
 import { Message } from 'element-ui'
-import { isPhoneExisting, isEmailExisting } from '@/api/signup'
+import { isPhoneExisting, isEmailExisting, createUser } from '@/api/signup'
 import { Constants } from '@/Constants'
 
 export default {
@@ -169,8 +173,8 @@ export default {
         callback()
       }
     }
-    // const pwdReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/
-    const pwdReg = /^[0-9]*$/
+    const pwdReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/
+    // const pwdReg = /^[0-9]*$/
     const validatePssword = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
@@ -291,19 +295,41 @@ export default {
       }
     },
 
-    handleCreateAccount() {
+    handleCreateUser() {
       this.$refs.formBaseInfo.validate((valid) => {
         if (valid) {
-          if (this.activeStep > 2) {
-            this.activeStep = 0
-          } else {
-            this.activeStep += 1
-          }
+          const phone = this.formBaseInfo.userphone
+          const email = this.formBaseInfo.email
+          const password = this.formBaseInfo.password
+          this.$confirm('请核对信息' + phone + '，' + email + ' 是否正确?', '提示', {
+            confirmButtonText: '正确',
+            cancelButtonText: '返回',
+            type: 'warning'
+          }).then(() => {
+            createUser(phone, email, password)
+              .then(function(data) {
+                if (data.code === Constants.SUCCESS) {
+                  this.activeStep += 1
+                }
+              }.bind(this))
+              .catch(function(err) {
+                console.log(err)
+              })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消注册'
+            })
+          })
         } else {
           console.log('error submit!!')
           return false
         }
       })
+    },
+
+    handleResetBaseInfo() {
+      this.$refs.formBaseInfo.resetFields()
     },
 
     handleMoreInfo() {
@@ -313,7 +339,7 @@ export default {
         this.activeStep += 1
       }
     },
-
+    // TODO:
     gotoLogin() {
       console.log(this.activeStep)
       if (this.activeStep === 2) {

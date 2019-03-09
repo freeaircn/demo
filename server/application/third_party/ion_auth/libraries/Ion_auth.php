@@ -74,7 +74,7 @@ class Ion_auth
 		$this->load->model('ion_auth_model');
 
 		$this->_cache_user_in_group =& $this->ion_auth_model->_cache_user_in_group;
-	
+
 		$email_config = $this->config->item('email_config', 'ion_auth');
 
 		if ($this->config->item('use_ci_email', 'ion_auth') && isset($email_config) && is_array($email_config))
@@ -298,7 +298,22 @@ class Ion_auth
 			{
 				$message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_activate', 'ion_auth'), $data, true);
 
-				$this->email->clear();
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'ssl://smtp.163.com';
+        $config['smtp_user'] = 'officehouqiao@163.com';
+        $config['smtp_pass'] = 'HQ1101';
+        $config['smtp_port'] = 465;
+        $config['mailtype'] = 'html';
+        $config['charset'] = 'utf-8';
+        $config['validate'] = true;
+        $config['priority'] = 3;
+        $config['crlf'] = '\r\n';
+        $config['newline'] = '\r\n';
+
+        $this->email->clear();
+        $this->email->initialize($config);
+        $this->email->set_newline('\r\n');
+
 				$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
 				$this->email->to($email);
 				$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_activation_subject'));

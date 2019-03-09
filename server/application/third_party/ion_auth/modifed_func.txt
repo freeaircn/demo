@@ -1,0 +1,48 @@
+修改包中方法：
+
+1. $this->ion_auth_model->register
+	// Users table.
+		$data = [
+			$this->identity_column => $identity,
+			'username' => $identity,	//删除
+			'password' => $password,
+			'email' => $email,
+			'ip_address' => $ip_address,
+			'created_on' => time(),
+			'active' => ($manual_activation === FALSE ? 1 : 0)	//'active' => 0  创建时复归激活标志，交由邮件激活流程处理
+		];
+		
+		
+2. $this->ion_auth->register		
+http://127.0.0.1/index.php/auth/activate/5/da518fb5b6e2cb6914a6.482de35720ba7e5a983e8974044ab024d9e1923f
+http://182.247.101.235/index.php/auth/activate/6/dab2fdaddace892c7a88.90fc534300d90b8616ac8984b6bbf879f7bfece8
+
+				{
+				$message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_activate', 'ion_auth'), $data, true);
+		//增加
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'ssl://smtp.163.com';
+        $config['smtp_user'] = 'officehouqiao@163.com';
+        $config['smtp_pass'] = 'HQ1101';
+        $config['smtp_port'] = 465;
+        $config['mailtype'] = 'html';
+        $config['charset'] = 'utf-8';
+        $config['validate'] = true;
+        $config['priority'] = 1;
+        $config['crlf'] = '\r\n';
+        $config['newline'] = '\r\n';
+
+        $this->email->clear();
+        $this->email->initialize($config);
+        $this->email->set_newline('\r\n');
+		//
+				$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
+				$this->email->to($email);
+				$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_activation_subject'));
+				$this->email->message($message);
+				
+				
+				
+				
+				
+				

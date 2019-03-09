@@ -2,7 +2,7 @@
 
 1 在框架的icon组件，加入新的SVG图标
 
-2 套用框架的icon组件，新增logo组件，插入svg图片。新加组件，是因为在icon组件样式设定了width属性，还不会怎么将样式属性也作为组件属性
+2 模拟框架的icon组件，新增logo组件，插入svg图片。新加组件，是因为在icon组件样式设定了width属性，还不会怎么将样式属性也作为组件属性
   在webpack base config 中，增加下面的模块定义
   {
         test: /\.svg$/,
@@ -22,8 +22,10 @@
   去掉container的Position: fixed属性（窗口大小变化滚动条无效）
   去掉form的Position: absolute属性（使元素的位置与文档流无关，定位的元素和其他元素重叠）
 
-4 注册页面表单验证，“change”事件触发校验，使用回调方式，使用字符串的正则表达式校验
-  change相对blur，用户没有输入，而输入框失去焦点，页面不会出现校验提示。
+4 注册页面表单验证：
+  “change”事件触发校验；
+  使用回调方式，使用字符串的正则表达式校验；
+  change与blur差别：用户没有输入任何内容，而输入框失去焦点，页面不会出现校验提示。
   password: [{ required: true, trigger: 'change', validator: validatePssword }]
   const pwdReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/
     const validatePssword = (rule, value, callback) => {
@@ -43,7 +45,7 @@
   方法：使用@blur事件：
   <el-input v-model="form1.userphone" name="userphone" type="text" placeholder="手机号" clearable @blur="checkInfo('phone')" />
 
-  回调：回调函数传入参数
+  回调：回调函数传入参数，区分检查手机号，或邮箱地址
     checkInfo(infoItem) {
       switch (infoItem) {
         case 'phone':
@@ -52,5 +54,11 @@
   this.$refs.xxx.method()
 
 6 后端：用户信息数据库表
+  2019-03-06 数据库表使用开源包中的表，后续根据实际需要调整。
+  不同数据表怎么关联信息
 
+7 注册页面第一步提交，后端验证通过，完成登记，后端发送激活邮件
+  2019-03-09
+  后端：register方法中调用deactivate()，检查了当前用户是否已登录。TODO: 待确认影响。
+  激活结果页面：激活成功，给出链接至"登录页面"。重复激活提示。
 
