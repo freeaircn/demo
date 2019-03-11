@@ -138,8 +138,8 @@ $config['identity']                   = 'phone';             /* You can use any 
 															    The values in this column, alongside password, will be used for login purposes
 															    IMPORTANT: If you are changing it from the default (email),
 															    		   update the UNIQUE constraint in your DB */
-$config['min_password_length']        = 8;                   // Minimum Required Length of Password (not enforced by lib - see note above)
-$config['email_activation']           = TRUE;               // Email Activation for registration
+$config['min_password_length']        = 1;                   // Minimum Required Length of Password (not enforced by lib - see note above)
+$config['email_activation']           = FALSE;               // Email Activation for registration
 $config['manual_activation']          = FALSE;               // Manual Activation for registration
 $config['remember_users']             = FALSE;                // Allow users to be remembered and enable auto-login
 $config['user_expire']                = 3600;               // How long to remember the user (seconds). Set to zero for no expiration - see sess_expiration in CodeIgniter Session Config for session expiration

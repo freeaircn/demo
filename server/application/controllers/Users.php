@@ -74,15 +74,14 @@ class Users extends CI_Controller {
       ];
 
       $res = $this->ion_auth->register($identity, $password, $email, $additional_data);
-      if ($res)
+      if ($res !== FALSE)
       {
         $response['code'] = Constants::SUCCESS;
-        $response['msg'] = 'successful';
+        $response['userid'] = $res;
       }
       else
       {
         $response['code'] = Constants::USERS_SIGNUP_USER_CREATE_FAILED;
-        $response['msg'] =  'failed';
       }
       echo json_encode($response);
     }
@@ -139,6 +138,47 @@ class Users extends CI_Controller {
       $this->load->view('activate_message', $this->data);
 
     }
+
+    public function log_userinfo()
+    {
+      $userid = $this->input->post('userid');
+      $username = $this->input->post('username');
+      $gender = $this->input->post('gender');
+      $parties = $this->input->post('parties');
+      $company = $this->input->post('company');
+      $dept_level_1 = $this->input->post('dept_level_1');
+      $dept_level_2 = $this->input->post('dept_level_2');
+      $job = $this->input->post('job');
+
+      $data = array(
+        'username' => $username,
+        'gender' => intval($gender),
+        'parties' => intval($parties),
+        'company' => intval($company),
+        'dept_level_1' => intval($dept_level_1),
+        'dept_level_2' => intval($dept_level_2),
+        'userjob' => intval($job)
+         );
+
+      $res = FALSE;
+      if (!empty($userid))
+      {
+        $res = $this->ion_auth->update($userid, $data);
+      }
+
+      if ($res)
+      {
+        $response['code'] = Constants::SUCCESS;
+      }
+      else
+      {
+        $response['code'] = Constants::USERS_SIGNUP_LOG_USERINFO_FAILED;
+      }
+      echo json_encode($response);
+    }
+
+
+
 
     public function check_phone22()
     {
