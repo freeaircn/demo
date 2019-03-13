@@ -177,7 +177,24 @@ class Users extends CI_Controller {
       echo json_encode($response);
     }
 
+    public function login()
+    {
+      $userphone = $this->input->post('userphone');
+      $password = $this->input->post('password');
 
+      $res = $this->ion_auth->login($userphone, $password);
+
+      if ($res)
+      {
+        $response['code'] = Constants::SUCCESS;
+        $response['token'] = 'abcdefg';
+      }
+      else
+      {
+        $response['code'] = Constants::USERS_LOGIN_FAILED;
+      }
+      echo json_encode($response);
+    }
 
 
     public function check_phone22()

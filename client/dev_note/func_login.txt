@@ -2,7 +2,7 @@
 
 1 登录表单submit
   2019-03-12
-  TODO: 分析下面的方法
+  TODO: 熟悉VueX
   handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
@@ -10,3 +10,10 @@
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
             this.$router.push({ path: this.redirect || '/' })
+
+2 【后端】去掉session，增加Token
+  2019-03-13
+  TODO:
+  1 使用第三方Token包
+  2 解决 数据库表尝试次数，残留非注册用户尝试登录记录，缺少clear处理
+
