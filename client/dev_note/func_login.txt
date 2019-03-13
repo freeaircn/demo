@@ -1,0 +1,12 @@
+登录流程：前端 & 后端
+
+1 登录表单submit
+  2019-03-12
+  TODO: 分析下面的方法
+  handleLogin() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.loading = true
+          this.$store.dispatch('Login', this.loginForm).then(() => {
+            this.loading = false
+            this.$router.push({ path: this.redirect || '/' })

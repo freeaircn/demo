@@ -1,12 +1,12 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <h3 class="title">Hello World</h3>
-      <el-form-item prop="username">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" label-position="left">
+      <h3 class="title">欢 迎</h3>
+      <el-form-item prop="userphone">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="icon_mobilephone" />
         </span>
-        <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on" placeholder="username" />
+        <el-input v-model="loginForm.userphone" name="userphone" type="text" placeholder="请用手机号登录" />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
@@ -17,15 +17,16 @@
           v-model="loginForm.password"
           name="password"
           auto-complete="on"
-          placeholder="password" />
+          placeholder="请输入密码" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
+
+      <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/signup">没有账号？去注册</router-link></div>
+
       <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" disabled @click.native.prevent="handleLogin">
-          Sign in
-        </el-button>
+        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">登 录</el-button>
       </el-form-item>
       <div class="tips">
         <span style="margin-right:20px;">:)</span>
@@ -35,33 +36,36 @@
 </template>
 
 <script>
-import { isvalidUsername } from '@/utils/validate'
+// import { isvalidUsername } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
+    const phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/
+    const validateUserphone = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入手机号！'))
+      } else if (!phoneReg.test(value)) {
+        callback(new Error('请输入11位有效的手机号！'))
       } else {
         callback()
       }
     }
-    const validatePass = (rule, value, callback) => {
-      if (value.length < 5) {
-        callback(new Error('密码不能小于5位'))
-      } else {
-        callback()
-      }
-    }
+    // const validatePassword = (rule, value, callback) => {
+    //   if (value.length < 5) {
+    //     callback(new Error('密码不能小于5位'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       loginForm: {
-        username: 'free',
-        password: '12345'
+        userphone: '',
+        password: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
+        userphone: [{ required: true, trigger: 'change', validator: validateUserphone }],
+        password: [{ required: true, message: '请输入密码', trigger: 'change' }]
       },
       loading: false,
       pwdType: 'password',
