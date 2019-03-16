@@ -13,15 +13,15 @@ export function login(userphone, password) {
 
 export function getInfo(token) {
   return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
+    url: '/users/info',
+    method: 'post',
+    data: { token }
   })
 }
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: '/users/logout',
     method: 'post'
   })
 }

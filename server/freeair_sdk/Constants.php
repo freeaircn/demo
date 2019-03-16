@@ -30,6 +30,8 @@ class Constants {
   const USERS_SIGNUP_LOG_USERINFO_FAILED = 207;
 
   const USERS_LOGIN_FAILED = 208;
+  const USERS_TOKEN_INVALID = 209;
+  const USERS_TOKEN_VALIDATE_FAILED = 300;
 
   // const AUTH_LOGIN_EXCEED_ATTEMPTS = 2;
   // const AUTH_LOGIN_USER_NOT_EXIST = 3;
@@ -39,10 +41,10 @@ class Constants {
   // const AUTH_TOKEN_SIGNATURE_INVALID = 1;
   // const AUTH_TOKEN_PAYLOAD_INVALID = 2;
 
-  // // 初始化 SDK 时缺少配置项
-  // const E_INIT_LOST_CONFIG = 'E_INIT_LOST_CONFIG';
-  // // 初始化 SDK 时配置类型错误
-  // const E_INIT_CONFIG_TYPE = 'E_INIT_CONFIG_TYPE';
+  // 初始化 SDK 时缺少配置项
+  const E_INIT_LOST_CONFIG = 'E_INIT_LOST_CONFIG';
+  // 初始化 SDK 时配置类型错误
+  const E_INIT_CONFIG_TYPE = 'E_INIT_CONFIG_TYPE';
 
   // /* AUTH */
   // // 自定义 http header

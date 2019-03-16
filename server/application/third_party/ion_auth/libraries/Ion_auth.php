@@ -298,21 +298,10 @@ class Ion_auth
 			{
 				$message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_activate', 'ion_auth'), $data, true);
 
-        $config['protocol'] = 'smtp';
-        $config['smtp_host'] = 'ssl://smtp.163.com';
-        $config['smtp_user'] = 'officehouqiao@163.com';
-        $config['smtp_pass'] = 'HQ1101';
-        $config['smtp_port'] = 465;
-        $config['mailtype'] = 'html';
-        $config['charset'] = 'utf-8';
-        $config['validate'] = true;
-        $config['priority'] = 3;
-        $config['crlf'] = '\r\n';
-        $config['newline'] = '\r\n';
+        $email_config = $this->config->item('email_config', 'ion_auth');
 
         $this->email->clear();
-        $this->email->initialize($config);
-        $this->email->set_newline('\r\n');
+        $this->email->initialize($email_config);
 
 				$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
 				$this->email->to($email);

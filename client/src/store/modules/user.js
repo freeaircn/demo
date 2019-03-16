@@ -1,5 +1,6 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { Constants } from '@/Constants'
 
 const user = {
   state: {
@@ -32,9 +33,13 @@ const user = {
         login(userphone, userInfo.password).then(data => {
           // const data = response.data
           console.log(data)
-          setToken(data.token)
-          commit('SET_TOKEN', data.token)
-          resolve()
+          if (data.code === Constants.SUCCESS) {
+            setToken(data.token)
+            commit('SET_TOKEN', data.token)
+            resolve()
+          } else {
+            reject(data.msg)
+          }
         }).catch(error => {
           reject(error)
         })
@@ -44,16 +49,22 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getInfo(state.token).then(response => {
-          const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
+        getInfo(state.token).then(data => {
+          // const data = response.data
+          console.log(data)
+          if (data.code === Constants.SUCCESS) {
+            resolve(data.msg)
           } else {
-            reject('getInfo: roles must be a non-null array !')
+            reject(data.msg)
           }
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          resolve(response)
+          // if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+          //   commit('SET_ROLES', data.roles)
+          // } else {
+          //   reject('getInfo: roles must be a non-null array !')
+          // }
+          // commit('SET_NAME', data.name)
+          // commit('SET_AVATAR', data.avatar)
+          // resolve(response)
         }).catch(error => {
           reject(error)
         })

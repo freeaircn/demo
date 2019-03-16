@@ -8,7 +8,7 @@
         </span>
         <el-input v-model="loginForm.userphone" name="userphone" type="text" placeholder="请用手机号登录" />
       </el-form-item>
-      <el-form-item prop="password">
+      <el-form-item ref="password_item" prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -92,12 +92,20 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('Login', this.loginForm).then(() => {
-            this.loading = false
-            this.$router.push({ path: this.redirect || '/' })
-          }).catch(() => {
-            this.loading = false
-          })
+          this.$store.dispatch('Login', this.loginForm)
+            .then(() => {
+              this.loading = false
+              this.$router.push({ path: this.redirect || '/' })
+            })
+            .catch((error) => {
+              this.loading = false
+              this.$refs.password_item.resetField()
+              this.$message({
+                type: 'info',
+                message: error,
+                duration: 3 * 1000
+              })
+            })
         } else {
           console.log('error submit!!')
           return false

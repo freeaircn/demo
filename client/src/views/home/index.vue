@@ -2,8 +2,9 @@
   <div class="home-container">
     <h3 class="title">Home Page</h3>
     <div class="area-routeto">
-      <el-button type="primary" style="width:100%;" @click.native.prevent="handleToSignup">To Signup</el-button>
-      <el-button type="primary" style="width:100%;" @click.native.prevent="handleToLogin">To Login</el-button>
+      <el-button type="primary" style="width:100%;" @click.native.prevent="handleToSignup">注 册</el-button>
+      <el-button type="primary" style="width:100%;" @click.native.prevent="handleToLogin">登 录</el-button>
+      <el-button type="primary" style="width:100%;" @click.native.prevent="handleGetUserInfo">Get Userinfo</el-button>
     </div>
 
     <div class="tips">
@@ -14,6 +15,8 @@
 
 <script>
 import { Constants } from '@/Constants'
+import store from '@/store'
+import { getToken } from '@/utils/auth' // 验权
 
 export default {
   name: 'Home',
@@ -28,6 +31,20 @@ export default {
     },
     handleToLogin() {
       this.$router.push({ name: 'login' })
+    },
+    handleGetUserInfo() {
+      if (getToken()) {
+        store.dispatch('GetInfo')
+          .then(res => {
+            console.log(res)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+      else{
+        console.log('no token in client')
+      }
     }
   }
 }

@@ -2,9 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \Freeair_App_SDK\Constants as Constants;
-use \Freeair_App_SDK\conf\Conf as Conf;
+// use \Freeair_App_SDK\conf\Conf as Conf;
 
 use PhpRbac\Rbac;
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\ValidationData;
 
 class Users extends CI_Controller {
 
@@ -184,80 +188,77 @@ class Users extends CI_Controller {
 
       $res = $this->ion_auth->login($userphone, $password);
 
-      if ($res)
-      {
-        $response['code'] = Constants::SUCCESS;
-        $response['token'] = 'abcdefg';
-      }
-      else
+      if (!$res)
       {
         $response['code'] = Constants::USERS_LOGIN_FAILED;
+        $response['msg'] = $this->ion_auth->errors();
       }
+
+      $uid = $this->ion_auth->get_user_id_from_identity($userphone);
+
+      if ($res && $uid === FALSE)
+      {
+        $response['code'] = Constants::USERS_LOGIN_FAILED;
+        $response['msg'] = '';
+      }
+
+      if ($res && $uid !== FALSE)
+      {
+        $jwt_config = $this->config->item('jwt_config', 'ion_auth');
+
+        $signer = new Sha256();
+        $token_string = (string) $token = (new Builder())->setIssuer($jwt_config['issuer'])
+                            ->setAudience($jwt_config['audience'])
+                            ->setIssuedAt(time())
+                            ->setNotBefore(time() + $jwt_config['nbf'])
+                            ->setExpiration(time() + $jwt_config['exp'])
+                            ->set('id', $uid)
+                            ->sign($signer, $jwt_config['secret_code'])
+                            ->getToken();
+
+        $response['code'] = Constants::SUCCESS;
+        $response['token'] = $token_string;
+      }
+
       echo json_encode($response);
     }
 
-
-    public function check_phone22()
+    /**
+     * Get user info
+     * @param input - token
+     * @return void
+     */
+    public function info()
     {
-      $config['protocol'] = 'smtp';
-      $config['smtp_host'] = 'ssl://smtp.163.com';
-      $config['smtp_user'] = 'officehouqiao@163.com';
-      $config['smtp_pass'] = 'HQ1101';
-      $config['smtp_port'] = 465;
-      $config['mailtype'] = 'html';
-      $config['charset'] = 'utf-8';
-      $config['validate'] = true;
-      $config['priority'] = 1;
-      $config['crlf'] = '\r\n';
-      $config['newline'] = '\r\n';
+      $token = (new Parser())->parse($this->input->post('token'));
+      $signer = new Sha256();
+      $jwt_config = $this->config->item('jwt_config', 'ion_auth');
 
-      $this->email->initialize($config);
-      $this->email->set_newline('\r\n');
+      $signature = $token->verify($signer, $jwt_config['secret_code']);
+      if (!$signature)
+      {
+        $response['code'] = Constants::USERS_TOKEN_INVALID;
+        $response['msg'] = 'TOKEN 非法';
+      }
+      else
+      {
+        $data = new ValidationData();
+        $data->setIssuer($jwt_config['issuer']);
+        $data->setAudience($jwt_config['audience']);
+        $data->setCurrentTime(time());
 
-      $this->email->from('officehouqiao@163.com', 'null');
-      $this->email->to('freeaircn@163.com');
+        if (!$token->validate($data))
+        {
+          $response['code'] = Constants::USERS_TOKEN_VALIDATE_FAILED;
+          $response['msg'] = 'TOKEN 校验失败';
+        }
+        else
+        {
+          $response['code'] = Constants::SUCCESS;
+          $response['msg'] = $token->getClaims();
+        }
+      }
 
-      $this->email->subject('Email Test');
-      $this->email->message('Testing the email class.');
-
-      echo $this->email->send(FALSE);
-      echo $this->email->print_debugger(array('headers', 'subject', 'body'));
-
+      echo json_encode($response);
     }
-
-    // public function handle_signup()
-    // {
-    //   $username = $this->input->post('username');
-    //   $phone = $this->input->post('phone');
-    //   $mail = $this->input->post('mail');
-    //   $password = $this->input->post('password');
-    //   //
-    //   $gender = $this->input->post('gender');
-    //   $parties = $this->input->post('parties');
-    //   $company = $this->input->post('company');
-    //   $deptL1 = $this->input->post('deptL1');
-    //   $deptL2 = $this->input->post('deptL2');
-    //   $job = $this->input->post('job');
-
-    //   $response['state'] = Constants::AUTH_REGISTER_NEWUSER_FAILED;
-
-    //   $user_data = array(
-    //     'mail' => $mail,
-    //     'gender' => $gender,
-    //     'parties' => $parties,
-    //     'company' => $company,
-    //     'deptL1' => $deptL1,
-    //     'deptL2' => $deptL2,
-    //     'job' => $job,
-    //   );
-
-    //   $result = $this->fr_auth->signup($username, $phone, $password, $user_data);
-    //   if ($result['state'] === Constants::AUTH_SUCCESS)
-    //   {
-    //     $response['state'] = Constants::AUTH_SUCCESS;
-    //   }
-
-    //   echo json_encode($response);
-    // }
-
 }

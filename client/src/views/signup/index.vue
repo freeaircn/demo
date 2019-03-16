@@ -181,8 +181,8 @@ export default {
         callback()
       }
     }
-    // const emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/
-    const emailReg = /^[a-z0-9]*$/
+    const emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/
+    // const emailReg = /^[a-z0-9]*$/
     const validateEmail = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入电子邮箱！'))

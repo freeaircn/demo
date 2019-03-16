@@ -905,17 +905,9 @@ class Ion_auth_model extends CI_Model
 
 		if (empty($identity) || empty($password))
 		{
-			$this->set_error('login_unsuccessful');
+			$this->set_error('login_id_pwd_empty');
 			return FALSE;
 		}
-
-		$this->trigger_events('extra_where');
-
-		$query = $this->db->select($this->identity_column . ', email, id, password, active, last_login')
-						  ->where($this->identity_column, $identity)
-						  ->limit(1)
-						  ->order_by('id', 'desc')
-						  ->get($this->tables['users']);
 
 		if ($this->is_max_login_attempts_exceeded($identity))
 		{
@@ -928,6 +920,14 @@ class Ion_auth_model extends CI_Model
 			return FALSE;
 		}
 
+    $this->trigger_events('extra_where');
+
+    $query = $this->db->select($this->identity_column . ', email, id, password, active, last_login')
+						  ->where($this->identity_column, $identity)
+						  ->limit(1)
+						  ->order_by('id', 'desc')
+						  ->get($this->tables['users']);
+
 		if ($query->num_rows() === 1)
 		{
 			$user = $query->row();
@@ -937,12 +937,13 @@ class Ion_auth_model extends CI_Model
 				if ($user->active == 0)
 				{
 					$this->trigger_events('post_login_unsuccessful');
-					$this->set_error('login_unsuccessful_not_active');
+          $this->set_error('login_unsuccessful_not_active');
 
+          $this->increase_login_attempts($identity);
 					return FALSE;
 				}
 
-				$this->set_session($user);
+				// $this->set_session($user);
 
 				$this->update_last_login($user->id);
 
@@ -965,7 +966,7 @@ class Ion_auth_model extends CI_Model
 				$this->rehash_password_if_needed($user->password, $identity, $password);
 
 				// Regenerate the session (for security purpose: to avoid session fixation)
-				$this->session->sess_regenerate(FALSE);
+				// $this->session->sess_regenerate(FALSE);
 
 				$this->trigger_events(['post_login', 'post_login_successful']);
 				$this->set_message('login_successful');

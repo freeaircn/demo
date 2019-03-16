@@ -8,52 +8,11 @@ class Conf {
 
     private static $TestMsg = 'Conf Here';
 
-    // 适配config参数
-    /*
-    | -------------------------------------------------------------------------
-    | Database group name option.
-    | -------------------------------------------------------------------------
-    | Allows to select a specific group for the database connection
-    |
-    | Default is empty: uses default group defined in CI's configuration
-    | (see application/config/database.php, $active_group variable)
-    */
-
-
-    // 用户数据库相关
-    private static $DbName = 'for_db_auth';
-    private static $DbUsersTblName = 'phprbac_users';
-    private static $DbRolesTblName = 'phprbac_roles';
-    private static $DbPermissionsTblName = 'phprbac_permissions';
-    private static $DbRolePermissionTblName = 'phprbac_rolepermissions';
-    private static $DbUserRoleTblName = 'phprbac_userroles';
-    private static $DbLoginAttemptsTblName = 'login_attempts';
-
-    // 用户注册处理相关
-    private static $ManualActivation = FALSE;
-
-    // 用户登录处理相关
-    // private static $EnableTrackLoginAttempts = TRUE;
-    // private static $EnableTrackLoginIP = TRUE;
-    private static $MaxLoginAttempts = 3;
-    private static $LockoutTime = 60;    // The number of seconds to lockout an account due to exceeded attempts
-    private static $IdentityCol = 'phone';  // You can use any unique column in your table as identity column. The values will be used for login purposes
-
-    private static $JwtIssuer = 'IN';
-    private static $JwtAudience = 'INer';
-    private static $JwtID = '4f1g2iHg9vba';
+    private static $JwtIssuer = 'b-Server';
+    private static $JwtAudience = 'client';
     private static $JwtNbf = 0;
-    private static $JwtExp = 600;
+    private static $JwtExp = 3600;
     private static $JwtSecretCode = 'QaLmW2N7';
-
-
-    // $config['tables']['users']           = 'users';
-    // $config['tables']['groups']          = 'groups';
-    // $config['tables']['users_groups']    = 'users_groups';
-    // $config['tables']['login_attempts']  = 'login_attempts';
-
-
-
 
     public static function __callStatic($name, $arguemnts) {
         $class = get_class();

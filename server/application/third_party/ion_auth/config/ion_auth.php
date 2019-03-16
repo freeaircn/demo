@@ -146,8 +146,8 @@ $config['user_expire']                = 3600;               // How long to remem
 $config['user_extend_on_login']       = FALSE;               // Extend the users cookies every time they auto-login
 $config['track_login_attempts']       = TRUE;                // Track the number of failed login attempts for each user or ip.
 $config['track_login_ip_address']     = TRUE;                // Track login attempts by IP Address, if FALSE will track based on identity. (Default: TRUE)
-$config['maximum_login_attempts']     = 2;                   // The maximum number of failed login attempts.
-$config['lockout_time']               = 10;                 /* The number of seconds to lockout an account due to exceeded attempts
+$config['maximum_login_attempts']     = 3;                   // The maximum number of failed login attempts.
+$config['lockout_time']               = 300;                 /* The number of seconds to lockout an account due to exceeded attempts
 																You should not use a value below 60 (1 minute) */
 $config['forgot_password_expiration'] = 1800;                /* The number of seconds after which a forgot password request will expire. If set to 0, forgot password requests will not expire.
                    												30 minutes to 1 hour are good values (enough for a user to receive the email and reset its password)
@@ -174,7 +174,17 @@ $config['remember_cookie_name'] = 'remember_code';
  */
 $config['use_ci_email'] = TRUE; // Send Email using the builtin CI email class, if false it will return the code and the identity
 $config['email_config'] = [
-	'mailtype' => 'html',
+  'mailtype' => 'html',
+  'charset' => 'utf-8',
+  'protocol' => 'smtp',
+  'smtp_host' => 'ssl://smtp.163.com',
+  'smtp_user' => 'officehouqiao@163.com',
+  'smtp_port' => 465,
+  'smtp_pass' => 'HQ1101',
+  'validate' => true,
+  'priority' => 3,
+  'crlf' => '\r\n',
+  'newline' => '\r\n'
 ];
 
 /*
@@ -208,7 +218,20 @@ $config['email_forgot_password'] = 'forgot_password.tpl.php';
  | -------------------------------------------------------------------------
  */
 $config['delimiters_source']       = 'config'; 	// "config" = use the settings defined here, "form_validation" = use the settings defined in CI's form validation library
-$config['message_start_delimiter'] = '<p>'; 	// Message start delimiter
-$config['message_end_delimiter']   = '</p>'; 	// Message end delimiter
-$config['error_start_delimiter']   = '<p>';		// Error message start delimiter
-$config['error_end_delimiter']     = '</p>';	// Error message end delimiter
+$config['message_start_delimiter'] = ''; 	// Message start delimiter
+$config['message_end_delimiter']   = ''; 	// Message end delimiter
+$config['error_start_delimiter']   = '';		// Error message start delimiter
+$config['error_end_delimiter']     = '';	// Error message end delimiter
+
+/*
+ | -------------------------------------------------------------------------
+ | JWT Config Para.
+ | -------------------------------------------------------------------------
+ */
+$config['jwt_config'] = [
+  'issuer' => 'b-Server',
+  'audience' => 'client',
+  'nbf' => 0,
+  'exp' => 3600,
+  'secret_code' => 'QaLmW2N7'
+];
