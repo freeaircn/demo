@@ -230,7 +230,9 @@ class Users extends CI_Controller {
      */
     public function info()
     {
-      $token = (new Parser())->parse($this->input->post('token'));
+      // $token = (new Parser())->parse($this->input->post('token'));
+      $token = (new Parser())->parse($this->input->get_request_header('X-Token', TRUE));
+
       $signer = new Sha256();
       $jwt_config = $this->config->item('jwt_config', 'ion_auth');
 
