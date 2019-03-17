@@ -25,3 +25,14 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function active(userphone, email) {
+  return request({
+    url: '/users/active',
+    method: 'post',
+    data: {
+      userphone,
+      email
+    }
+  })
+}

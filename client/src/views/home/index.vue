@@ -41,8 +41,7 @@ export default {
           .catch(err => {
             console.log(err)
           })
-      }
-      else{
+      } else {
         console.log('no token in client')
       }
     }

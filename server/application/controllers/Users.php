@@ -226,12 +226,12 @@ class Users extends CI_Controller {
     /**
      * Get user info
      * @param input - token
-     * @return void
+     * @return
      */
     public function info()
     {
-      // $token = (new Parser())->parse($this->input->post('token'));
-      $token = (new Parser())->parse($this->input->get_request_header('X-Token', TRUE));
+      $token = (new Parser())->parse($this->input->post('token'));
+      // $token = (new Parser())->parse($this->input->get_request_header('X-Token', TRUE));
 
       $signer = new Sha256();
       $jwt_config = $this->config->item('jwt_config', 'ion_auth');
@@ -258,6 +258,52 @@ class Users extends CI_Controller {
         {
           $response['code'] = Constants::SUCCESS;
           $response['msg'] = $token->getClaims();
+        }
+      }
+
+      echo json_encode($response);
+    }
+
+    public function logout()
+    {
+      $response['code'] = Constants::SUCCESS;
+
+      echo json_encode($response);
+    }
+
+    /**
+     * user active
+     * @param userphone
+     * @param email
+     * @return void
+     */
+    public function active()
+    {
+      $userphone = $this->input->post('userphone');
+      $email = $this->input->post('email');
+
+      $response['userphone'] = $userphone;
+      $response['email'] = $email;
+
+      $uid = $this->ion_auth->get_user_id_from_identity($userphone);
+
+      if ($uid === FALSE)
+      {
+        $response['code'] = 301;
+      }
+      else
+      {
+        $user = $this->ion_auth->user($uid)->row();
+        $user_email = $user->email;
+
+        if ($email != $user_email)
+        {
+          $response['code'] = 302;
+        }
+        else
+        {
+          // TODO: send active mail
+          $response['code'] = Constants::SUCCESS;
         }
       }
 

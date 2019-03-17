@@ -28,6 +28,4 @@
   2019-03-16
   token放置于前端请求哪个字段：axios.interceptors.request请求拦截器中，当本地存有token时，将token放在request header的X-Token字段。
 
-4 【前端】token校验失败后处理
-  2019-03-16
-  TODO: 前端收到token校验失败，怎么处理
+

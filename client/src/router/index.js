@@ -38,7 +38,7 @@ export const constantRouterMap = [
     name: 'signup',
     component: () => import('@/views/signup/index'),
     meta: {
-      title: '注册|B',
+      title: '注册',
       hideInMenu: true
     },
     hidden: true
@@ -48,7 +48,17 @@ export const constantRouterMap = [
     name: 'login',
     component: () => import('@/views/login/index'),
     meta: {
-      title: '登录|B',
+      title: '登录',
+      hideInMenu: true
+    },
+    hidden: true
+  },
+  {
+    path: '/active',
+    name: 'active',
+    component: () => import('@/views/active/index'),
+    meta: {
+      title: '激活',
       hideInMenu: true
     },
     hidden: true
