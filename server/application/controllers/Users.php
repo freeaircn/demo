@@ -290,21 +290,33 @@ class Users extends CI_Controller {
       if ($uid === FALSE)
       {
         $response['code'] = 301;
+        $response['msg'] = $userphone . ' 用户不存在';
       }
       else
       {
         $user = $this->ion_auth->user($uid)->row();
         $user_email = $user->email;
 
-        if ($email != $user_email)
+        if ($user->active === 1)
         {
           $response['code'] = 302;
+          $response['msg'] = $userphone . ' 用户不用重复激活';
         }
         else
         {
-          // TODO: send active mail
-          $response['code'] = Constants::SUCCESS;
+          if ($email != $user_email)
+          {
+            $response['code'] = 302;
+            $response['msg'] = $userphone . ' 用户注册的邮箱地址是：' . '' . '，与输入的邮箱地址不一致';
+          }
+          else
+          {
+            // TODO: send active mail
+
+            $response['code'] = Constants::SUCCESS;
+          }
         }
+        
       }
 
       echo json_encode($response);
