@@ -277,7 +277,7 @@ class Users extends CI_Controller {
      * @param email
      * @return void
      */
-    public function active()
+    public function active_mail()
     {
       $userphone = $this->input->post('userphone');
       $email = $this->input->post('email');
@@ -286,7 +286,7 @@ class Users extends CI_Controller {
 
       if ($uid === FALSE)
       {
-        $response['code'] = 301;
+        $response['code'] = Constants::USERS_ACTIVATE_IDENTITY_NOT_EXISTING;
         $response['msg'] = $userphone . ' 用户不存在';
       }
       else
@@ -294,33 +294,70 @@ class Users extends CI_Controller {
         $user = $this->ion_auth->user($uid)->row();
         $user_email = $user->email;
 
-        if ($user->active === 1)
+        if ($user->active == 1)
         {
-          $response['code'] = 302;
-          $response['msg'] = $userphone . ' 用户不用重复激活';
+          $response['code'] = Constants::USERS_ACTIVATE_USER_BEEN_ACTIVATED;
+          $response['msg'] = $userphone . ' 用户已经激活';
         }
         else
         {
           if ($email != $user_email)
           {
-            // $reg = '/(.{2}).+(.{1}@.+)/';
-            // $str = preg_replace($reg, "$1***$2", $email);
+            $reg = '/(.{1,2}).*(.{1}@.+)/';
+            $str = preg_replace($reg, "$1***$2", $user_email);
 
-            $response['code'] = 302;
-            // $response['msg'] = $userphone . ' 用户注册的邮箱地址是：' . $str . '，与输入的邮箱地址不一致';
-
-            $reg = '/b{2}/';
-            $str = preg_match($reg, $email, $match);
-            $response['msg'] = $match;
+            $response['code'] = Constants::USERS_ACTIVATE_INPUT_EMAIL_INVALID;
+            $response['msg'] = $userphone . ' 用户注册的邮箱地址是：' . $str . '，与输入的邮箱地址不一致';
           }
           else
           {
-            // TODO: send active mail
+            // call deactivate process to update user DB
+            $res = $this->ion_auth_model->deactivate($uid);
+            // the deactivate method call adds a message, here we need to clear that
+            $this->ion_auth_model->clear_messages();
 
-            $response['code'] = Constants::SUCCESS;
+            if (!$res)
+            {
+              $response['code'] = Constants::USERS_ACTIVATE_GEN_CODE_FAILED;
+              $response['msg'] = '服务端处理失败，请重试';
+            }
+            else
+            {
+              $activation_code = $this->ion_auth_model->activation_code;
+              $identity        = $this->config->item('identity', 'ion_auth');
+
+              $data = [
+                'identity'   => $user->{$identity},
+                'id'         => $user->id,
+                'email'      => $email,
+                'activation' => $activation_code,
+              ];
+
+              $message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_activate', 'ion_auth'), $data, true);
+
+              $email_config = $this->config->item('email_config', 'ion_auth');
+
+              $this->email->clear();
+              $this->email->initialize($email_config);
+
+              $this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
+              $this->email->to($email);
+              $this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_activation_subject'));
+              $this->email->message($message);
+
+              if ($this->email->send() === TRUE)
+              {
+                $this->ion_auth_model->trigger_events(['post_account_creation', 'post_account_creation_successful', 'activation_email_successful']);
+                $response['code'] = Constants::SUCCESS;
+              }
+              else
+              {
+                $response['code'] = Constants::USERS_ACTIVATE_SEND_MAIL_FAILED;
+                $response['msg'] = '服务端发送激活邮件失败，请重试';
+              }
+            }
           }
         }
-
       }
 
       echo json_encode($response);

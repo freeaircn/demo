@@ -1,25 +1,25 @@
 <template>
-  <div class="active-container">
-    <el-form ref="activeForm" :model="activeForm" :rules="activenRules" class="active-form" label-position="left">
+  <div class="active-mail-container">
+    <el-form ref="activeMailForm" :model="activeMailForm" :rules="activeMailRules" class="active-mail-form" label-position="left">
       <h3 class="title">激 活</h3>
       <el-form-item prop="userphone">
         <span class="svg-container">
           <svg-icon icon-class="icon_mobilephone" />
         </span>
-        <el-input v-model="activeForm.userphone" name="userphone" type="text" placeholder="输入注册的手机号" clearable />
+        <el-input v-model="activeMailForm.userphone" name="userphone" type="text" placeholder="输入注册的手机号" clearable />
       </el-form-item>
 
       <el-form-item ref="email" prop="email" >
         <span class="svg-container">
           <svg-icon icon-class="icon_dmail_fill" />
         </span>
-        <el-input v-model="activeForm.email" name="email" type="text" placeholder="输入注册的电子邮箱" clearable />
+        <el-input v-model="activeMailForm.email" name="email" type="text" placeholder="输入注册的电子邮箱" clearable />
       </el-form-item>
 
       <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/login">去登录</router-link></div>
 
       <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleActive">发送激活邮件</el-button>
+        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleSendActiveMail">发送激活邮件</el-button>
       </el-form-item>
       <div class="tips">
         <span style="margin-right:20px;">:)</span>
@@ -29,11 +29,11 @@
 </template>
 
 <script>
-import { active } from '@/api/login'
+import { sendActiveMail } from '@/api/login'
 // import { Constants } from '@/Constants'
 
 export default {
-  name: 'ActiveUser',
+  name: 'ActiveMail',
   data() {
     const phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/
     const validateUserphone = (rule, value, callback) => {
@@ -57,11 +57,11 @@ export default {
       }
     }
     return {
-      activeForm: {
+      activeMailForm: {
         userphone: '',
         email: ''
       },
-      activenRules: {
+      activeMailRules: {
         userphone: [{ required: true, trigger: 'change', validator: validateUserphone }],
         email: [{ required: true, trigger: 'change', validator: validateEmail }]
       },
@@ -78,14 +78,14 @@ export default {
     }
   },
   methods: {
-    handleActive() {
-      this.$refs.activeForm.validate(valid => {
+    handleSendActiveMail() {
+      this.$refs.activeMailForm.validate(valid => {
         if (valid) {
           this.loading = true
-          const userphone = this.activeForm.userphone
-          const email = this.activeForm.email
+          const userphone = this.activeMailForm.userphone
+          const email = this.activeMailForm.email
 
-          active(userphone, email)
+          sendActiveMail(userphone, email)
             .then((data) => {
               this.loading = false
               console.log(data)
@@ -111,7 +111,7 @@ $dark_gray:#606266;
 $border_gray: #DCDFE6;
 
 /* reset element-ui css */
-.active-container {
+.active-mail-container {
   .el-input {
     display: inline-block;
     height: 47px;
@@ -146,12 +146,12 @@ $light_gray:#eee;
 $dark_gray:#606266;
 $border_gray: #DCDFE6;
 
-.active-container {
+.active-mail-container {
   // position: fixed;
   height: 100%;
   width: 100%;
   background-color: $bg;
-  .active-form {
+  .active-mail-form {
     position: absolute;
     left: 0;
     right: 0;

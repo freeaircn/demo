@@ -25,7 +25,7 @@
       </el-form-item>
 
       <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/signup">没有账号？去注册</router-link></div>
-      <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/active">去激活账号</router-link></div>
+      <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/active_mail">去激活账号</router-link></div>
 
       <el-form-item>
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">登 录</el-button>

@@ -54,9 +54,9 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '/active',
-    name: 'active',
-    component: () => import('@/views/active/index'),
+    path: '/active_mail',
+    name: 'active_mail',
+    component: () => import('@/views/active_mail/index'),
     meta: {
       title: '激活',
       hideInMenu: true

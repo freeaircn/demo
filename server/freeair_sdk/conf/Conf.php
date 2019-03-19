@@ -8,11 +8,11 @@ class Conf {
 
     private static $TestMsg = 'Conf Here';
 
-    private static $JwtIssuer = 'b-Server';
-    private static $JwtAudience = 'client';
-    private static $JwtNbf = 0;
-    private static $JwtExp = 3600;
-    private static $JwtSecretCode = 'QaLmW2N7';
+    // private static $JwtIssuer = 'b-Server';
+    // private static $JwtAudience = 'client';
+    // private static $JwtNbf = 0;
+    // private static $JwtExp = 3600;
+    // private static $JwtSecretCode = 'QaLmW2N7';
 
     public static function __callStatic($name, $arguemnts) {
         $class = get_class();
