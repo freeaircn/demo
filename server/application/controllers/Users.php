@@ -282,9 +282,6 @@ class Users extends CI_Controller {
       $userphone = $this->input->post('userphone');
       $email = $this->input->post('email');
 
-      $response['userphone'] = $userphone;
-      $response['email'] = $email;
-
       $uid = $this->ion_auth->get_user_id_from_identity($userphone);
 
       if ($uid === FALSE)
@@ -306,8 +303,15 @@ class Users extends CI_Controller {
         {
           if ($email != $user_email)
           {
+            // $reg = '/(.{2}).+(.{1}@.+)/';
+            // $str = preg_replace($reg, "$1***$2", $email);
+
             $response['code'] = 302;
-            $response['msg'] = $userphone . ' 用户注册的邮箱地址是：' . '' . '，与输入的邮箱地址不一致';
+            // $response['msg'] = $userphone . ' 用户注册的邮箱地址是：' . $str . '，与输入的邮箱地址不一致';
+
+            $reg = '/b{2}/';
+            $str = preg_match($reg, $email, $match);
+            $response['msg'] = $match;
           }
           else
           {
@@ -316,7 +320,7 @@ class Users extends CI_Controller {
             $response['code'] = Constants::SUCCESS;
           }
         }
-        
+
       }
 
       echo json_encode($response);
