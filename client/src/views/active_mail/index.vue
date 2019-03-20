@@ -1,36 +1,46 @@
 <template>
   <div class="active-mail-container">
-    <el-form ref="activeMailForm" :model="activeMailForm" :rules="activeMailRules" class="active-mail-form" label-position="left">
-      <h3 class="title">激 活</h3>
-      <el-form-item prop="userphone">
-        <span class="svg-container">
-          <svg-icon icon-class="icon_mobilephone" />
-        </span>
-        <el-input v-model="activeMailForm.userphone" name="userphone" type="text" placeholder="输入注册的手机号" clearable />
-      </el-form-item>
+    <h3 class="title">激 活</h3>
+    <div v-show="show_contents === 0">
+      <el-form ref="activeMailForm" :model="activeMailForm" :rules="activeMailRules" class="active-mail-form" label-position="left">
+        <el-form-item prop="userphone">
+          <span class="svg-container">
+            <svg-icon icon-class="icon_mobilephone" />
+          </span>
+          <el-input v-model="activeMailForm.userphone" name="userphone" type="text" placeholder="输入注册的手机号" clearable />
+        </el-form-item>
 
-      <el-form-item ref="email" prop="email" >
-        <span class="svg-container">
-          <svg-icon icon-class="icon_dmail_fill" />
-        </span>
-        <el-input v-model="activeMailForm.email" name="email" type="text" placeholder="输入注册的电子邮箱" clearable />
-      </el-form-item>
+        <el-form-item ref="email" prop="email" >
+          <span class="svg-container">
+            <svg-icon icon-class="icon_dmail_fill" />
+          </span>
+          <el-input v-model="activeMailForm.email" name="email" type="text" placeholder="输入注册的电子邮箱" clearable />
+        </el-form-item>
 
-      <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/login">去登录</router-link></div>
+        <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/login">去登录</router-link></div>
 
-      <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleSendActiveMail">发送激活邮件</el-button>
-      </el-form-item>
-      <div class="tips">
-        <span style="margin-right:20px;">:)</span>
-      </div>
-    </el-form>
+        <el-form-item>
+          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleSendActiveMail">发送激活邮件</el-button>
+        </el-form-item>
+        <div class="tips">
+          <span style="margin-right:20px;">:)</span>
+        </div>
+      </el-form>
+    </div>
+
+    <div v-show="show_contents === 1">
+      <p>重复激活</p>
+    </div>
+
+    <div v-show="show_contents === 2">
+      <p>去登录邮箱</p>
+    </div>
   </div>
 </template>
 
 <script>
 import { sendActiveMail } from '@/api/login'
-// import { Constants } from '@/Constants'
+import { Constants } from '@/Constants'
 
 export default {
   name: 'ActiveMail',
@@ -66,6 +76,9 @@ export default {
         email: [{ required: true, trigger: 'change', validator: validateEmail }]
       },
       loading: false,
+      // ! show_contents 0: 用户信息表单页面；1：用户已激活，提供登录页面链接/返回激活页面链接；2：后台已发送激活邮件，提供登录邮箱链接。
+      show_contents: 0,
+
       redirect: undefined
     }
   },
@@ -87,8 +100,20 @@ export default {
 
           sendActiveMail(userphone, email)
             .then((data) => {
-              this.loading = false
               console.log(data)
+              this.loading = false
+              this.$message({
+                type: 'info',
+                message: data.msg,
+                duration: 3 * 1000
+              })
+
+              if (data.code === Constants.USERS_ACTIVATE_USER_BEEN_ACTIVATED) {
+                this.show_contents = 1
+              }
+              if (data.code === Constants.SUCCESS) {
+                this.show_contents = 2
+              }
             })
             .catch((error) => {
               this.loading = false
@@ -181,7 +206,7 @@ $border_gray: #DCDFE6;
     font-size: 26px;
     font-weight: 400;
     color: $dark_gray;
-    margin: 0px auto 40px auto;
+    // margin: 0px auto 40px auto;
     text-align: center;
     font-weight: bold;
   }

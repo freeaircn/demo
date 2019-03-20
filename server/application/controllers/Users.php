@@ -290,7 +290,7 @@ class Users extends CI_Controller {
             $str = preg_replace($reg, "$1***$2", $user_email);
 
             $response['code'] = Constants::USERS_ACTIVATE_INPUT_EMAIL_INVALID;
-            $response['msg'] = $userphone . ' 用户注册的邮箱地址是：' . $str . '，与输入的邮箱地址不一致';
+            $response['msg'] = $userphone . ' 用户注册的邮箱(' . $str . ')与输入的邮箱不一致';
           }
           else
           {
@@ -333,6 +333,7 @@ class Users extends CI_Controller {
               {
                 $this->ion_auth_model->trigger_events(['post_account_creation', 'post_account_creation_successful', 'activation_email_successful']);
                 $response['code'] = Constants::SUCCESS;
+                $response['msg'] = '激活邮件已发送至邮箱';
               }
               else
               {
