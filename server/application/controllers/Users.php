@@ -113,24 +113,6 @@ class Users extends CI_Controller {
       {
         $repeat_activation = TRUE;
       }
-      // if ($code !== FALSE)
-      // {
-      //   $activation = $this->ion_auth->activate($id, $code);
-      // }
-      // else if ($this->ion_auth->is_admin())
-      // {
-      //   $activation = $this->ion_auth->activate($id);
-      // }
-
-      // if ($activation)
-      // {
-      //   $response['code'] = Constants::SUCCESS;
-      // }
-      // else
-      // {
-      //   $response['code'] = Constants::USERS_SIGNUP_USER_ACTIVATE_FAILED;
-      // }
-      // echo json_encode($response);
 
       if ($user)
       {
@@ -139,8 +121,9 @@ class Users extends CI_Controller {
       }
       $this->data['activation'] = $activation;
       $this->data['repeat_activation'] = $repeat_activation;
-      $this->load->view('activate_message', $this->data);
+      $this->data['base_url'] = $this->config->item('base_url');
 
+      $this->load->view('activate_message', $this->data);
     }
 
     public function log_userinfo()
@@ -331,6 +314,7 @@ class Users extends CI_Controller {
                 'id'         => $user->id,
                 'email'      => $email,
                 'activation' => $activation_code,
+                'dt'         => date("Y-m-d H:i:s")
               ];
 
               $message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_activate', 'ion_auth'), $data, true);

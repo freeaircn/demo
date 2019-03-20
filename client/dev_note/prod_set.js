@@ -1,3 +1,6 @@
+/**
+ *
+
 1 更改base url:
   【前端】config/prod.env.js，更改BASE_API地址
     module.exports = {
@@ -57,3 +60,10 @@
     'exp' => 3600,
     'secret_code' => '' // 签名密钥
   ];
+
+4 【后端】设置时区index.php
+  文件开头位置
+  date_default_timezone_set('Asia/Shanghai');
+
+
+*/

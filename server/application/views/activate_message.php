@@ -74,24 +74,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <?php
     if ($repeat_activation)
     {
-      echo '<p>账号已激活，激活链接已失效！<a href="#">至登录页面</a>.</p>';
+      echo '<p>账号已经激活！<a href="' . $base_url . '/login' . '">至登录页面</a>.</p>';
     }
 
     if ($activation && !$repeat_activation)
     {
       if ($phone && $email)
       {
-        echo '<p>账号' . $phone . ' / ' . $email . '激活成功，<a href="#">至登录页面</a>.</p>';
+        echo '<p>账号' . $phone . ' / ' . $email . '激活成功，<a href="' . $base_url . '/login' . '">至登录页面</a>.</p>';
       }
       else
       {
-        echo '<p>账号激活成功，<a href="#">至登录页面</a>.</p>';
+        echo '<p>账号激活成功，<a href="' . $base_url . '/login' . '">至登录页面</a>.</p>';
       }
     }
 
     if (!$activation && !$repeat_activation)
     {
-      echo '<p>账号未激活成功，请刷新重试或联系管理员</p>';
+      echo '<p>该激活链接已过期，请申请重新发送 <a href="' . $base_url . '/active_mail' . '">账号激活邮件</a>.</p>';
     }
   ?>
 	</div>

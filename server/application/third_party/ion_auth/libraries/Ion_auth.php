@@ -286,7 +286,8 @@ class Ion_auth
 				'identity'   => $user->{$identity},
 				'id'         => $user->id,
 				'email'      => $email,
-				'activation' => $activation_code,
+        'activation' => $activation_code,
+        'dt'         => date("Y-m-d H:i:s")
 			];
 			if(!$this->config->item('use_ci_email', 'ion_auth'))
 			{
