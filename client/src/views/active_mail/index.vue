@@ -32,7 +32,7 @@
       <div class="active-mail-form">
         <h3 class="title">激 活</h3>
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleGotoLogin">去登录</el-button>
-        <p>.</p>
+        <hr align="center" width="100%" color="#DCDFE6" size="1" >
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleGoback">返回激活其他账号</el-button>
       </div>
     </div>
@@ -41,9 +41,9 @@
       <div class="active-mail-form">
         <h3 class="title">激 活</h3>
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleGotoMailBox">{{ btn_name }}</el-button>
-        <p>.</p>
+        <hr align="center" width="100%" color="#DCDFE6" size="1" >
         <div class="tips">
-          <span style="margin:20px;">请用户登录自己的邮箱，点击激活邮件中的链接激活账号</span>
+          <span style="margin:20px 0px 20px 0px; text-align:left">请用户登录自己的邮箱，点击激活邮件中的链接激活账号</span>
         </div>
       </div>
     </div>
@@ -96,6 +96,11 @@ export default {
       redirect: undefined
     }
   },
+  computed: {
+    emailLowcase: function() {
+      return this.activeMailForm.email.toLowerCase()
+    }
+  },
   watch: {
     $route: {
       handler: function(route) {
@@ -110,7 +115,7 @@ export default {
         if (valid) {
           this.loading = true
           const userphone = this.activeMailForm.userphone
-          const email = this.activeMailForm.email
+          const email = this.emailLowcase
 
           sendActiveMail(userphone, email)
             .then((data) => {
@@ -128,17 +133,17 @@ export default {
               if (data.code === Constants.SUCCESS) {
                 this.btn_name = '返回登录页面'
                 const mailServerReg = /@([a-z1-9]{2,3})/
-                const mailServer = mailServerReg.exec(this.activeMailForm.email)
+                const mailServer = mailServerReg.exec(this.emailLowcase)
                 if (mailServer !== null && mailServer[0] === '@163') {
-                  this.mailServerUrl = 'https://mail.163.com'
+                  this.mailServerUrl = Config.MAIL_163_URL
                   this.btn_name = '登录邮箱'
                 }
                 if (mailServer !== null && mailServer[0] === '@126') {
-                  this.mailServerUrl = 'https://mail.126.com'
+                  this.mailServerUrl = Config.MAIL_126_URL
                   this.btn_name = '登录邮箱'
                 }
                 if (mailServer !== null && mailServer[0] === '@qq') {
-                  this.mailServerUrl = 'https://mail.qq.com'
+                  this.mailServerUrl = Config.MAIL_QQ_URL
                   this.btn_name = '登录邮箱'
                 }
                 this.show_contents = 2

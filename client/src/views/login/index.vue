@@ -23,10 +23,14 @@
           <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-
-      <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/signup">没有账号？去注册</router-link></div>
-      <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/active_mail">去激活账号</router-link></div>
-
+      <el-row type="flex" justify="space-between">
+        <el-col :span="10">
+          <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/signup">没有账号？去注册</router-link></div>
+        </el-col>
+        <el-col :span="10">
+          <div style="margin: 0px 0px 15px 0px; color: #409EFF;text-align:right"><router-link to="/active_mail">激活账号</router-link></div>
+        </el-col>
+      </el-row>
       <el-form-item>
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">登 录</el-button>
       </el-form-item>

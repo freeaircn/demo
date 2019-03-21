@@ -1,5 +1,5 @@
 
-export const Freeair_App_Config = {
+export const Config = {
 
   MAIL_163_URL: 'https://mail.163.com',
   MAIL_126_URL: 'https://mail.126.com',

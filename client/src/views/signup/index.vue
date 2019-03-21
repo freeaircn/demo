@@ -264,6 +264,11 @@ export default {
       redirect: undefined
     }
   },
+  computed: {
+    emailLowcase: function() {
+      return this.formBaseInfo.email.toLowerCase()
+    }
+  },
   watch: {
     $route: {
       handler: function(route) {
@@ -283,7 +288,7 @@ export default {
     checkInfo(infoItem) {
       const userPhone = this.formBaseInfo.userphone
       const phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/
-      const email = this.formBaseInfo.email
+      const email = this.emailLowcase
       const emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/
 
       switch (infoItem) {
@@ -335,7 +340,7 @@ export default {
       this.$refs.formBaseInfo.validate((valid) => {
         if (valid) {
           const phone = this.formBaseInfo.userphone
-          const email = this.formBaseInfo.email
+          const email = this.emailLowcase
           const password = this.formBaseInfo.password
           this.$confirm('请核对信息' + phone + '，' + email + ' 是否正确?', '提示', {
             confirmButtonText: '正确',
