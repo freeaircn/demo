@@ -1,8 +1,8 @@
 <template>
   <div class="active-mail-container">
-    <h3 class="title">激 活</h3>
     <div v-show="show_contents === 0">
       <el-form ref="activeMailForm" :model="activeMailForm" :rules="activeMailRules" class="active-mail-form" label-position="left">
+        <h3 class="title">激 活</h3>
         <el-form-item prop="userphone">
           <span class="svg-container">
             <svg-icon icon-class="icon_mobilephone" />
@@ -29,11 +29,23 @@
     </div>
 
     <div v-show="show_contents === 1">
-      <p>重复激活</p>
+      <div class="active-mail-form">
+        <h3 class="title">激 活</h3>
+        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleGotoLogin">去登录</el-button>
+        <p>.</p>
+        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleGoback">返回激活其他账号</el-button>
+      </div>
     </div>
 
     <div v-show="show_contents === 2">
-      <p>去登录邮箱</p>
+      <div class="active-mail-form">
+        <h3 class="title">激 活</h3>
+        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleGotoMailBox">{{ btn_name }}</el-button>
+        <p>.</p>
+        <div class="tips">
+          <span style="margin:20px;">请用户登录自己的邮箱，点击激活邮件中的链接激活账号</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +53,7 @@
 <script>
 import { sendActiveMail } from '@/api/login'
 import { Constants } from '@/Constants'
+import { Config } from '@/Freeair_App_Config'
 
 export default {
   name: 'ActiveMail',
@@ -78,7 +91,8 @@ export default {
       loading: false,
       // ! show_contents 0: 用户信息表单页面；1：用户已激活，提供登录页面链接/返回激活页面链接；2：后台已发送激活邮件，提供登录邮箱链接。
       show_contents: 0,
-
+      mailServerUrl: '',
+      btn_name: '返回登录页面',
       redirect: undefined
     }
   },
@@ -112,6 +126,21 @@ export default {
                 this.show_contents = 1
               }
               if (data.code === Constants.SUCCESS) {
+                this.btn_name = '返回登录页面'
+                const mailServerReg = /@([a-z1-9]{2,3})/
+                const mailServer = mailServerReg.exec(this.activeMailForm.email)
+                if (mailServer !== null && mailServer[0] === '@163') {
+                  this.mailServerUrl = 'https://mail.163.com'
+                  this.btn_name = '登录邮箱'
+                }
+                if (mailServer !== null && mailServer[0] === '@126') {
+                  this.mailServerUrl = 'https://mail.126.com'
+                  this.btn_name = '登录邮箱'
+                }
+                if (mailServer !== null && mailServer[0] === '@qq') {
+                  this.mailServerUrl = 'https://mail.qq.com'
+                  this.btn_name = '登录邮箱'
+                }
                 this.show_contents = 2
               }
             })
@@ -124,6 +153,28 @@ export default {
           return false
         }
       })
+    },
+    handleGotoLogin() {
+      this.$router.push({
+        name: 'login'
+      })
+    },
+    handleGoback() {
+      // ! 重置了表单域
+      this.$refs.activeMailForm.resetFields()
+      this.show_contents = 0
+    },
+    handleGotoMailBox() {
+      if (this.mailServerUrl === '') {
+        this.$router.push({
+          name: 'login'
+        })
+      } else {
+        // ! 重置data
+        this.$refs.activeMailForm.resetFields()
+        window.location.replace(this.mailServerUrl)
+        this.mailServerUrl = ''
+      }
     }
   }
 }
@@ -206,7 +257,7 @@ $border_gray: #DCDFE6;
     font-size: 26px;
     font-weight: 400;
     color: $dark_gray;
-    // margin: 0px auto 40px auto;
+    margin: 40px auto 40px auto;
     text-align: center;
     font-weight: bold;
   }
