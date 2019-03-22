@@ -30,7 +30,7 @@ class Users extends CI_Controller {
       $response['msg'] = '';
 
       $identity = $this->input->post('phone');
-      if (empty($identity))
+      if (!isset($identity))
 		  {
         $response['code'] = Constants::POST_INPUT_EMPTY;
         $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
@@ -54,7 +54,7 @@ class Users extends CI_Controller {
       $response['msg'] = '';
 
       $email = $this->input->post('email');
-      if (empty($email))
+      if (!isset($email))
 		  {
         $response['code'] = Constants::POST_INPUT_EMPTY;
         $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
@@ -77,23 +77,32 @@ class Users extends CI_Controller {
       $phone = $this->input->post('phone');
       $email = $this->input->post('email');
       $password = $this->input->post('password');
-      $identity = $phone;
 
-      $additional_data = [
-				'phone' => $phone
-      ];
-
-      $res = $this->ion_auth->register($identity, $password, $email, $additional_data);
-      if ($res !== FALSE)
+      if (!isset($phone) || !isset($email) || !isset($password))
       {
-        $response['code'] = Constants::SUCCESS;
-        $response['userid'] = $res;
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
       }
       else
       {
-        $response['code'] = Constants::USERS_SIGNUP_USER_CREATE_FAILED;
-        $response['msg'] = Constants::USERS_SIGNUP_USER_CREATE_FAILED_MSG;
+        $identity = $phone;
+        $additional_data = [
+          'phone' => $phone
+        ];
+
+        $res = $this->ion_auth->register($identity, $password, $email, $additional_data);
+        if ($res !== FALSE)
+        {
+          $response['code'] = Constants::SUCCESS;
+          $response['userid'] = $res;
+        }
+        else
+        {
+          $response['code'] = Constants::USERS_SIGNUP_USER_CREATE_FAILED;
+          $response['msg'] = Constants::USERS_SIGNUP_USER_CREATE_FAILED_MSG;
+        }
       }
+
       echo json_encode($response);
     }
 
