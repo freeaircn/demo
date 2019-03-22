@@ -61,13 +61,99 @@ VALUES (1, 1, UNIX_TIMESTAMP());
 INSERT INTO `rbac_userroles` (`UserID`, `RoleID`, `AssignmentDate`)
 VALUES (1, 1, UNIX_TIMESTAMP());
 
+/*
+ * Create Tables for organization-ship
+ */
 
+CREATE TABLE `org_parties` (
+  `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `org_company` (
+  `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `org_dept_level_1` (
+  `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `org_dept_level_2` (
+  `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `org_dept_level_3` (
+  `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `org_dept_level_4` (
+  `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `org_dept_level_5` (
+  `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `org_jobs` (
+  `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `org_parties` (`id`, `name`)
+VALUES (1, '无党派');
+INSERT INTO `org_parties` (`id`, `name`)
+VALUES (2, '中共党员');
+INSERT INTO `org_parties` (`id`, `name`)
+VALUES (3, '其他党派');
+
+INSERT INTO `org_company` (`id`, `name`)
+VALUES (1, '保山能源发展股份有限公司');
+
+INSERT INTO `org_dept_level_1` (`id`, `name`)
+VALUES (1, '松山河口电厂');
+INSERT INTO `org_dept_level_1` (`id`, `name`)
+VALUES (2, '苏家河口电厂');
+
+INSERT INTO `org_dept_level_2` (`id`, `name`)
+VALUES (1, '检修班');
+INSERT INTO `org_dept_level_2` (`id`, `name`)
+VALUES (2, '运行一班');
+INSERT INTO `org_dept_level_2` (`id`, `name`)
+VALUES (3, '运行二班');
+INSERT INTO `org_dept_level_2` (`id`, `name`)
+VALUES (4, '运行三班');
+INSERT INTO `org_dept_level_2` (`id`, `name`)
+VALUES (5, '运行四班');
+INSERT INTO `org_dept_level_2` (`id`, `name`)
+VALUES (6, '运行五班');
+INSERT INTO `org_dept_level_2` (`id`, `name`)
+VALUES (7, '办公室');
+
+INSERT INTO `org_jobs` (`id`, `name`)
+VALUES (1, '检修员');
+INSERT INTO `org_jobs` (`id`, `name`)
+VALUES (2, '运行员');
+INSERT INTO `org_jobs` (`id`, `name`)
+VALUES (3, '班长');
 
 /*
  * Create Tables for auth
  */
 
-DROP TABLE IF EXISTS `auth_groups`;
 CREATE TABLE `auth_groups` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
@@ -79,46 +165,66 @@ INSERT INTO `auth_groups` (`id`, `name`, `description`) VALUES
      (1,'admin','Administrator'),
      (2,'members','General User');
 
-DROP TABLE IF EXISTS `auth_users`;
 CREATE TABLE `auth_users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` char(20) NULL,
-  `gender` char(1) NULL,
-  `email` char(30) NULL,
   `phone` char(20) NOT NULL,
+  `username` char(10) NULL,
+  `email` char(40) NULL,
+  `gender` char(1) NULL,
+  `id_card_num` char(20) NULL,
+  `ip_address` char(45) NULL,
+  `active` tinyint(1) unsigned DEFAULT NULL,
+  `activation_exptime` int(11) unsigned DEFAULT NULL,
+  `created_on` int(11) unsigned NULL,
+  `last_login` int(11) unsigned DEFAULT NULL,
+  `party_id` tinyint(4) unsigned DEFAULT NULL,
+  `company_id` tinyint(4) unsigned DEFAULT NULL,
+  `dept_LV1_id` tinyint(4) unsigned DEFAULT NULL,
+  `dept_LV2_id` tinyint(4) unsigned DEFAULT NULL,
+  `dept_LV3_id` tinyint(4) unsigned DEFAULT NULL,
+  `dept_LV4_id` tinyint(4) unsigned DEFAULT NULL,
+  `dept_LV5_id` tinyint(4) unsigned DEFAULT NULL,
+  `job_id` tinyint(4) unsigned DEFAULT NULL,
   `password` varchar(255) NOT NULL,
-  `parties` tinyint(1) unsigned DEFAULT NULL,
-  `ip_address` char(45) NOT NULL,
   `activation_selector` varchar(255) DEFAULT NULL,
   `activation_code` varchar(255) DEFAULT NULL,
-  `activation_exptime` int(11) DEFAULT NULL,
   `forgotten_password_selector` varchar(255) DEFAULT NULL,
   `forgotten_password_code` varchar(255) DEFAULT NULL,
   `forgotten_password_time` int(11) unsigned DEFAULT NULL,
   `remember_selector` varchar(255) DEFAULT NULL,
   `remember_code` varchar(255) DEFAULT NULL,
-  `created_on` int(11) unsigned NOT NULL,
-  `last_login` int(11) unsigned DEFAULT NULL,
-  `active` tinyint(1) unsigned DEFAULT NULL,
-  `company` tinyint(1) unsigned DEFAULT NULL,
-  `dept_level_1` tinyint(1) unsigned DEFAULT NULL,
-  `dept_level_2` tinyint(1) unsigned DEFAULT NULL,
-  `dept_level_3` tinyint(1) unsigned DEFAULT NULL,
-  `dept_level_4` tinyint(1) unsigned DEFAULT NULL,
-  `dept_level_5` tinyint(1) unsigned DEFAULT NULL,
-  `userjob` tinyint(1) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `uc_email` UNIQUE (`email`),
   CONSTRAINT `uc_phone` UNIQUE (`phone`),
   CONSTRAINT `uc_activation_selector` UNIQUE (`activation_selector`),
   CONSTRAINT `uc_forgotten_password_selector` UNIQUE (`forgotten_password_selector`),
-  CONSTRAINT `uc_remember_selector` UNIQUE (`remember_selector`)
+  CONSTRAINT `uc_remember_selector` UNIQUE (`remember_selector`),
+  KEY `fk_users_party_idx` (`party_id`),
+  KEY `fk_users_company_idx` (`company_id`),
+  KEY `fk_users_dept_LV1_idx` (`dept_LV1_id`),
+  KEY `fk_users_dept_LV2_idx` (`dept_LV2_id`),
+  KEY `fk_users_dept_LV3_idx` (`dept_LV3_id`),
+  KEY `fk_users_dept_LV4_idx` (`dept_LV4_id`),
+  KEY `fk_users_dept_LV5_idx` (`dept_LV5_id`),
+  KEY `fk_users_job_idx` (`job_id`),
+  CONSTRAINT `fk_users_party_id` FOREIGN KEY (`party_id`) REFERENCES `org_parties` (`id`),
+  CONSTRAINT `fk_users_company_id` FOREIGN KEY (`company_id`) REFERENCES `org_company` (`id`),
+  CONSTRAINT `fk_users_dept_LV1_id` FOREIGN KEY (`dept_LV1_id`) REFERENCES `org_dept_level_1` (`id`),
+  CONSTRAINT `fk_users_dept_LV2_id` FOREIGN KEY (`dept_LV2_id`) REFERENCES `org_dept_level_2` (`id`),
+  CONSTRAINT `fk_users_dept_LV3_id` FOREIGN KEY (`dept_LV3_id`) REFERENCES `org_dept_level_3` (`id`),
+  CONSTRAINT `fk_users_dept_LV4_id` FOREIGN KEY (`dept_LV4_id`) REFERENCES `org_dept_level_4` (`id`),
+  CONSTRAINT `fk_users_dept_LV5_id` FOREIGN KEY (`dept_LV5_id`) REFERENCES `org_dept_level_5` (`id`),
+  CONSTRAINT `fk_users_job_id` FOREIGN KEY (`job_id`) REFERENCES `org_jobs` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `auth_users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `created_on`, `last_login`, `active`, `company`, `phone`) VALUES
-     ('1','127.0.0.1','administrator','$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa','admin@admin.com','',NULL,'1268889823','1268889823','1', '1','13812345678');
+INSERT INTO `auth_users` (`id`, `phone`, `username`, `email`, `active`, `password`) VALUES
+    ('1','13812345678','管理员','admin@163.com','1','$argon2i$v=19$m=4096,t=2,p=2$bWVjN0c4MEVtS2ZzakJUMw$IR3GQ945dWBrmjlZkKUUTqax09APo8EoMFIDOVwjdy0');
 
-DROP TABLE IF EXISTS `auth_users_groups`;
+/*
+INSERT INTO `auth_users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `created_on`, `last_login`, `active`, `company`, `phone`) VALUES
+    ('1','127.0.0.1','administrator','$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa','admin@admin.com','',NULL,'1268889823','1268889823','1', '1','13812345678');
+*/
+
 CREATE TABLE `auth_users_groups` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
@@ -135,8 +241,6 @@ INSERT INTO `auth_users_groups` (`id`, `user_id`, `group_id`) VALUES
      (1,1,1),
      (2,1,2);
 
-
-DROP TABLE IF EXISTS `auth_login_attempts`;
 CREATE TABLE `auth_login_attempts` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(45) NOT NULL,
@@ -144,3 +248,16 @@ CREATE TABLE `auth_login_attempts` (
   `time` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+/*
+*/
+DROP TABLE `org_jobs`;
+DROP TABLE `org_dept_level_5`;
+DROP TABLE `org_dept_level_4`;
+DROP TABLE `org_dept_level_3`;
+DROP TABLE `org_dept_level_2`;
+DROP TABLE `org_dept_level_1`;
+DROP TABLE `org_company`;
+DROP TABLE `org_parties`;

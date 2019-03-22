@@ -89,8 +89,8 @@
 
         <el-form-item label="性别" prop="gender">
           <el-radio-group v-model="formMoreInfo.gender">
-            <el-radio label="1">男</el-radio>
-            <el-radio label="2">女</el-radio>
+            <el-radio label="男">男</el-radio>
+            <el-radio label="女">女</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="党派" prop="parties">
@@ -103,15 +103,14 @@
 
         <el-form-item prop="company">
           <el-select v-model="formMoreInfo.company" placeholder="请选择所属公司">
-            <el-option label="槟榔江水电开发有限公司" value="1" />
+            <el-option label="保山能源发展股份有限公司" value="1" />
           </el-select>
         </el-form-item>
 
         <el-form-item prop="deptLevel1">
           <el-select v-model="formMoreInfo.deptLevel1" placeholder="请选择所属电厂">
             <el-option label="松山河口电厂" value="1"/>
-            <el-option label="A电厂" value="2"/>
-            <el-option label="B电厂" value="3"/>
+            <el-option label="苏家河口电厂" value="2"/>
           </el-select>
         </el-form-item>
 
@@ -132,8 +131,6 @@
             <el-option label="检修员" value="1"/>
             <el-option label="运行员" value="2"/>
             <el-option label="班长" value="3"/>
-            <el-option label="助理" value="4"/>
-            <el-option label="厂长" value="5"/>
           </el-select>
         </el-form-item>
 
@@ -256,7 +253,7 @@ export default {
         parties: [{ required: true, message: '请选择党派', trigger: 'change' }],
         company: [{ required: true, message: '请选择公司', trigger: 'change' }],
         deptLevel1: [{ required: true, message: '请选择电厂', trigger: 'change' }],
-        deptLevel2: [{ required: true, message: '请选择部门', trigger: 'change' }],
+        deptLevel2: [{ required: true, message: '请选择班组', trigger: 'change' }],
         job: [{ required: true, message: '请选择职务', trigger: 'change' }]
       },
       loading: false,
@@ -411,23 +408,6 @@ export default {
         name: 'login'
       })
     }
-
-    // handleCreateAccount2() {
-    //   this.$refs.loginForm.validate(valid => {
-    //     if (valid) {
-    //       this.loading = true
-    //       this.$store.dispatch('Login', this.loginForm).then(() => {
-    //         this.loading = false
-    //         this.$router.push({ path: this.redirect || '/' })
-    //       }).catch(() => {
-    //         this.loading = false
-    //       })
-    //     } else {
-    //       console.log('error submit!!')
-    //       return false
-    //     }
-    //   })
-    // }
   }
 }
 </script>

@@ -139,12 +139,12 @@ class Users extends CI_Controller {
 
       $data = array(
         'username' => $username,
-        'gender' => intval($gender),
-        'parties' => intval($parties),
-        'company' => intval($company),
-        'dept_level_1' => intval($dept_level_1),
-        'dept_level_2' => intval($dept_level_2),
-        'userjob' => intval($job)
+        'gender' => $gender,
+        'party_id' => intval($parties),
+        'company_id' => intval($company),
+        'dept_LV1_id' => intval($dept_level_1),
+        'dept_LV2_id' => intval($dept_level_2),
+        'job_id' => intval($job)
          );
 
       $res = FALSE;
@@ -207,41 +207,57 @@ class Users extends CI_Controller {
     }
 
     /**
+     * check token
+     * @param input - token
+     * @return
+     */
+    protected function check_token($token)
+    {
+      if (empty($token))
+      {
+        return FALSE;
+      }
+
+      $token_str = (new Parser())->parse($token);
+      $signer = new Sha256();
+      $jwt_config = $this->config->item('jwt_config', 'ion_auth');
+
+      $signature = $token_str->verify($signer, $jwt_config['secret_code']);
+      if (!$signature)
+      {
+        return FALSE;
+      }
+      $data = new ValidationData();
+      $data->setIssuer($jwt_config['issuer']);
+      $data->setAudience($jwt_config['audience']);
+      $data->setCurrentTime(time());
+
+      if (!$token_str->validate($data))
+      {
+        return FALSE;
+      }
+      return TRUE;
+    }
+
+    /**
      * Get user info
      * @param input - token
      * @return
      */
     public function info()
     {
-      $token = (new Parser())->parse($this->input->post('token'));
+      $token = $this->input->post('token');
       // $token = (new Parser())->parse($this->input->get_request_header('X-Token', TRUE));
 
-      $signer = new Sha256();
-      $jwt_config = $this->config->item('jwt_config', 'ion_auth');
-
-      $signature = $token->verify($signer, $jwt_config['secret_code']);
-      if (!$signature)
+      if ($this->check_token($token))
       {
-        $response['code'] = Constants::USERS_TOKEN_INVALID;
-        $response['msg'] = 'TOKEN 非法';
+        $response['code'] = Constants::SUCCESS;
+        // $response['msg'] = $token->getClaims();
       }
       else
       {
-        $data = new ValidationData();
-        $data->setIssuer($jwt_config['issuer']);
-        $data->setAudience($jwt_config['audience']);
-        $data->setCurrentTime(time());
-
-        if (!$token->validate($data))
-        {
-          $response['code'] = Constants::USERS_TOKEN_VALIDATE_FAILED;
-          $response['msg'] = 'TOKEN 校验失败';
-        }
-        else
-        {
-          $response['code'] = Constants::SUCCESS;
-          $response['msg'] = $token->getClaims();
-        }
+        $response['code'] = Constants::USERS_TOKEN_INVALID;
+        $response['msg'] = 'TOKEN 非法';
       }
 
       echo json_encode($response);

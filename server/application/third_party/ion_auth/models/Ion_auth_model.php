@@ -2796,5 +2796,47 @@ class Ion_auth_model extends CI_Model
 			$this->trigger_events(['post_sha1_password_migration', 'post_sha1_password_migration_unsuccessful']);
 			return FALSE;
 		}
+  }
+
+  /**
+	 * make up user info
+	 *
+	 * @param int|string|null $id
+	 *
+	 * @return static
+	 * @author
+	 */
+	public function get_user_info($uid = NULL)
+	{
+		// $this->trigger_events('get_user_info');
+
+    if (!isset($uid))
+    {
+      return FALSE;
+    }
+    $user = $this->user($uid)->row();
+    if (!isset($user))
+    {
+      return FALSE;
+    }
+    $res['username'] = $user->username;
+    $res['phone'] = $user->phone;
+    $res['email'] = $user->email;
+    $res['gender'] = $user->gender;
+    $party_id = $user->party_id;
+    $company_id = $user->company_id;
+    $dept_LV1_id = $user->dept_LV1_id;
+    $dept_LV2_id = $user->dept_LV2_id;
+    $job_id = $user->job_id;
+
+
+		$this->limit(1);
+		$this->order_by($this->tables['users'].'.id', 'desc');
+		$this->where($this->tables['users'].'.id', $id);
+
+		$this->users();
+
+		return $this;
 	}
 }
+
