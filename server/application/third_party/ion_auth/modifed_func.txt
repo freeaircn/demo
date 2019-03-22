@@ -91,4 +91,34 @@
     ];
 
 
+5.  ion_auth\config\ion_auth.php
+    2019-03-22
+    增加针对部门组织关系db table
+    | Database table names.
+    */
+    $config['tables']['users']           = 'auth_users';
+    $config['tables']['groups']          = 'auth_groups';
+    $config['tables']['users_groups']    = 'auth_users_groups';
+    $config['tables']['login_attempts']  = 'auth_login_attempts';
+    //
+    $config['tables']['org_parties']  = 'org_parties';
+    $config['tables']['org_company']  = 'org_company';
+    $config['tables']['org_dept_level_1']  = 'org_dept_level_1';
+    $config['tables']['org_dept_level_2']  = 'org_dept_level_2';
+    $config['tables']['org_dept_level_3']  = 'org_dept_level_3';
+    $config['tables']['org_dept_level_4']  = 'org_dept_level_4';
+    $config['tables']['org_dept_level_5']  = 'org_dept_level_5';
+    $config['tables']['org_jobs']  = 'org_jobs';
 
+6.  ion_auth\models\ion_auth_model.php
+    2019-03-22
+    用户的部门组织关系划分成多张表，新增get user info方法。
+    /**
+    * make up user info
+    *
+    * @param int|null $id
+    *
+    * @return static
+    * @author
+    */
+    public function get_user_info($uid = NULL)

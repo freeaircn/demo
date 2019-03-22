@@ -26,12 +26,14 @@ class Users extends CI_Controller {
 
     public function check_phone()
     {
-      $response['code'] = Constants::USERS_SIGNUP_IDENTITY_NOT_EXISTING;
-      $identity = $this->input->post('phone');
+      $response['code'] = Constants::SUCCESS;
+      $response['msg'] = '';
 
+      $identity = $this->input->post('phone');
       if (empty($identity))
 		  {
-			  $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
       }
       else
       {
@@ -39,6 +41,7 @@ class Users extends CI_Controller {
         if ($query)
         {
           $response['code'] = Constants::USERS_SIGNUP_IDENTITY_EXISTING;
+          $response['msg'] = Constants::USERS_SIGNUP_IDENTITY_EXISTING_MSG;
         }
       }
 
@@ -47,12 +50,14 @@ class Users extends CI_Controller {
 
     public function check_email()
     {
-      $response['code'] = Constants::USERS_SIGNUP_EMAIL_NOT_EXISTING;
-      $email = $this->input->post('email');
+      $response['code'] = Constants::SUCCESS;
+      $response['msg'] = '';
 
+      $email = $this->input->post('email');
       if (empty($email))
 		  {
-			  $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
       }
       else
       {
@@ -60,6 +65,7 @@ class Users extends CI_Controller {
         if ($query)
         {
           $response['code'] = Constants::USERS_SIGNUP_EMAIL_EXISTING;
+          $response['msg'] = Constants::USERS_SIGNUP_EMAIL_EXISTING_MSG;
         }
       }
 
@@ -86,6 +92,7 @@ class Users extends CI_Controller {
       else
       {
         $response['code'] = Constants::USERS_SIGNUP_USER_CREATE_FAILED;
+        $response['msg'] = Constants::USERS_SIGNUP_USER_CREATE_FAILED_MSG;
       }
       echo json_encode($response);
     }
@@ -126,7 +133,7 @@ class Users extends CI_Controller {
       $this->load->view('activate_message', $this->data);
     }
 
-    public function log_userinfo()
+    public function log_user_info()
     {
       $userid = $this->input->post('userid');
       $username = $this->input->post('username');
@@ -137,30 +144,36 @@ class Users extends CI_Controller {
       $dept_level_2 = $this->input->post('dept_level_2');
       $job = $this->input->post('job');
 
-      $data = array(
-        'username' => $username,
-        'gender' => $gender,
-        'party_id' => intval($parties),
-        'company_id' => intval($company),
-        'dept_LV1_id' => intval($dept_level_1),
-        'dept_LV2_id' => intval($dept_level_2),
-        'job_id' => intval($job)
-         );
-
-      $res = FALSE;
-      if (!empty($userid))
+      if (!isset($userid) || !isset($username) || !isset($gender) || !isset($parties) || !isset($company) || !isset($dept_level_1) || !isset($dept_level_2) || !isset($job))
       {
-        $res = $this->ion_auth->update($userid, $data);
-      }
-
-      if ($res)
-      {
-        $response['code'] = Constants::SUCCESS;
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
       }
       else
       {
-        $response['code'] = Constants::USERS_SIGNUP_LOG_USERINFO_FAILED;
+        $data = array(
+          'username' => $username,
+          'gender' => $gender,
+          'party_id' => intval($parties),
+          'company_id' => intval($company),
+          'dept_LV1_id' => intval($dept_level_1),
+          'dept_LV2_id' => intval($dept_level_2),
+          'job_id' => intval($job)
+           );
+
+        $res = $this->ion_auth->update($userid, $data);
+        if ($res)
+        {
+          $response['code'] = Constants::SUCCESS;
+          $response['msg'] = '';
+        }
+        else
+        {
+          $response['code'] = Constants::USERS_SIGNUP_LOG_USER_INFO_FAILED;
+          $response['msg'] = Constants::USERS_SIGNUP_LOG_USER_INFO_FAILED_MSG;
+        }
       }
+
       echo json_encode($response);
     }
 
@@ -169,28 +182,26 @@ class Users extends CI_Controller {
       $userphone = $this->input->post('userphone');
       $password = $this->input->post('password');
 
-      $res = $this->ion_auth->login($userphone, $password);
-
-      if (!$res)
+      if (!isset($userphone) || !isset($password))
       {
-        $response['code'] = Constants::USERS_LOGIN_FAILED;
-        $response['msg'] = $this->ion_auth->errors();
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
       }
-
-      $uid = $this->ion_auth->get_user_id_from_identity($userphone);
-
-      if ($res && $uid === FALSE)
+      else
       {
-        $response['code'] = Constants::USERS_LOGIN_FAILED;
-        $response['msg'] = '';
-      }
+        $res = $this->ion_auth->login($userphone, $password);
+        if (!$res)
+        {
+          $response['code'] = Constants::USERS_LOGIN_FAILED;
+          $response['msg'] = $this->ion_auth->errors();
+        }
+        else
+        {
+          $uid = $this->ion_auth->get_user_id_from_identity($userphone);
 
-      if ($res && $uid !== FALSE)
-      {
-        $jwt_config = $this->config->item('jwt_config', 'ion_auth');
-
-        $signer = new Sha256();
-        $token_string = (string) $token = (new Builder())->setIssuer($jwt_config['issuer'])
+          $jwt_config = $this->config->item('jwt_config', 'ion_auth');
+          $signer = new Sha256();
+          $token = (new Builder())->setIssuer($jwt_config['issuer'])
                             ->setAudience($jwt_config['audience'])
                             ->setIssuedAt(time())
                             ->setNotBefore(time() + $jwt_config['nbf'])
@@ -198,9 +209,18 @@ class Users extends CI_Controller {
                             ->set('id', $uid)
                             ->sign($signer, $jwt_config['secret_code'])
                             ->getToken();
-
-        $response['code'] = Constants::SUCCESS;
-        $response['token'] = $token_string;
+          $token_string = (string) $token;
+          if (isset($token_string))
+          {
+            $response['code'] = Constants::SUCCESS;
+            $response['token'] = $token_string;
+          }
+          else
+          {
+            $response['code'] = Constants::USERS_LOGIN_GEN_TOKEN_FAILED;
+            $response['msg'] = Constants::USERS_LOGIN_GEN_TOKEN_FAILED_MSG;
+          }
+        }
       }
 
       echo json_encode($response);
@@ -209,11 +229,11 @@ class Users extends CI_Controller {
     /**
      * check token
      * @param input - token
-     * @return
+     * @return  BOOL / id
      */
     protected function check_token($token)
     {
-      if (empty($token))
+      if (!isset($token))
       {
         return FALSE;
       }
@@ -236,7 +256,7 @@ class Users extends CI_Controller {
       {
         return FALSE;
       }
-      return TRUE;
+      return $token_str->getClaim('id');
     }
 
     /**
@@ -248,16 +268,33 @@ class Users extends CI_Controller {
     {
       $token = $this->input->post('token');
       // $token = (new Parser())->parse($this->input->get_request_header('X-Token', TRUE));
-
-      if ($this->check_token($token))
+      if (!isset($token))
       {
-        $response['code'] = Constants::SUCCESS;
-        // $response['msg'] = $token->getClaims();
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
       }
       else
       {
-        $response['code'] = Constants::USERS_TOKEN_INVALID;
-        $response['msg'] = 'TOKEN 非法';
+        $uid = $this->check_token($token);
+        if ($uid === FALSE)
+        {
+          $response['code'] = Constants::USERS_TOKEN_INVALID;
+          $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
+        }
+        else
+        {
+          $res = $this->ion_auth->get_user_info($uid);
+          if ($res['code'] === TRUE)
+          {
+            $response['code'] = Constants::SUCCESS;
+            $response['info'] = $res;
+          }
+          else
+          {
+            $response['code'] = Constants::USERS_GET_USER_INFO_FAILED;
+            $response['msg'] = Constants::USERS_GET_USER_INFO_FAILED_MSG;
+          }
+        }
       }
 
       echo json_encode($response);
@@ -281,80 +318,85 @@ class Users extends CI_Controller {
       $userphone = $this->input->post('userphone');
       $email = $this->input->post('email');
 
-      $uid = $this->ion_auth->get_user_id_from_identity($userphone);
-
-      if ($uid === FALSE)
+      if (!isset($userphone) || !isset($email))
       {
-        $response['code'] = Constants::USERS_ACTIVATE_IDENTITY_NOT_EXISTING;
-        $response['msg'] = $userphone . ' 用户不存在';
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
       }
       else
       {
-        $user = $this->ion_auth->user($uid)->row();
-        $user_email = $user->email;
-
-        if ($user->active == 1)
+        $uid = $this->ion_auth->get_user_id_from_identity($userphone);
+        if ($uid === FALSE)
         {
-          $response['code'] = Constants::USERS_ACTIVATE_USER_BEEN_ACTIVATED;
-          $response['msg'] = $userphone . ' 用户已经激活';
+          $response['code'] = Constants::USERS_ACTIVATE_IDENTITY_NOT_EXISTING;
+          $response['msg'] = $userphone . Constants::USERS_ACTIVATE_IDENTITY_NOT_EXISTING_MSG;
         }
         else
         {
-          if ($email != $user_email)
+          $user = $this->ion_auth->user($uid)->row();
+          $user_email = $user->email;
+          if ($user->active == 1)
           {
-            $reg = '/(.{1,2}).*(.{1}@.+)/';
-            $str = preg_replace($reg, "$1***$2", $user_email);
-
-            $response['code'] = Constants::USERS_ACTIVATE_INPUT_EMAIL_INVALID;
-            $response['msg'] = $userphone . ' 用户注册的邮箱(' . $str . ')与输入的邮箱不一致';
+            $response['code'] = Constants::USERS_ACTIVATE_USER_BEEN_ACTIVATED;
+            $response['msg'] = $userphone . Constants::USERS_ACTIVATE_USER_BEEN_ACTIVATED_MSG;
           }
           else
           {
-            // call deactivate process to update user DB
-            $res = $this->ion_auth_model->deactivate($uid);
-            // the deactivate method call adds a message, here we need to clear that
-            $this->ion_auth_model->clear_messages();
-
-            if (!$res)
+            if ($email != $user_email)
             {
-              $response['code'] = Constants::USERS_ACTIVATE_GEN_CODE_FAILED;
-              $response['msg'] = '服务端处理失败，请重试';
+              $reg = '/(.{1,2}).*(.{1}@.+)/';
+              $str = preg_replace($reg, "$1***$2", $user_email);
+
+              $response['code'] = Constants::USERS_ACTIVATE_INPUT_EMAIL_INVALID;
+              $response['msg'] = $str . Constants::USERS_ACTIVATE_INPUT_EMAIL_INVALID_MSG;
             }
             else
             {
-              $activation_code = $this->ion_auth_model->activation_code;
-              $identity        = $this->config->item('identity', 'ion_auth');
-
-              $data = [
-                'identity'   => $user->{$identity},
-                'id'         => $user->id,
-                'email'      => $email,
-                'activation' => $activation_code,
-                'dt'         => date("Y-m-d H:i:s")
-              ];
-
-              $message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_activate', 'ion_auth'), $data, true);
-
-              $email_config = $this->config->item('email_config', 'ion_auth');
-
-              $this->email->clear();
-              $this->email->initialize($email_config);
-
-              $this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
-              $this->email->to($email);
-              $this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_activation_subject'));
-              $this->email->message($message);
-
-              if ($this->email->send() === TRUE)
+              // call deactivate process to generate active code in DB
+              $res = $this->ion_auth_model->deactivate($uid);
+              // the deactivate method call adds a message, here we need to clear that
+              $this->ion_auth_model->clear_messages();
+              if (!$res)
               {
-                $this->ion_auth_model->trigger_events(['post_account_creation', 'post_account_creation_successful', 'activation_email_successful']);
-                $response['code'] = Constants::SUCCESS;
-                $response['msg'] = '激活邮件已发送至邮箱';
+                $response['code'] = Constants::USERS_ACTIVATE_GEN_CODE_FAILED;
+                $response['msg'] = Constants::USERS_ACTIVATE_GEN_CODE_FAILED_MSG;
               }
               else
               {
-                $response['code'] = Constants::USERS_ACTIVATE_SEND_MAIL_FAILED;
-                $response['msg'] = '服务端发送激活邮件失败，请重试';
+                $activation_code = $this->ion_auth_model->activation_code;
+                $identity        = $this->config->item('identity', 'ion_auth');
+
+                $data = [
+                  'identity'   => $user->{$identity},
+                  'id'         => $user->id,
+                  'email'      => $email,
+                  'activation' => $activation_code,
+                  'dt'         => date("Y-m-d H:i:s")
+                ];
+
+                $message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_activate', 'ion_auth'), $data, true);
+
+                $email_config = $this->config->item('email_config', 'ion_auth');
+
+                $this->email->clear();
+                $this->email->initialize($email_config);
+
+                $this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
+                $this->email->to($email);
+                $this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_activation_subject'));
+                $this->email->message($message);
+
+                if ($this->email->send() === TRUE)
+                {
+                  $this->ion_auth_model->trigger_events(['post_account_creation', 'post_account_creation_successful', 'activation_email_successful']);
+                  $response['code'] = Constants::SUCCESS;
+                  $response['msg'] = '激活邮件已发送';
+                }
+                else
+                {
+                  $response['code'] = Constants::USERS_ACTIVATE_SEND_MAIL_FAILED;
+                  $response['msg'] = Constants::USERS_ACTIVATE_SEND_MAIL_FAILED_MSG;
+                }
               }
             }
           }

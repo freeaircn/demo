@@ -2801,7 +2801,7 @@ class Ion_auth_model extends CI_Model
   /**
 	 * make up user info
 	 *
-	 * @param int|string|null $id
+	 * @param int|null $id
 	 *
 	 * @return static
 	 * @author
@@ -2812,31 +2812,35 @@ class Ion_auth_model extends CI_Model
 
     if (!isset($uid))
     {
-      return FALSE;
+      $res['code'] = FALSE;
+      return $res;
     }
     $user = $this->user($uid)->row();
     if (!isset($user))
     {
-      return FALSE;
+      $res['code'] = FALSE;
+      return $res;
     }
-    $res['username'] = $user->username;
-    $res['phone'] = $user->phone;
-    $res['email'] = $user->email;
-    $res['gender'] = $user->gender;
+
     $party_id = $user->party_id;
     $company_id = $user->company_id;
     $dept_LV1_id = $user->dept_LV1_id;
     $dept_LV2_id = $user->dept_LV2_id;
     $job_id = $user->job_id;
 
+    $res['code'] = TRUE;
+    $res['username'] = $user->username;
+    $res['phone'] = $user->phone;
+    $res['email'] = $user->email;
+    $res['gender'] = $user->gender;
 
-		$this->limit(1);
-		$this->order_by($this->tables['users'].'.id', 'desc');
-		$this->where($this->tables['users'].'.id', $id);
+    $res['parties'] = $this->db->get_where($this->tables['org_parties'], array('id' => $party_id))->row()->name;
+    $res['company'] = $this->db->get_where($this->tables['org_company'], array('id' => $company_id))->row()->name;
+    $res['deptLevel1'] = $this->db->get_where($this->tables['org_dept_level_1'], array('id' => $dept_LV1_id))->row()->name;
+    $res['deptLevel2'] = $this->db->get_where($this->tables['org_dept_level_2'], array('id' => $dept_LV2_id))->row()->name;
+    $res['job'] = $this->db->get_where($this->tables['org_jobs'], array('id' => $job_id))->row()->name;
 
-		$this->users();
-
-		return $this;
+		return $res;
 	}
 }
 

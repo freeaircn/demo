@@ -34,7 +34,7 @@ export function createUser(phone, email, password) {
 
 export function logUserInfo(userid, username, gender, parties, company, deptLevel1, deptLevel2, job) {
   return request({
-    url: '/users/log_userinfo',
+    url: '/users/log_user_info',
     method: 'post',
     data: {
       userid,

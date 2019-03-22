@@ -50,10 +50,8 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(data => {
-          // const data = response.data
-          console.log(data)
           if (data.code === Constants.SUCCESS) {
-            resolve(data.msg)
+            resolve(data.info)
           } else {
             reject(data.msg)
           }

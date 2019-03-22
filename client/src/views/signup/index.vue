@@ -297,7 +297,7 @@ export default {
                 if (data.code === Constants.USERS_SIGNUP_IDENTITY_EXISTING) {
                   this.$refs.userphone.resetField()
                   Message({
-                    message: userPhone + ' 已被其他用户注册！',
+                    message: userPhone + data.msg,
                     showClose: true,
                     type: 'error',
                     duration: 3 * 1000
@@ -316,7 +316,7 @@ export default {
                 if (data.code === Constants.USERS_SIGNUP_EMAIL_EXISTING) {
                   this.$refs.email.resetField()
                   Message({
-                    message: email + ' 已被其他用户注册！',
+                    message: email + data.msg,
                     showClose: true,
                     type: 'error',
                     duration: 3 * 1000
@@ -349,6 +349,13 @@ export default {
                 if (data.code === Constants.SUCCESS) {
                   this.userid = data.userid
                   this.activeStep += 1
+                } else if (data.code === Constants.USERS_SIGNUP_USER_CREATE_FAILED) {
+                  Message({
+                    message: data.msg,
+                    showClose: true,
+                    type: 'error',
+                    duration: 3 * 1000
+                  })
                 }
               }.bind(this))
               .catch(function(err) {
@@ -387,6 +394,13 @@ export default {
             .then(function(data) {
               if (data.code === Constants.SUCCESS) {
                 this.activeStep += 1
+              } else if (data.code === Constants.USERS_SIGNUP_LOG_USER_INFO_FAILED) {
+                Message({
+                  message: data.msg,
+                  showClose: true,
+                  type: 'error',
+                  duration: 3 * 1000
+                })
               }
             }.bind(this))
             .catch(function(err) {

@@ -35,8 +35,8 @@ export default {
     handleGetUserInfo() {
       if (getToken()) {
         store.dispatch('GetInfo')
-          .then(res => {
-            console.log(res)
+          .then(info => {
+            console.log(info)
           })
           .catch(err => {
             console.log(err)

@@ -40,9 +40,8 @@ $lang['deactivate_current_user_unsuccessful']= 'You cannot De-Activate your self
 // Login / Logout
 $lang['login_successful']   = '登录成功';
 $lang['login_unsuccessful'] = '输入的账号名或密码错误';
-$lang[''] = '';
-$lang['login_id_pwd_empty'] = '服务端获取到账号或密码空';
-$lang['login_unsuccessful_not_active'] 		 = '账号未激活，登录失败';
+$lang['login_id_pwd_empty'] = '提交的账号或密码空';
+$lang['login_unsuccessful_not_active'] 		 = '账号未激活，不允许登录';
 $lang['login_timeout']                       = '连续登录失败超过3次，账号被锁定，请5分钟后再试';
 $lang['logout_successful']  = '您已成功退出';
 

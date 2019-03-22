@@ -253,11 +253,14 @@ CREATE TABLE `auth_login_attempts` (
 
 /*
 */
-DROP TABLE `org_jobs`;
-DROP TABLE `org_dept_level_5`;
-DROP TABLE `org_dept_level_4`;
-DROP TABLE `org_dept_level_3`;
-DROP TABLE `org_dept_level_2`;
-DROP TABLE `org_dept_level_1`;
-DROP TABLE `org_company`;
-DROP TABLE `org_parties`;
+
+DROP TABLE IF EXISTS `auth_users_groups`;
+DROP TABLE IF EXISTS `auth_users`;
+DROP TABLE IF EXISTS `org_jobs`;
+DROP TABLE IF EXISTS `org_dept_level_5`;
+DROP TABLE IF EXISTS `org_dept_level_4`;
+DROP TABLE IF EXISTS `org_dept_level_3`;
+DROP TABLE IF EXISTS `org_dept_level_2`;
+DROP TABLE IF EXISTS `org_dept_level_1`;
+DROP TABLE IF EXISTS `org_company`;
+DROP TABLE IF EXISTS `org_parties`;
