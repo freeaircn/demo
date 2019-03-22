@@ -3,7 +3,6 @@ CREATE DATABASE db_users CHARACTER SET utf8;
 /*
  * Create Tables for rbac
  */
-DROP TABLE IF EXISTS `rbac_permissions`;
 CREATE TABLE `rbac_permissions` (
   `ID` int(11) NOT NULL auto_increment,
   `Lft` int(11) NOT NULL,
@@ -16,7 +15,6 @@ CREATE TABLE `rbac_permissions` (
   KEY `Rght` (`Rght`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `rbac_rolepermissions`;
 CREATE TABLE `rbac_rolepermissions` (
   `RoleID` int(11) NOT NULL,
   `PermissionID` int(11) NOT NULL,
@@ -24,7 +22,6 @@ CREATE TABLE `rbac_rolepermissions` (
   PRIMARY KEY  (`RoleID`,`PermissionID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-DROP TABLE IF EXISTS `rbac_roles`;
 CREATE TABLE `rbac_roles` (
   `ID` int(11) NOT NULL auto_increment,
   `Lft` int(11) NOT NULL,
@@ -37,7 +34,6 @@ CREATE TABLE `rbac_roles` (
   KEY `Rght` (`Rght`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-DROP TABLE IF EXISTS `rbac_userroles`;
 CREATE TABLE `rbac_userroles` (
   `UserID` int(11) NOT NULL,
   `RoleID` int(11) NOT NULL,
