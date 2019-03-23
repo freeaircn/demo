@@ -118,27 +118,24 @@ export default {
                 duration: 3 * 1000
               })
 
-              // if (data.code === Constants.USERS_ACTIVATE_USER_BEEN_ACTIVATED) {
-              //   this.show_contents = 1
-              // }
-              // if (data.code === Constants.SUCCESS) {
-              //   this.btn_name = '返回登录页面'
-              //   const mailServerReg = /@([a-z1-9]{2,3})/
-              //   const mailServer = mailServerReg.exec(this.emailLowcase)
-              //   if (mailServer !== null && mailServer[0] === '@163') {
-              //     this.mailServerUrl = Config.MAIL_163_URL
-              //     this.btn_name = '登录邮箱'
-              //   }
-              //   if (mailServer !== null && mailServer[0] === '@126') {
-              //     this.mailServerUrl = Config.MAIL_126_URL
-              //     this.btn_name = '登录邮箱'
-              //   }
-              //   if (mailServer !== null && mailServer[0] === '@qq') {
-              //     this.mailServerUrl = Config.MAIL_QQ_URL
-              //     this.btn_name = '登录邮箱'
-              //   }
-              //   this.show_contents = 2
-              // }
+              if (data.code === Constants.SUCCESS) {
+                this.btn_name = '返回登录页面'
+                const mailServerReg = /@([a-z1-9]{2,3})/
+                const mailServer = mailServerReg.exec(this.emailLowcase)
+                if (mailServer !== null && mailServer[0] === '@163') {
+                  this.mailServerUrl = Config.MAIL_163_URL
+                  this.btn_name = '登录邮箱'
+                }
+                if (mailServer !== null && mailServer[0] === '@126') {
+                  this.mailServerUrl = Config.MAIL_126_URL
+                  this.btn_name = '登录邮箱'
+                }
+                if (mailServer !== null && mailServer[0] === '@qq') {
+                  this.mailServerUrl = Config.MAIL_QQ_URL
+                  this.btn_name = '登录邮箱'
+                }
+                this.show_contents = 1
+              }
             })
             .catch((error) => {
               this.loading = false
