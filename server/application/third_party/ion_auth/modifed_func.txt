@@ -50,6 +50,7 @@
 
     ion_auth\libraries\ion_auth.php/register
     http://127.0.0.1/index.php/auth/activate/5/da518fb5b6e2cb6914a6.482de35720ba7e5a983e8974044ab024d9e1923f
+    http://127.0.0.1/index.php/auth/reset_pass/f3a5d3e7caac97c1c63f.259df180a9ecabf8f21e97ff1ab64c7916a3a317db7a0040e13cd025cf6fc8b7a897bc3475c31938
     http://182.247.101.235/index.php/auth/activate/6/dab2fdaddace892c7a88.90fc534300d90b8616ac8984b6bbf879f7bfece8
 
 				{

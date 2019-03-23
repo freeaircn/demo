@@ -31,6 +31,12 @@ class Constants {
   // ! Users Get user info流程 code：350~399
   const USERS_GET_USER_INFO_FAILED = 350;
 
+  // ! Users Forgot Password流程 code：400~449
+  const USERS_PASSWORD_IDENTITY_NOT_EXISTING = 400;
+  const USERS_PASSWORD_INPUT_EMAIL_INVALID = 402;
+  const USERS_PASSWORD_GEN_CODE_FAILED = 403;
+  const USERS_PASSWORD_SEND_MAIL_FAILED = 404;
+
   /**
    * code map to msg
    */
@@ -48,12 +54,17 @@ class Constants {
   //
   const USERS_ACTIVATE_IDENTITY_NOT_EXISTING_MSG = ' 用户不存在';
   const USERS_ACTIVATE_USER_BEEN_ACTIVATED_MSG = ' 用户已经激活';
-  const USERS_ACTIVATE_INPUT_EMAIL_INVALID_MSG = ' 用户注册的邮箱与输入的邮箱不一致';
+  const USERS_ACTIVATE_INPUT_EMAIL_INVALID_MSG = '邮箱不符，输入的邮箱地址与用户注册的邮箱 ';
   const USERS_ACTIVATE_GEN_CODE_FAILED_MSG = '服务器处理激活用户失败，请重试(303)';
   const USERS_ACTIVATE_SEND_MAIL_FAILED_MSG = '服务端发送激活邮件失败，请重试(304)';
 
   //
   const USERS_GET_USER_INFO_FAILED_MSG = '服务器查询用户信息失败！';
+  //
+  const USERS_PASSWORD_IDENTITY_NOT_EXISTING_MSG = ' 用户不存在';
+  const USERS_PASSWORD_INPUT_EMAIL_INVALID_MSG = '邮箱不符，输入的邮箱地址与用户注册的邮箱 ';
+  const USERS_PASSWORD_GEN_CODE_FAILED_MSG = '服务器处理忘记密码失败，请重试(403)';
+  const USERS_PASSWORD_SEND_MAIL_FAILED_MSG = '服务端发送邮件失败，请重试(404)';
 
   // 自定义 http header
   // const WX_HEADER_CODE = 'x-wx-code';

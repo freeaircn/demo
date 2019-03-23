@@ -1,10 +1,11 @@
 <template>
   <div class="home-container">
-    <h3 class="title">Home Page</h3>
+    <h3 class="title">首 页</h3>
     <div class="area-routeto">
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleToSignup">注 册</el-button>
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleToLogin">登 录</el-button>
-      <el-button type="primary" style="width:100%;" @click.native.prevent="handleGetUserInfo">Get Userinfo</el-button>
+      <el-button type="primary" style="width:100%;" @click.native.prevent="handleLogout">退 出</el-button>
+      <el-button type="primary" style="width:100%;" @click.native.prevent="handleGetUserInfo">用户信息</el-button>
     </div>
 
     <div class="tips">
@@ -37,6 +38,19 @@ export default {
         store.dispatch('GetInfo')
           .then(info => {
             console.log(info)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        console.log('no token in client')
+      }
+    },
+    handleLogout() {
+      if (getToken()) {
+        store.dispatch('FedLogOut')
+          .then(() => {
+            console.log('logout !')
           })
           .catch(err => {
             console.log(err)

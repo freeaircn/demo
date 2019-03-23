@@ -64,6 +64,16 @@ export const constantRouterMap = [
     hidden: true
   },
   {
+    path: '/forgot_password',
+    name: 'forgot_password',
+    component: () => import('@/views/forgot_password/index'),
+    meta: {
+      title: '忘记密码',
+      hideInMenu: true
+    },
+    hidden: true
+  },
+  {
     path: '/tempboard',
     component: Layout,
     redirect: '/dashboard',

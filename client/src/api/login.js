@@ -36,3 +36,14 @@ export function sendActiveMail(userphone, email) {
     }
   })
 }
+
+export function forgotPassword(userphone, email) {
+  return request({
+    url: '/users/forgot_password',
+    method: 'post',
+    data: {
+      userphone,
+      email
+    }
+  })
+}
