@@ -530,15 +530,55 @@ class Users extends CI_Controller {
 
       if (!isset($validate_code) || !isset($password))
       {
-        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['validate_code'] = Constants::POST_INPUT_EMPTY;
         $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
 
         echo json_encode($response);
         return ;
       }
 
-      $response['code'] = Constants::SUCCESS;
-      $response['msg'] = 'New pwd done';
+      $reg = '/\./';
+      if (preg_match($reg, $validate_code) === 0)
+      {
+        $response['validate_code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+
+      $user = $this->ion_auth->forgotten_password_check($validate_code);
+      if ($user === FALSE)
+      {
+        $response['code'] = Constants::USERS_PASSWORD_RESET_INVALID;
+        $response['msg'] = Constants::USERS_PASSWORD_RESET_INVALID_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+
+      $identity = $user->{$this->config->item('identity', 'ion_auth')};
+      // $identity = '13';
+
+			// do we have a valid request?
+      // TODO: csrf
+
+			// finally change the password
+			$change = $this->ion_auth->reset_password($identity, $password);
+
+			if ($change)
+			{
+				$response['code'] = Constants::SUCCESS;
+        $response['msg'] = '新密码设置成功';
+        $response['username'] = $user->username;
+			}
+			else
+			{
+				$response['code'] = Constants::USERS_PASSWORD_RESET_FAILED;
+        $response['msg'] = Constants::USERS_PASSWORD_RESET_FAILED_MSG;
+			}
+
       echo json_encode($response);
     }
+
 }

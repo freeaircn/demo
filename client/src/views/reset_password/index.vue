@@ -3,7 +3,6 @@
     <div v-show="show_contents === 0">
       <el-form ref="resetPwdForm" :model="resetPwdForm" :rules="resetPwdRules" class="reset-pwd-form" label-position="left">
         <h3 class="title">新密码</h3>
-
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -39,7 +38,7 @@
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleGotoLogin">返回登录</el-button>
         <hr align="center" width="100%" color="#DCDFE6" size="1" >
         <div class="tips">
-          <span style="margin:20px 0px 20px 0px; text-align:left">新密码提交成功，用户请重新登录</span>
+          <span style="margin:20px 0px 20px 0px; text-align:left">用户(<span style="color:#409EFF;">{{ username }}</span>)新密码设置成功，用户请重新登录</span>
         </div>
       </div>
     </div>
@@ -88,6 +87,7 @@ export default {
       validate_code: '',
       // ! show_contents 0: 新密码表单页面；1：后台更新成功，提供登录页面链接。
       show_contents: 0,
+      username: '',
       loading: false,
       pwdType: 'password',
       redirect: undefined
@@ -113,12 +113,11 @@ export default {
       this.$refs.resetPwdForm.validate(valid => {
         if (valid) {
           this.loading = true
+          const validate_code = this.$route.params.code
           const password = this.resetPwdForm.password
-          const validate_code = this.validate_code
 
           resetPassword(validate_code, password)
             .then((data) => {
-              console.log(data)
               this.loading = false
               this.$message({
                 type: 'info',
@@ -127,21 +126,7 @@ export default {
               })
 
               if (data.code === Constants.SUCCESS) {
-                // this.btn_name = '返回登录页面'
-                // const mailServerReg = /@([a-z1-9]{2,3})/
-                // const mailServer = mailServerReg.exec(this.emailLowcase)
-                // if (mailServer !== null && mailServer[0] === '@163') {
-                //   this.mailServerUrl = Config.MAIL_163_URL
-                //   this.btn_name = '登录邮箱'
-                // }
-                // if (mailServer !== null && mailServer[0] === '@126') {
-                //   this.mailServerUrl = Config.MAIL_126_URL
-                //   this.btn_name = '登录邮箱'
-                // }
-                // if (mailServer !== null && mailServer[0] === '@qq') {
-                //   this.mailServerUrl = Config.MAIL_QQ_URL
-                //   this.btn_name = '登录邮箱'
-                // }
+                this.username = data.username
                 this.show_contents = 1
               }
             })

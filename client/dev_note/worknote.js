@@ -89,7 +89,23 @@
       1 需不需要“激活失效时间”，若超过时效时间，后台怎么处理？
 
   4 忘记密码&修改密码
+    2019-03-23
+    忘记密码：
+    // ? 当前用户未激活，也允许重置密码。
+    // ? 要求用户提供 手机号和邮箱地址，后端核查一致后，发送重置密码邮件至用户邮箱。用户点击邮件中的链接打开重置密码页面。
+      1 forgot_password页面，要求用户输入”手机号“和”邮箱“，后端核查手机号和邮箱有效性，后端发送重置密码邮件，返回结果至前端。页面识别163.126，qq邮箱，给出登录邮箱的链接。
+      2 重置密码邮件中的链接 /reset_password/xxx.vvv，CI的路由增加：$route['reset_password/(:any)'] = 'home';
+        $route['default_controller'] = 'home';
+        $route['test'] = 'test';
+        $route['reset_password/(:any)'] = 'home';
+        $route['(:any)'] = 'home';
+
+        $route['404_override'] = '';
+        $route['translate_uri_dashes'] = FALSE;
+      3 前端reset_password页面，获取路由参数，添加路由：path: '/reset_password/:code'
+      4 reset_password页面，用户输入新密码，和路由参数code一起post，后端核查code的有效性，返回结果至前端。新密码保存成功，给出用户登录链接。
     // TODO：
+    修改密码
 
   5 用户信息更改
     // TODO：

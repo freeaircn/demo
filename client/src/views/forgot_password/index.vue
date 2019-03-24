@@ -49,22 +49,22 @@ import { Config } from '@/Freeair_App_Config'
 export default {
   name: 'ForgotPassword',
   data() {
-    const phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/
+    const regexPhone = Config.REGEX_POHONE
     const validateUserphone = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入手机号！'))
-      } else if (!phoneReg.test(value)) {
+      } else if (!regexPhone.test(value)) {
         callback(new Error('请输入11位有效的手机号！'))
       } else {
         callback()
       }
     }
-    const emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/
+    const regexMail = Config.REGEX_MAIL
     // const emailReg = /^[a-z0-9]*$/
     const validateEmail = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入电子邮箱！'))
-      } else if (!emailReg.test(value)) {
+      } else if (!regexMail.test(value)) {
         callback(new Error('邮箱地址有误！'))
       } else {
         callback()

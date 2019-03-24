@@ -36,6 +36,8 @@ class Constants {
   const USERS_PASSWORD_INPUT_EMAIL_INVALID = 402;
   const USERS_PASSWORD_GEN_CODE_FAILED = 403;
   const USERS_PASSWORD_SEND_MAIL_FAILED = 404;
+  const USERS_PASSWORD_RESET_INVALID = 405;
+  const USERS_PASSWORD_RESET_FAILED = 406;
 
   /**
    * code map to msg
@@ -65,6 +67,8 @@ class Constants {
   const USERS_PASSWORD_INPUT_EMAIL_INVALID_MSG = '邮箱不符，输入的邮箱地址与用户注册的邮箱 ';
   const USERS_PASSWORD_GEN_CODE_FAILED_MSG = '服务器处理忘记密码失败，请重试(403)';
   const USERS_PASSWORD_SEND_MAIL_FAILED_MSG = '服务端发送邮件失败，请重试(404)';
+  const USERS_PASSWORD_RESET_INVALID_MSG = '该链接已失效，设置新密码失败';
+  const USERS_PASSWORD_RESET_FAILED_MSG = '服务端更新新密码失败，请重试';
 
   // 自定义 http header
   // const WX_HEADER_CODE = 'x-wx-code';

@@ -273,13 +273,13 @@ export default {
     },
     checkInfo(infoItem) {
       const userPhone = this.formBaseInfo.userphone
-      const phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/
+      const regexPhone = Config.REGEX_POHONE
       const email = this.emailLowcase
-      const emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/
+      const regexMail = Config.REGEX_MAIL
 
       switch (infoItem) {
         case 'phone':
-          if (phoneReg.test(userPhone)) {
+          if (regexPhone.test(userPhone)) {
             isPhoneExisting(userPhone)
               .then(function(data) {
                 // console.log(data)
@@ -299,7 +299,7 @@ export default {
           }
           break
         case 'email':
-          if (emailReg.test(email)) {
+          if (regexMail.test(email)) {
             isEmailExisting(email)
               .then(function(data) {
                 if (data.code === Constants.USERS_SIGNUP_EMAIL_EXISTING) {

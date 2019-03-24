@@ -53,6 +53,8 @@
     http://127.0.0.1/index.php/auth/reset_pass/f3a5d3e7caac97c1c63f.259df180a9ecabf8f21e97ff1ab64c7916a3a317db7a0040e13cd025cf6fc8b7a897bc3475c31938
     http://182.247.101.235/index.php/auth/activate/6/dab2fdaddace892c7a88.90fc534300d90b8616ac8984b6bbf879f7bfece8
 
+    http://127.0.0.1/index.php/users/activate/3/2394ebff6ccce1f7288d.ebe1b863aa2654112816bb25896c21731bee6940
+
 				{
 				$message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_activate', 'ion_auth'), $data, true);
         //添加email参数配置初始化start
@@ -123,3 +125,18 @@
     * @author
     */
     public function get_user_info($uid = NULL)
+
+7.  views\auth\email\activate.tpl.php 和 forgot_password.tpl.php
+    2019-03-23
+    更改邮件html content模板的链接
+    修改前：
+    <p><?php echo sprintf(lang('email_activate_subheading'), anchor('auth/activate/'. $id .'/'. $activation, lang('email_activate_link')));?></p>
+    修改后：
+    <p><?php echo sprintf(lang('email_activate_subheading'), anchor('users/activate/'. $id .'/'. $activation, lang('email_activate_link')));?></p>
+
+    修改前：
+    <p><?php echo sprintf(lang('email_forgot_password_subheading'), anchor('auth/reset_password/'. $forgotten_password_code, lang('email_forgot_password_link')));?></p>
+    修改后：
+    <p><?php echo sprintf(lang('email_forgot_password_subheading'), anchor('reset_password/'. $forgotten_password_code, lang('email_forgot_password_link')));?></p>
+
+

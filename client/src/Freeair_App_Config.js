@@ -3,7 +3,7 @@ export const Config = {
 
   // ! dev
   REGEX_POHONE: /^[1][0-9]$/,
-  REGEX_MAIL: /^(\w)+(\.\w+)*@(\w)+((\.\+w)+)$/,
+  REGEX_MAIL: /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/,
   REGEX_PASSWORD: /^[0-9a-zA-Z]+$/,
   REGEX_ZH_CHAR: /^([\u4e00-\u9fa5]){2,5}$/,
 

@@ -74,8 +74,8 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '/reset_password',
-    name: 'reset_password',
+    path: '/reset_password/:code',
+    name: 'reset_password_by_code',
     component: () => import('@/views/reset_password/index'),
     meta: {
       title: '新密码',
