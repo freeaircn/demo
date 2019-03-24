@@ -4,8 +4,9 @@ export const Constants = {
   TEST_MSG: 'Test message',
 
   SUCCESS: 0,
-
-  // ! 后端code定义
+  /**
+   * 后端code定义
+   */
   // ! 公共code
   POST_INPUT_EMPTY: 101,
   USERS_TOKEN_INVALID: 110,

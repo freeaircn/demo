@@ -31,12 +31,7 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input
-            :type="pwdType"
-            v-model="formBaseInfo.password"
-            name="password"
-            placeholder="密码"
-            clearable />
+          <el-input :type="pwdType" v-model="formBaseInfo.password" name="password" placeholder="密码" clearable />
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
           </span>
@@ -46,12 +41,7 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input
-            :type="pwdType"
-            v-model="formBaseInfo.confirmPassword"
-            name="confirmPassword"
-            placeholder="确认密码"
-            clearable />
+          <el-input :type="pwdType" v-model="formBaseInfo.confirmPassword" name="confirmPassword" placeholder="确认密码" clearable />
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
           </span>
@@ -164,37 +154,36 @@
 import { Message } from 'element-ui'
 import { isPhoneExisting, isEmailExisting, createUser, logUserInfo } from '@/api/signup'
 import { Constants } from '@/Constants'
+import { Config } from '@/Freeair_App_Config'
 
 export default {
   name: 'Signup',
   data() {
-    const phoneReg = /^[1][3,4,5,7,8][0-9]{9}$/
+    const regexPhone = Config.REGEX_POHONE
     const validateUserphone = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入手机号！'))
-      } else if (!phoneReg.test(value)) {
+      } else if (!regexPhone.test(value)) {
         callback(new Error('请输入11位有效的手机号！'))
       } else {
         callback()
       }
     }
-    const emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/
-    // const emailReg = /^[a-z0-9]*$/
+    const regexMail = Config.REGEX_MAIL
     const validateEmail = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入电子邮箱！'))
-      } else if (!emailReg.test(value)) {
+      } else if (!regexMail.test(value)) {
         callback(new Error('邮箱地址有误！'))
       } else {
         callback()
       }
     }
-    // const pwdReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/
-    const pwdReg = /^[0-9]*$/
+    const regexPassword = Config.REGEX_PASSWORD
     const validatePssword = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
-      } else if (!pwdReg.test(value)) {
+      } else if (!regexPassword.test(value)) {
         callback(new Error('密码最小长度为8位，必须包含大写、小写字母、数字！'))
       } else {
         if (this.formBaseInfo.confirmPassword !== '') {
@@ -212,11 +201,11 @@ export default {
         callback()
       }
     }
-    const namelReg = /^([\u4e00-\u9fa5]){2,5}$/
+    const regexZhChar = Config.REGEX_ZH_CHAR
     const validateUsername = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入中文姓名！'))
-      } else if (!namelReg.test(value)) {
+      } else if (!regexZhChar.test(value)) {
         callback(new Error('有效姓名：2~5个中文！'))
       } else {
         callback()

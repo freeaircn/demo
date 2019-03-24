@@ -516,4 +516,29 @@ class Users extends CI_Controller {
 
       echo json_encode($response);
     }
+
+    /**
+     * user reset password
+     * @param validate_code
+     * @param password
+     * @return void
+     */
+    public function reset_password()
+    {
+      $validate_code = $this->input->post('validate_code');
+      $password = $this->input->post('password');
+
+      if (!isset($validate_code) || !isset($password))
+      {
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+
+      $response['code'] = Constants::SUCCESS;
+      $response['msg'] = 'New pwd done';
+      echo json_encode($response);
+    }
 }
