@@ -1,0 +1,39 @@
+.f4 {
+  font-size: 16px!important;
+}
+
+.py-2 {
+  padding-bottom: 8px!important;
+  padding-top: 8px!important;
+}
+
+.py-3 {
+  padding-bottom: 16px!important;
+  padding-top: 16px!important;
+}
+
+.p-responsive {
+  padding-left: 16px!important;
+  padding-right: 16px!important;
+}
+
+.container-xl {
+  max-width: 1280px;
+  height: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  border-bottom: solid 1px #e6e6e6;
+}
+
+@media (min-width: 1012px) {
+  .p-responsive {
+      padding-left: 16px!important;
+      padding-right: 16px!important;
+  }
+}
+
+@media (min-width: 768px) {
+  .f4 {
+      font-size: 16px!important;
+  }
+}

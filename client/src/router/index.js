@@ -7,7 +7,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 /* Layout */
-import Layout from '@/views/layout/Layout'
+import Layout from '@/views/layout_m/Layout'
 
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
@@ -25,13 +25,16 @@ import Layout from '@/views/layout/Layout'
 export const constantRouterMap = [
   {
     path: '/',
-    name: 'home',
-    component: () => import('@/views/home/index'),
+    component: Layout,
+    redirect: 'home',
+    name: 'Home',
     meta: {
-      title: 'Home',
-      hideInMenu: true
+      title: 'Home'
     },
-    hidden: true
+    children: [{
+      path: 'home',
+      component: () => import('@/views/home/index')
+    }]
   },
   {
     path: '/signup',
@@ -92,7 +95,19 @@ export const constantRouterMap = [
         path: 'index',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
-        meta: { title: 'Dashboard' }
+        meta: { title: 'Dashboard', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/form',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/form/index'),
+        meta: { title: 'Form', icon: 'form' }
       }
     ]
   },
@@ -117,20 +132,6 @@ export const constantRouterMap = [
       }
     ]
   },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
   {
     path: '/nested',
     component: Layout,

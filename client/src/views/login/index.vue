@@ -100,11 +100,7 @@ export default {
             .catch((error) => {
               this.loading = false
               this.$refs.password_item.resetField()
-              this.$message({
-                type: 'info',
-                message: error,
-                duration: 3 * 1000
-              })
+              console.log(error)
             })
         } else {
           console.log('error submit!!')

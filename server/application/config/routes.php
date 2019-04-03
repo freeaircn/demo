@@ -52,7 +52,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'home';
 $route['test'] = 'test';
 $route['reset_password/(:any)'] = 'home';
+$route['users/(:any)'] = 'users/$1';
 $route['(:any)'] = 'home';
+$route['(:any)/(:any)'] = 'home';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
