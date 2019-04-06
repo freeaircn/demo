@@ -1,0 +1,66 @@
+.f4 {
+  font-size: 16px!important;
+}
+
+.py-responsive {
+  padding-bottom: 8px!important;
+  padding-top: 8px!important;
+}
+
+.py-3 {
+  padding-bottom: 16px!important;
+  padding-top: 16px!important;
+}
+
+
+// xs
+@media (min-width: 320px) {
+  .p-responsive {
+    padding-right: 8px!important;
+    padding-left: 8px!important;
+  }
+}
+
+//sm
+@media (min-width: 568px) {
+  .p-responsive {
+    padding-right: 16px!important;
+    padding-left: 16px!important;
+  }
+}
+
+//md
+@media (min-width: 768px) {
+  .p-responsive {
+    padding-right: 16px!important;
+    padding-left: 16px!important;
+  }
+}
+
+//lg
+@media (min-width: 1024px) {
+  .container-lg {
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .p-responsive {
+    padding-right: 16px!important;
+    padding-left: 16px!important;
+  }
+}
+
+//xl
+@media (min-width: 1280px) {
+  .container-xl {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .p-responsive {
+    padding-right: 16px!important;
+    padding-left: 16px!important;
+  }
+}
+
+

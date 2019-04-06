@@ -1,14 +1,14 @@
 <template>
-  <div class="header">
-    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-      <a class="home-menu-logo pure-menu-heading" href="#">BE</a>
-
-      <ul v-if="!isLogined" class="pure-menu-list">
-        <li class="pure-menu-item"><a href="#" class="home-menu-link pure-menu-link">登 录</a></li>
-        <li class="pure-menu-item"><a href="#" class="home-menu-link pure-menu-link">注 册</a></li>
-      </ul>
+  <div class="navbar-wrapper pure-menu pure-menu-horizontal pure-menu-fixed">
+    <div class="navbar-container container-xl p-responsive">
+      <a class="navbar-logo pure-menu-heading" href="#">BE</a>
 
       <ul v-if="isLogined" class="pure-menu-list">
+        <li class="pure-menu-item"><a href="#" class="navbar-link pure-menu-link">登 录</a></li>
+        <li class="pure-menu-item"><a href="#" class="navbar-link pure-menu-link">注 册</a></li>
+      </ul>
+
+      <ul v-if="!isLogined" class="pure-menu-list">
         <li is="el-dropdown" class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
             <img src="@/assets/avatar/identicon01.png" class="pure-img">
@@ -78,27 +78,14 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-@import "src/styles/variables.scss";
+@import "src/styles/_free_variables";
+@import "src/styles/_layout.scss";
 
-.home-menu {
+.navbar-wrapper{
   height: $navbar-height;
   line-height: $navbar-height;
   background: $navbar-default-bg;
-  padding: 0em 1em;
-}
-.home-menu-logo {
-  display: inline-block;
-  height: $navbar-height;
-  line-height: $navbar-height;
-  vertical-align: middle;
-  padding: 0em 0em;
-}
-.home-menu-link {
-  display: inline-block;
-  height: $navbar-height;
-  line-height: $navbar-height;
-  vertical-align: middle;
-  padding: 0em 0.5em;
+  text-align: center;
 }
 
 .pure-menu.pure-menu-fixed {
@@ -108,19 +95,33 @@ export default {
     z-index: $zindex-navbar-fixed;
 }
 
-.home-menu .pure-menu-heading {
+.navbar-logo {
+  display: inline-block;
+  height: $navbar-height;
+  line-height: $navbar-height;
+  vertical-align: middle;
+  padding: 0em 0em;
+}
+.navbar-link {
+  display: inline-block;
+  height: $navbar-height;
+  line-height: $navbar-height;
+  vertical-align: middle;
+  padding: 0em 0.5em;
+}
+.navbar-container .pure-menu-heading {
   color: $navbar-default-color;
   font-weight: bold;
 }
-.home-menu .pure-menu-selected a {
+.navbar-container .pure-menu-selected a {
     color: $navbar-default-link-active-color;
 }
 
-.home-menu a {
+.navbar-container a {
     color: $navbar-default-link-color;
 }
-.home-menu li a:hover,
-.home-menu li a:focus {
+.navbar-container li a:hover,
+.navbar-container li a:focus {
     background: none;
     border: none;
     color: $navbar-default-link-hover-color;
@@ -149,10 +150,10 @@ export default {
 @media (min-width: 320px) {
   /* We can align the menu header to the left, but float the
   menu items to the right. */
-  .home-menu {
+  .navbar-container {
       text-align: left;
   }
-  .home-menu ul {
+  .navbar-container ul {
       float: right;
   }
 }

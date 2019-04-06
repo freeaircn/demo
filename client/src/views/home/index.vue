@@ -1,21 +1,21 @@
 <template>
   <div class="home-container">
-    <div class="splash-container">
-      <div class="splash">
+    <div class="splash-wrapper">
+      <div class="splash-container container-xl">
         <div class="pure-g">
           <div class="pure-u-1 pure-u-lg-1-3">
             <h1 class="splash-head">定制化</h1>
-            <p class="splash-subhead">共建高效，便捷，共享，安全的信息环境</p>
+            <p class="splash-subhead">共建高效，便捷，共享，安全的信息平台</p>
           </div>
-          <div class="img-wrapper pure-u-1 pure-u-lg-2-3">
-            <span><img class="pure-img" src="@/assets/home_page/web_61b1f33.png" alt="web_61b1f33.png" ></span>
+          <div class="pure-u-1 pure-u-lg-2-3">
+            <img class="pure-img" src="@/assets/home_page/web_61b1f33.png" alt="web_61b1f33.png" >
           </div>
         </div>
       </div>
     </div>
 
     <div class="content-wrapper">
-      <div class="content">
+      <div class="content container-xl">
         <h2 class="content-head is-center">试一试</h2>
         <div class="pure-g">
           <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
@@ -105,7 +105,8 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-@import "src/styles/variables.scss";
+@import "src/styles/_free_variables.scss";
+@import "src/styles/_layout.scss";
 
 /*
  * -- LAYOUT STYLES --
@@ -114,39 +115,23 @@ export default {
 .is-center {
     text-align: center;
 }
+
+.home-container {
+    position: relative !important;
+    top: $navbar-height; left: 0;
+}
 /*
  * -- SPLASH STYLES --
  * This is the blue top section that appears on the page.
  */
-.splash-container {
-    background: $splash-bg;
-    z-index: $zindex-splash;
-    overflow: hidden;
-    /* The following styles are required for the "scroll-over" effect */
-    position: fixed !important;
-    top: $navbar-height; left: 0;
-    width: 100%;
-    height: 88%;
-}
-.splash {
-  /* absolute center .splash within .splash-container */
+.splash-wrapper {
   width: 100%;
-  height: 100%;
-  // margin: auto;
-  position: absolute;
-  top: 0px; left: 0; right: 0;
-  text-align: center;
-  .pure-g {
-    display: flex;
-    align-items: center;
-  }
+  background: $splash-bg;
 }
-.img-wrapper {
-  display: table;
-  height: 100%;
-  span {
-    display: table-cell;
-    vertical-align: middle;
+.splash-container {
+  padding: 0.5em 1em;
+  .pure-g {
+    align-items: center;
   }
 }
 
@@ -173,11 +158,7 @@ export default {
  */
 .content-wrapper {
     /* These styles are required for the "scroll-over" effect */
-    position: absolute;
-    top: 88%;
     width: 100%;
-    min-height: 12%;
-    z-index: $zindex-content;
     background: white;
 }
 .content {
