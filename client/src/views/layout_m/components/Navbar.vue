@@ -4,8 +4,8 @@
       <a class="navbar-logo pure-menu-heading" href="#">BE</a>
 
       <ul v-if="!isLogined" class="pure-menu-list">
-        <li class="pure-menu-item"><a href="#" class="navbar-link pure-menu-link">登 录</a></li>
-        <li class="pure-menu-item"><a href="#" class="navbar-link pure-menu-link">注 册</a></li>
+        <li class="pure-menu-item"><router-link to="/login" class="navbar-link pure-menu-link">登 录</router-link></li>
+        <li class="pure-menu-item"><router-link to="/signup" class="navbar-link pure-menu-link">注 册</router-link></li>
       </ul>
 
       <ul v-if="isLogined" class="pure-menu-list">

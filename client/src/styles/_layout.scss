@@ -57,6 +57,11 @@
 
 //sm
 @media (min-width: 568px) {
+  .container-sm {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .px-responsive {
     padding-right: 16px!important;
     padding-left: 16px!important;

@@ -58,7 +58,7 @@
         <div class="is-right mt-4">
           <p>© 2019 Freeair Studio.</p>
         </div>
-      </div>      
+      </div>
     </div>
   </div>
 </template>
