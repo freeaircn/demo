@@ -1,95 +1,64 @@
 <template>
   <div class="home-container">
-    <div class="splash-wrapper">
-      <div class="splash-container container-xl">
+    <div class="jumbotron-wrapper py-responsive">
+      <div class="jumbotron-container container-xl px-responsive">
         <div class="pure-g">
-          <div class="pure-u-1 pure-u-lg-1-3">
-            <h1 class="splash-head">定制化</h1>
-            <p class="splash-subhead">共建高效，便捷，共享，安全的信息平台</p>
+          <div class="pure-u-1 pure-u-lg-1-3 gutter-space-responsive">
+            <h1 class="jumbotron-head is-center">定制化</h1>
+            <p class="jumbotron-subhead is-center">共建高效，便捷，共享，安全的信息平台</p>
           </div>
-          <div class="pure-u-1 pure-u-lg-2-3">
-            <img class="pure-img" src="@/assets/home_page/web_61b1f33.png" alt="web_61b1f33.png" >
+          <div class="pure-u-1 pure-u-lg-2-3 gutter-space-responsive">
+            <img class="pure-img is-center" src="@/assets/home_page/home_info.svg" alt="web_61b1f33.png" >
           </div>
         </div>
       </div>
     </div>
 
-    <div class="content-wrapper">
-      <div class="content container-xl">
-        <h2 class="content-head is-center">试一试</h2>
+    <div class="content-wrapper py-responsive">
+      <div class="content-container container-xl px-responsive">
+        <h1 class="content-head is-center">试一试</h1>
         <div class="pure-g">
-          <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-            <h3 class="content-subhead">运行日志</h3>
-            <p>
-              lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala
-            </p>
-          </div>
-          <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-            <h3 class="content-subhead">电量统计</h3>
-            <p>
-              lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala
-            </p>
-          </div>
-          <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-            <h3 class="content-subhead">库房</h3>
-            <p>
-              lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala
-            </p>
-          </div>
-          <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-            <h3 class="content-subhead">案例库</h3>
-            <p>
-              lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala
-            </p>
-          </div>
-        </div>
-        <!--  -->
-        <div class="pure-g">
-          <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-            <h3 class="content-subhead">工作票&检修票</h3>
-            <p>
-              lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala
-            </p>
-          </div>
-          <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-            <h3 class="content-subhead">设备缺陷</h3>
-            <p>
-              lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala
-            </p>
-          </div>
-          <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-            <h3 class="content-subhead">档案</h3>
-            <p>
-              lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala
-            </p>
-          </div>
-          <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+          <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3 gutter-space-responsive">
             <h3 class="content-subhead">考勤</h3>
             <p>
-              lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala lala
+              通过某种方式来获得员工或者某些团体、个人在某个特定的场所及特定的时间段内的出勤情况，包括上下班、迟到、早退、病假、婚假、丧假、公休、工作时间、加班情况等。通过对以前阶段，本阶段内出勤情况的研究，进行以后阶段的统筹、安排等。
+            </p>
+          </div>
+          <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3 gutter-space-responsive">
+            <h3 class="content-subhead">电量统计</h3>
+            <p>
+              统计一词起源于国情调查，最早意为国情学。一般来说，统计包括三个含义：统计工作、统计资料和统计科学。统计工作、统计资料、统计科学三者之间的关系是：统计工作的成果是统计资料，统计资料和统计科学的基础是统计工作，统计科学既是统计工作经验的理论概括，又是指导统计工作的原理、原则和方法。
+            </p>
+          </div>
+          <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3 gutter-space-responsive">
+            <h3 class="content-subhead">库房管理</h3>
+            <p>
+              对仓储货物的收发、结存等活动的有效控制，其目的是为企业保证仓储货物的完好无损，确保生产经营活动的正常进行，并在此基础上对各类货物的活动状况进行分类记录，以明确的图表方式表达仓储货物在数量、品质方面的状况，以及所在的地理位置、部门、订单归属和仓储分散程度等情况的综合管理形式。
             </p>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="footer l-box">
-        <div class="footer-container">
-          <div class="footer-main">
+    <div class="footer-wrapper py-responsive">
+      <div class="footer-container container-xl px-responsive">
+        <div class="pure-g">
+          <div class="pure-u-1 pure-u-lg-1-3 gutter-space-responsive">
+            <h4>BE</h4>
+          </div>
+          <div class="pure-u-1 pure-u-lg-1-3 gutter-space-responsive">
             <h4>链接</h4>
-            <a href="#" class="footer-main-link">帮助</a>
+            <a href="#" class="footer-link">帮助</a>
           </div>
-          <div class="footer-main">
+          <div class="pure-u-1 pure-u-lg-1-3 gutter-space-responsive">
             <h4>社区</h4>
-            <a href="#" class="footer-main-link">反馈建议</a>
+            <a href="#" class="footer-link">反馈建议</a>
           </div>
         </div>
-        <div class="is-center">
-          <ul style="color:#333; list-style-type:none; font-size:12px;">
-            <li>© 2019 Freeair Studio.</li>
-          </ul>
+        <div class="is-right mt-4">
+          <p>© 2019 Freeair Studio.</p>
         </div>
-      </div>
-
+      </div>      
     </div>
   </div>
 </template>
@@ -108,117 +77,62 @@ export default {
 @import "src/styles/_free_variables.scss";
 @import "src/styles/_layout.scss";
 
-/*
- * -- LAYOUT STYLES --
- * These are some useful classes which I will need
- */
-.is-center {
-    text-align: center;
-}
-
 .home-container {
     position: relative !important;
     top: $navbar-height; left: 0;
 }
-/*
- * -- SPLASH STYLES --
- * This is the blue top section that appears on the page.
- */
-.splash-wrapper {
+.jumbotron-wrapper {
   width: 100%;
-  background: $splash-bg;
+  background: $jumbotron-bg;
 }
-.splash-container {
-  padding: 0.5em 1em;
+.jumbotron-container {
   .pure-g {
     align-items: center;
+    justify-content: center;
   }
 }
-
-/* This is the main heading that appears on the blue section */
-.splash-head {
-    font-size: $font-size-h4;
-    color: white;
-    text-align: center;
-    padding: 0.5em 1em;
+.jumbotron-head {
+    color: $title-color;
     font-weight: 400;
-    line-height: 1em;
 }
-/* This is the subheading that appears on the blue section */
-.splash-subhead {
-    color: white;
-    text-align: center;
+.jumbotron-subhead {
+    color: $text-color;
     letter-spacing: 0.05em;
     opacity: 0.8;
 }
 
-/*
- * -- CONTENT STYLES --
- * This represents the content area (everything below the blue section)
- */
 .content-wrapper {
-    /* These styles are required for the "scroll-over" effect */
     width: 100%;
     background: white;
 }
-.content {
-  padding: 1em 1em 3em;
+.content-container {
+  p {
+    color: $text-color;
+  }
 }
 .content-head {
-    font-weight: 400;
+    color: $title-color;
+    font-weight: 600;
     letter-spacing: 0.1em;
-    margin: 2em 0 1em;
 }
-/* This is the class used for the content sub-headers (<h3>) */
 .content-subhead {
-    color: #1f8dd6;
-}
-.content-subhead i {
-    margin-right: 7px;
+    color: $title-color;
+    font-weight: 600;
 }
 
-.footer {
-  background: #e4eff5;
+.footer-wrapper {
+  background: $footer-default-bg;
   width: 100%;
-  // position: fixed;
-  // bottom: 0;
-  .footer-main {
-    // font-size: 0px;
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 110px;
-    h4 {
-      font-size: 18px;
-      color: #333;
-      line-height: 1;
-      margin: 0 0 15px;
-      display: block;
-      margin-block-start: 1.33em;
-      margin-block-end: 1.33em;
-      margin-inline-start: 0px;
-      margin-inline-end: 0px;
-      font-weight: bold;
-    }
-    .footer-main-link {
-      display: block;
-      margin: 0;
-      line-height: 2;
-      font-size: 14px;
-      color: #666;
-    }
+  h4 {
+    color: $title-color;
+  }
+  .footer-link {
+    font-size: 14px;
+    color: $text-color;
+  }
+  p {
+    font-size: 14px;
+    color: $text-color;
   }
 }
-
-@media (min-width: 768px) {
-  /* We decrease the width of the .splash, since we have more width
-  to work with */
-
-  .splash-head {
-      font-size: 200%;
-  }
-  .l-box-lrg {
-    border: none;
-  }
-}
-
 </style>

@@ -14,11 +14,25 @@ $border-gray:                   #E4E7ED !default;
 $border-gray-light:             #EBEEF5 !default;
 $border-gray-lighter:           #F2F6FC !default;
 
-$brand-primary:         #409EFF;
-$brand-success:         #67C23A !default;
+$brand-primary:         #2b85e4;
+$brand-success:         #19be6b !default;
 $brand-info:            #909399 !default;
 $brand-warning:         #E6A23C !default;
-$brand-danger:          #F56C6C !default;
+$brand-danger:          #ed4014 !default;
+
+$blue-base:   #2d8cf0 !default;
+$blue-light:  #5cadff !default;
+$blue-dark:   #2b85e4 !default;
+
+$title-color:       #17233d !default;
+$text-dark-color:   #303133 !default;
+$text-color:        #606266 !default;
+$text-light-color:  #909399 !default;
+
+$bg-gray-light:   #f8f8f9 !default;
+$bg-blue-light:   #5cadff !default;
+
+$divider-color:   #e8eaec !default;
 
 //** Background color for `<body>`.
 $body-bg:               #fff !default;
@@ -105,13 +119,13 @@ $navbar-padding-horizontal:        floor(($grid-gutter-width / 2)) !default;
 $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2) !default;
 // $navbar-collapse-max-height:       340px !default;
 
-$navbar-default-color:             $brand-primary !default;
-$navbar-default-bg:                #f8f8f8 !default;
-$navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
+$navbar-default-color:              $text-color;
+$navbar-default-bg:                 $bg-gray-light;
+$navbar-default-border:             darken($navbar-default-bg, 6.5%) !default;
 
 // Navbar links
-$navbar-default-link-color:                #6FBEF3 !default;
-$navbar-default-link-hover-color:          #AECFE5 !default;
+$navbar-default-link-color:                $text-color;
+$navbar-default-link-hover-color:          $blue-dark;
 $navbar-default-link-hover-bg:             transparent !default;
 $navbar-default-link-active-color:         #555 !default;
 $navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%) !default;
@@ -119,51 +133,18 @@ $navbar-default-link-disabled-color:       #ccc !default;
 $navbar-default-link-disabled-bg:          transparent !default;
 
 // Navbar brand label
-$navbar-default-brand-color:               $navbar-default-link-color !default;
-$navbar-default-brand-hover-color:         darken($navbar-default-brand-color, 10%) !default;
+$navbar-default-brand-color:               $text-color;
+$navbar-default-brand-hover-color:         darken($navbar-default-brand-color, 6.5%) !default;
 $navbar-default-brand-hover-bg:            transparent !default;
 
 // Navbar toggle
 // $navbar-default-toggle-hover-bg:           #ddd !default;
 // $navbar-default-toggle-icon-bar-bg:        #888 !default;
 // $navbar-default-toggle-border-color:       #ddd !default;
-
 $navbar-icon-height:  ($navbar-height / 2) !default;
 
+//== jumbotron
+$jumbotron-bg:  lighten($bg-gray-light, 1.5%);
 
-
-//== splash
-$splash-bg: lighten($brand-primary, 5%) !default;
-
-
-//header navbar
-$headerBg:#fcfdfd;
-$headerHeadingColor: black;
-
-//sidebar
-$menuText:#bfcbd9;
-$menuActiveText:#409EFF;
-$subMenuActiveText:#f4f4f5; //https://github.com/ElemeFE/element/issues/12951
-
-$menuBg:#304156;
-$menuHover:#263445;
-
-$subMenuBg:#1f2d3d;
-$subMenuHover:#001528;
-
-$sideBarWidth: 180px;
-
-// the :export directive is the magic sauce for webpack
-:export {
-  headerBg: $headerBg;
-  headerHeadingColor: $headerHeadingColor;
-  //
-  menuText: $menuText;
-  menuActiveText: $menuActiveText;
-  subMenuActiveText: $subMenuActiveText;
-  menuBg: $menuBg;
-  menuHover: $menuHover;
-  subMenuBg: $subMenuBg;
-  subMenuHover: $subMenuHover;
-  sideBarWidth: $sideBarWidth;
-}
+//== footer
+$footer-default-bg:                 $bg-gray-light;

@@ -1,14 +1,14 @@
 <template>
   <div class="navbar-wrapper pure-menu pure-menu-horizontal pure-menu-fixed">
-    <div class="navbar-container container-xl p-responsive">
+    <div class="navbar-container container-xl px-responsive">
       <a class="navbar-logo pure-menu-heading" href="#">BE</a>
 
-      <ul v-if="isLogined" class="pure-menu-list">
+      <ul v-if="!isLogined" class="pure-menu-list">
         <li class="pure-menu-item"><a href="#" class="navbar-link pure-menu-link">登 录</a></li>
         <li class="pure-menu-item"><a href="#" class="navbar-link pure-menu-link">注 册</a></li>
       </ul>
 
-      <ul v-if="!isLogined" class="pure-menu-list">
+      <ul v-if="isLogined" class="pure-menu-list">
         <li is="el-dropdown" class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
             <img src="@/assets/avatar/identicon01.png" class="pure-img">
@@ -88,6 +88,12 @@ export default {
   text-align: center;
 }
 
+.navbar-container {
+    text-align: left;
+}
+.navbar-container ul {
+    float: right;
+}
 .pure-menu.pure-menu-fixed {
     /* Fixed menus normally have a border at the bottom. */
     border-bottom: none;
@@ -150,12 +156,12 @@ export default {
 @media (min-width: 320px) {
   /* We can align the menu header to the left, but float the
   menu items to the right. */
-  .navbar-container {
-      text-align: left;
-  }
-  .navbar-container ul {
-      float: right;
-  }
+  // .navbar-container {
+  //     text-align: left;
+  // }
+  // .navbar-container ul {
+  //     float: right;
+  // }
 }
 </style>
 

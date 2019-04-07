@@ -1,21 +1,55 @@
+/*
+ * xs - 320*568
+ * sm - 568*
+ * md - 768*
+ * lg - 1024*768
+ * xl - 1280*
+ *
+ * wrapper 添加 padding-y；设置background color；
+ * container 添加 padding-x；设置width；
+ * 段落 添加 margin-bottom
+ *
+ * 8px为基数，例如mb-2：margin-bottom: 2*8px
+*/
+
 .f4 {
   font-size: 16px!important;
 }
 
-.py-responsive {
-  padding-bottom: 8px!important;
-  padding-top: 8px!important;
+.mt-2 {
+  margin-top: 16px!important;
+}
+.mb-2 {
+  margin-bottom: 16px!important;
+}
+.mt-4 {
+  margin-top: 32px!important;
+}
+.mb-4 {
+  margin-bottom: 32px!important;
 }
 
-.py-3 {
-  padding-bottom: 16px!important;
-  padding-top: 16px!important;
+.is-left {
+  text-align: left;
 }
-
+.is-center {
+  text-align: center;
+}
+.is-right {
+  text-align: right;
+}
 
 // xs
 @media (min-width: 320px) {
-  .p-responsive {
+  .px-responsive {
+    padding-right: 8px!important;
+    padding-left: 8px!important;
+  }
+  .py-responsive {
+    padding-top: 8px!important;
+    padding-bottom: 8px!important;
+  }
+  .gutter-space-responsive {
     padding-right: 8px!important;
     padding-left: 8px!important;
   }
@@ -23,7 +57,15 @@
 
 //sm
 @media (min-width: 568px) {
-  .p-responsive {
+  .px-responsive {
+    padding-right: 16px!important;
+    padding-left: 16px!important;
+  }
+  .py-responsive {
+    padding-top: 16px!important;
+    padding-bottom: 16px!important;
+  }
+  .gutter-space-responsive {
     padding-right: 16px!important;
     padding-left: 16px!important;
   }
@@ -31,7 +73,15 @@
 
 //md
 @media (min-width: 768px) {
-  .p-responsive {
+  .px-responsive {
+    padding-right: 16px!important;
+    padding-left: 16px!important;
+  }
+  .py-responsive {
+    padding-top: 16px!important;
+    padding-bottom: 16px!important;
+  }
+  .gutter-space-responsive {
     padding-right: 16px!important;
     padding-left: 16px!important;
   }
@@ -44,7 +94,15 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .p-responsive {
+  .px-responsive {
+    padding-right: 16px!important;
+    padding-left: 16px!important;
+  }
+  .py-responsive {
+    padding-top: 32px!important;
+    padding-bottom: 32px!important;
+  }
+  .gutter-space-responsive {
     padding-right: 16px!important;
     padding-left: 16px!important;
   }
@@ -57,9 +115,17 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .p-responsive {
+  .px-responsive {
     padding-right: 16px!important;
     padding-left: 16px!important;
+  }
+  .py-responsive {
+    padding-top: 40px!important;
+    padding-bottom: 40px!important;
+  }
+  .gutter-space-responsive {
+    padding-right: 32px!important;
+    padding-left: 32px!important;
   }
 }
 
