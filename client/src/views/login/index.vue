@@ -115,8 +115,7 @@ export default {
 .login-container {
   .el-input {
     display: inline-block;
-    // height: 47px;
-    width: 85%;
+    width: 80%;
     input {
       background: transparent;
       border: 0px;
@@ -131,8 +130,8 @@ export default {
     }
   }
   .el-form-item {
-    border: 1px solid $border_gray;
     background: transparent;
+    border: 1px solid $border_gray;
     border-radius: 5px;
   }
 }
