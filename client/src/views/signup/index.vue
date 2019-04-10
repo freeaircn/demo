@@ -5,29 +5,32 @@
         <h1 class="title">欢迎加入我们</h1>
       </div>
 
-      <!-- <el-steps :active="activeStep" class="signup-steps">
-        <el-step title="新用户" />
-        <el-step title="用户信息" />
-        <el-step title="去登录" />
-      </el-steps> -->
-
-      <div v-show="activeStep === 0" class="form-baseinfo-container">
+      <div class="form-baseinfo-container">
         <el-form ref="formBaseInfo" :model="formBaseInfo" :rules="formBaseInfoRules" class="signup-form container-sm px-responsive" label-position="left" >
-          <el-form-item ref="userphone" prop="userphone" >
+
+          <el-form-item ref="email" prop="email" >
+            <span class="svg-container">
+              <svg-icon icon-class="icon_dmail_fill" />
+            </span>
+            <el-input v-model="formBaseInfo.email" :disabled="isValidated === true" name="email" type="text" placeholder="电子邮箱" clearable @blur="checkInfo('email')" />
+          </el-form-item>
+
+          <el-form-item v-show="isValidated === false" prop="verificationCode">
+            <span class="svg-container">
+              <svg-icon icon-class="verification_code" />
+            </span>
+            <el-input v-model="formBaseInfo.verificationCode" type="text" name="verificationCode" placeholder="输入验证码" clearable />
+            <el-button type="primary" style="border: 0px; padding: 12px 4px; float: right;" @click.native.prevent="handleRequestCode">获取验证码</el-button>
+          </el-form-item>
+
+          <el-form-item v-show="isValidated === true" ref="userphone" prop="userphone" >
             <span class="svg-container">
               <svg-icon icon-class="icon_mobilephone" />
             </span>
             <el-input v-model="formBaseInfo.userphone" name="userphone" type="text" placeholder="手机号" clearable @blur="checkInfo('phone')" />
           </el-form-item>
 
-          <el-form-item ref="email" prop="email" >
-            <span class="svg-container">
-              <svg-icon icon-class="icon_dmail_fill" />
-            </span>
-            <el-input v-model="formBaseInfo.email" name="email" type="text" placeholder="电子邮箱" clearable @blur="checkInfo('email')" />
-          </el-form-item>
-
-          <el-form-item prop="password">
+          <el-form-item v-show="isValidated === true" prop="password">
             <span class="svg-container">
               <svg-icon icon-class="password" />
             </span>
@@ -37,30 +40,20 @@
             </span>
           </el-form-item>
 
-          <el-form-item prop="confirmPassword">
+          <el-form-item v-show="isValidated === true" prop="confirmPassword">
             <span class="svg-container">
-              <svg-icon icon-class="password" />
+              <svg-icon icon-class="password2" />
             </span>
             <el-input :type="pwdType" v-model="formBaseInfo.confirmPassword" name="confirmPassword" placeholder="确认密码" clearable />
             <span class="show-pwd" @click="showPwd">
               <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
             </span>
           </el-form-item>
+
           <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/login">已有账号？去登录</router-link></div>
-          <!-- <el-form-item> -->
-          <el-row type="flex" justify="space-between">
-            <el-col :span="10">
-              <div class="grid-content">
-                <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleCreateUser">注 册</el-button>
-              </div>
-            </el-col>
-            <el-col :span="10">
-              <div class="grid-content">
-                <el-button :loading="loading" style="width:100%;" @click.native.prevent="handleResetBaseInfo">清 空</el-button>
-              </div>
-            </el-col>
-          </el-row>
-          <!-- </el-form-item> -->
+
+          <el-button v-show="isValidated === false" :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleVerification">验 证</el-button>
+          <el-button v-show="isValidated === true" :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleCreateUser">注 册</el-button>
 
           <div class="tips">
             <p>1. 请用户输入手机号和电子邮箱</p>
@@ -71,7 +64,7 @@
         </el-form>
       </div>
 
-      <div v-show="activeStep === 1" class="form-moreinfo-container">
+      <!-- <div v-show="activeStep === 1" class="form-moreinfo-container">
         <el-form ref="formMoreInfo" :model="formMoreInfo" :rules="formMoreInfoRules" class="signup-form container-sm px-responsive" label-position="right" >
           <el-form-item prop="username" >
             <el-input v-model="formMoreInfo.username" name="username" type="text" placeholder="中文姓名" clearable />
@@ -145,7 +138,7 @@
         <div class="signup-form">
           <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleToLogin">去登录</el-button>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -213,6 +206,8 @@ export default {
       }
     }
     return {
+      isValidated: true,
+
       activeStep: 0,
       formBaseInfo: {
         userphone: '',
@@ -422,9 +417,15 @@ export default {
 
 /* reset element-ui css */
 .form-baseinfo-container {
+  .el-form-item {
+    // width  : 100%;
+    background: transparent;
+    border: 1px solid $border_gray;
+    border-radius: 5px;
+  }
   .el-input {
     display: inline-block;
-    width  : 80%;
+    width  : 60%;
     input {
       background        : transparent;
       border            : 0px;
@@ -438,11 +439,6 @@ export default {
       //   -webkit-text-fill-color: #fff !important;
       // }
     }
-  }
-  .el-form-item {
-    background: transparent;
-    border: 1px solid $border_gray;
-    border-radius: 5px;
   }
 }
 
@@ -483,6 +479,9 @@ export default {
   color: $gray;
   cursor: pointer;
   user-select: none;
+  margin-left: 8px;
+  margin-right: 8px;
+  float: right;
 }
 
 .tips {
