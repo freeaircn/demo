@@ -42,6 +42,7 @@ $config['tables']['users']           = 'auth_users';
 $config['tables']['groups']          = 'auth_groups';
 $config['tables']['users_groups']    = 'auth_users_groups';
 $config['tables']['login_attempts']  = 'auth_login_attempts';
+$config['tables']['verification_code']  = 'auth_verification_code';
 //
 $config['tables']['org_parties']  = 'org_parties';
 $config['tables']['org_company']  = 'org_company';
@@ -164,6 +165,7 @@ $config['forgot_password_expiration'] = 1800;                /* The number of se
 $config['recheck_timer']              = 0;                   /* The number of seconds after which the session is checked again against database to see if the user still exists and is active.
 																Leave 0 if you don't want session recheck. if you really think you need to recheck the session against database, we would
 																recommend a higher value, as this would affect performance */
+$config['verification_code_expiration'] = 300;                /* The number of seconds after which a verification code request will expire. If set to 0, will not expire.
 
 /*
  | -------------------------------------------------------------------------
@@ -213,6 +215,14 @@ $config['email_templates'] = 'auth/email/';
  | Default: activate.tpl.php
  */
 $config['email_activate'] = 'activate.tpl.php';
+
+/*
+ | -------------------------------------------------------------------------
+ | Activate Account Email Template
+ | -------------------------------------------------------------------------
+ | Default: activate.tpl.php
+ */
+$config['email_verification_code'] = 'verification_code.tpl.php';
 
 /*
  | -------------------------------------------------------------------------

@@ -1,19 +1,8 @@
-import Cookies from 'js-cookie'
+/**
+ *
+ */
+
 import { Config } from '@/Freeair_App_Config'
-
-const TokenKey = 'Admin-Token'
-
-export function getToken() {
-  return Cookies.get(TokenKey)
-}
-
-export function setToken(token) {
-  return Cookies.set(TokenKey, token)
-}
-
-export function removeToken() {
-  return Cookies.remove(TokenKey)
-}
 
 export function getMailServerUrl(str) {
   const regexMail = /@([a-z1-9]{2,3})/

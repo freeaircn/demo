@@ -15,6 +15,8 @@ class Constants {
   const USERS_SIGNUP_EMAIL_EXISTING = 202;
   const USERS_SIGNUP_USER_CREATE_FAILED = 203;
   const USERS_SIGNUP_LOG_USER_INFO_FAILED = 204;
+  const USERS_SIGNUP_CREATE_VERIFICATION_FAILED = 205;
+  const USERS_SIGNUP_VERIFY_VERIFICATION_FAILED = 206;
   // const USERS_SIGNUP_USER_ACTIVATE_FAILED = 206;
 
   // ! Users Login流程 code：250~299
@@ -49,7 +51,8 @@ class Constants {
   const USERS_SIGNUP_EMAIL_EXISTING_MSG = ' 已被其他用户注册！';
   const USERS_SIGNUP_USER_CREATE_FAILED_MSG = '服务器创建新用户失败，请稍后再试(203)';
   const USERS_SIGNUP_LOG_USER_INFO_FAILED_MSG = '服务器保存用户信息失败，请再次提交！(204)';
-
+  const USERS_SIGNUP_CREATE_VERIFICATION_FAILED_MSG = '发送验证码失败，请重新获取！';
+  const USERS_SIGNUP_VERIFY_VERIFICATION_FAILED_MSG = '验证码不正确或已失效！';
   // const USERS_LOGIN_FAILED_MSG = '用户登录失败！';
   const USERS_LOGIN_GEN_TOKEN_FAILED_MSG = '服务器处理用户登录请求失败，请重新登录！(251)';
 

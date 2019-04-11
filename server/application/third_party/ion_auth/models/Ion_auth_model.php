@@ -2841,6 +2841,101 @@ class Ion_auth_model extends CI_Model
     $res['job'] = $this->db->get_where($this->tables['org_jobs'], array('id' => $job_id))->row()->name;
 
 		return $res;
-	}
+  }
+  
+  /**
+	 * create_verification_code
+	 *
+	 * @param int|null $email
+	 *
+	 * @return string|bool
+	 * @author
+	 */
+  public function create_verification_code($email = NULL)
+  {
+    if (!isset($email))
+    {
+      return FALSE;
+    }
+
+    $rand_num = mt_rand(10000, 99999);
+    $rand_str =  (string)$rand_num;
+
+    $query = $this->db->select('email')
+						  ->where('email', $email)
+						  ->limit(1)
+						  ->order_by('id')
+						  ->get($this->tables['verification_code']);
+
+    if ($query->num_rows() === 0)
+    {
+      $data = [
+        'email' => $email,
+        'code' => $rand_str,
+        'created_on' => time()
+      ];
+      $this->db->insert($this->tables['verification_code'], $data);
+      $id = $this->db->insert_id($this->tables['verification_code'] . '_id_seq');
+
+      return (isset($id)) ? $rand_str : FALSE;
+    }
+    else if ($query->num_rows() === 1)
+    {
+      $data = [
+        'code' => $rand_str,
+        'created_on' => time()
+      ];
+      $this->db->update($this->tables['verification_code'], $data, ['email' => $email]);
+      
+      return ($this->db->affected_rows() === 1) ? $rand_str : FALSE;
+    }
+  }
+
+  /**
+	 * validate_verification_code
+	 *
+	 * @param string|null $email
+	 * @param string|null $code
+	 * @return bool
+	 * @author
+	 */
+  public function validate_verification_code($email = NULL, $code = NULL)
+  {
+    if (!isset($email) || !isset($code))
+    {
+      return FALSE;
+    }
+
+    $query = $this->db->select('id, email, code, created_on')
+						  ->where('email', $email)
+						  ->limit(1)
+						  ->order_by('id')
+              ->get($this->tables['verification_code']);
+    if ($query->num_rows() !== 1)
+    {
+      return FALSE;
+    }
+
+    $user = $query->row();
+    $expiration = $this->config->item('verification_code_expiration', 'ion_auth');
+    if ($expiration > 0)
+    {
+			if ((time() - $user->created_on) > $expiration)
+			{
+				//it has expired
+				return FALSE;
+			}
+    }
+
+    if ($code !== $query->row()->code)
+    {
+      return FALSE;
+    }
+    // 验证正确，删除表中记录
+    $res = $this->db->delete($this->tables['verification_code'], array('id' => $user->id));
+    return ($res === FALSE) ? FALSE : TRUE;
+  }
+
+
 }
 

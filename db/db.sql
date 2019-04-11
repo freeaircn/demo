@@ -245,7 +245,13 @@ CREATE TABLE `auth_login_attempts` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+CREATE TABLE `auth_verification_code` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `email` char(40) NULL,
+  `code` char(5) NULL,
+  `created_on` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*
 */
