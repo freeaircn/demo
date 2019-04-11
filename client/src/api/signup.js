@@ -10,15 +10,15 @@ export function isPhoneExisting(userPhone) {
   })
 }
 
-export function isEmailExisting(email) {
-  return request({
-    url: '/users/check_email',
-    method: 'post',
-    data: {
-      email: email
-    }
-  })
-}
+// export function isEmailExisting(email) {
+//   return request({
+//     url: '/users/check_email',
+//     method: 'post',
+//     data: {
+//       email: email
+//     }
+//   })
+// }
 
 /** Client请求通过邮件获取验证码 */
 export function requestCode(email) {

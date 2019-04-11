@@ -198,7 +198,7 @@ class Users extends CI_Controller {
       if ($res !== FALSE)
       {
         $response['code'] = Constants::SUCCESS;
-        $response['userid'] = $res;
+        $response['msg'] = ;
       }
       else
       {
@@ -210,7 +210,7 @@ class Users extends CI_Controller {
     }
 
     /**
-     * Activate the user
+     * 激活邮件中的 链接
      *
      * @param int         $id   The user ID
      * @param string|bool $code The activation code
@@ -417,12 +417,12 @@ class Users extends CI_Controller {
     }
 
     /**
-     * user active
+     * client request activa mail
      * @param userphone
      * @param email
      * @return void
      */
-    public function active_mail()
+    public function request_active_mail()
     {
       $userphone = $this->input->post('userphone');
       $email = $this->input->post('email');

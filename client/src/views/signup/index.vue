@@ -283,7 +283,6 @@ export default {
             }
           }.bind(this))
           .catch(function(err) {
-            console.log(err)
             this.$message({
               type: 'info',
               message: '验证码校验失败!!',
@@ -330,9 +329,6 @@ export default {
         }
       })
     },
-    // handleResetBaseInfo() {
-    //   this.$refs.signupForm.resetFields()
-    // },
     handleToLogin() {
       this.$router.push({
         name: 'login'

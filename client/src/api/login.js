@@ -26,9 +26,9 @@ export function logout() {
   })
 }
 
-export function sendActiveMail(userphone, email) {
+export function requestActiveMail(userphone, email) {
   return request({
-    url: '/users/active_mail',
+    url: '/users/request_active_mail',
     method: 'post',
     data: {
       userphone,

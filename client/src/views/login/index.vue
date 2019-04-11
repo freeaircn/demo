@@ -20,14 +20,8 @@
             <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
-        <el-row type="flex" justify="space-between">
-          <el-col :span="10">
-            <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/forgot_password">忘记密码？</router-link></div>
-          </el-col>
-          <el-col :span="10">
-            <div style="margin: 0px 0px 15px 0px; color: #409EFF;text-align:right"><router-link to="/active_mail">激活账号</router-link></div>
-          </el-col>
-        </el-row>
+        <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/forgot_password">忘记密码？</router-link></div>
+        <!-- <div style="margin: 0px 0px 15px 0px; color: #409EFF;text-align:right"><router-link to="/active_mail">激活账号</router-link></div> -->
         <el-form-item>
           <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">登 录</el-button>
         </el-form-item>
@@ -37,17 +31,13 @@
 </template>
 
 <script>
-// import { isvalidUsername } from '@/utils/validate'
-import { Config } from '@/Freeair_App_Config'
+import { isValidPhone } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
-    const regexPhone = Config.REGEX_POHONE
     const validateUserphone = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入手机号！'))
-      } else if (!regexPhone.test(value)) {
+      if (!isValidPhone(value)) {
         callback(new Error('请输入11位有效的手机号！'))
       } else {
         callback()

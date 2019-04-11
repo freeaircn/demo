@@ -856,7 +856,7 @@ class Ion_auth_model extends CI_Model
 			'email' => $email,
 			'ip_address' => $ip_address,
 			'created_on' => time(),
-			'active' => 0
+			'active' => $this->config->item('force_activation', 'ion_auth')
 		];
 
 		// filter out any data passed that doesnt have a matching column in the users table
@@ -2842,7 +2842,7 @@ class Ion_auth_model extends CI_Model
 
 		return $res;
   }
-  
+
   /**
 	 * create_verification_code
 	 *
@@ -2886,7 +2886,7 @@ class Ion_auth_model extends CI_Model
         'created_on' => time()
       ];
       $this->db->update($this->tables['verification_code'], $data, ['email' => $email]);
-      
+
       return ($this->db->affected_rows() === 1) ? $rand_str : FALSE;
     }
   }

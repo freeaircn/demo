@@ -1,6 +1,6 @@
 <template>
   <div class="forgot-pwd-container">
-    <div v-show="show_contents === 0">
+    <div v-show="viewIndex === 0">
       <el-form ref="forgotPwdForm" :model="forgotPwdForm" :rules="forgotPwdRules" class="forgot-pwd-form" label-position="left">
         <h3 class="title">忘记密码</h3>
         <el-form-item prop="userphone">
@@ -22,13 +22,10 @@
         <el-form-item>
           <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleForgotPassword">申请重置密码</el-button>
         </el-form-item>
-        <div class="tips">
-          <span style="margin-right:20px;">:)</span>
-        </div>
       </el-form>
     </div>
 
-    <div v-show="show_contents === 1">
+    <div v-show="viewIndex === 1">
       <div class="forgot-pwd-form">
         <h3 class="title">忘记密码</h3>
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleGotoMailBox">{{ btn_name }}</el-button>
@@ -42,29 +39,23 @@
 </template>
 
 <script>
+import { isValidPhone, isValidEmail } from '@/utils/validate'
+import { getMailServerUrl } from '@/utils/auth'
 import { forgotPassword } from '@/api/login'
 import { Constants } from '@/Constants'
-import { Config } from '@/Freeair_App_Config'
 
 export default {
   name: 'ForgotPassword',
   data() {
-    const regexPhone = Config.REGEX_POHONE
     const validateUserphone = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入手机号！'))
-      } else if (!regexPhone.test(value)) {
+      if (!isValidPhone(value)) {
         callback(new Error('请输入11位有效的手机号！'))
       } else {
         callback()
       }
     }
-    const regexMail = Config.REGEX_MAIL
-    // const emailReg = /^[a-z0-9]*$/
     const validateEmail = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入电子邮箱！'))
-      } else if (!regexMail.test(value)) {
+      if (!isValidEmail(value)) {
         callback(new Error('邮箱地址有误！'))
       } else {
         callback()
@@ -80,8 +71,8 @@ export default {
         email: [{ required: true, trigger: 'change', validator: validateEmail }]
       },
       loading: false,
-      // ! show_contents 0: 用户信息表单页面；1：后台已发送邮件，提供登录邮箱链接。
-      show_contents: 0,
+      // ! viewIndex 0: 用户信息表单页面；1：后台已发送邮件，提供登录邮箱链接。
+      viewIndex: 0,
       mailServerUrl: '',
       btn_name: '返回登录页面',
       redirect: undefined
@@ -110,7 +101,6 @@ export default {
 
           forgotPassword(userphone, email)
             .then((data) => {
-              console.log(data)
               this.loading = false
               this.$message({
                 type: 'info',
@@ -120,30 +110,18 @@ export default {
 
               if (data.code === Constants.SUCCESS) {
                 this.btn_name = '返回登录页面'
-                const mailServerReg = /@([a-z1-9]{2,3})/
-                const mailServer = mailServerReg.exec(this.emailLowcase)
-                if (mailServer !== null && mailServer[0] === '@163') {
-                  this.mailServerUrl = Config.MAIL_163_URL
+                const url = getMailServerUrl(this.emailLowcase)
+                if (url) {
+                  this.mailServerUrl = url
                   this.btn_name = '登录邮箱'
                 }
-                if (mailServer !== null && mailServer[0] === '@126') {
-                  this.mailServerUrl = Config.MAIL_126_URL
-                  this.btn_name = '登录邮箱'
-                }
-                if (mailServer !== null && mailServer[0] === '@qq') {
-                  this.mailServerUrl = Config.MAIL_QQ_URL
-                  this.btn_name = '登录邮箱'
-                }
-                this.show_contents = 1
+                this.viewIndex = 1
               }
             })
             .catch((error) => {
               this.loading = false
               console.log(error)
             })
-        } else {
-          console.log('error submit!!')
-          return false
         }
       })
     },

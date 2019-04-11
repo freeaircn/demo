@@ -20,7 +20,7 @@
         <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/login">去登录</router-link></div>
 
         <el-form-item>
-          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleSendActiveMail">发送激活邮件</el-button>
+          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleRequestActiveMail">发送激活邮件</el-button>
         </el-form-item>
         <div class="tips">
           <span style="margin-right:20px;">:)</span>
@@ -51,30 +51,24 @@
 </template>
 
 <script>
-import { sendActiveMail } from '@/api/login'
+import { isValidPhone, isValidEmail } from '@/utils/validate'
+import { getMailServerUrl } from '@/utils/auth'
+import { requestActiveMail } from '@/api/login'
 import { Constants } from '@/Constants'
-import { Config } from '@/Freeair_App_Config'
 
 export default {
   name: 'ActiveMail',
   data() {
-    const regexPhone = Config.REGEX_POHONE
     const validateUserphone = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入手机号！'))
-      } else if (!regexPhone.test(value)) {
+      if (!isValidPhone(value)) {
         callback(new Error('请输入11位有效的手机号！'))
       } else {
         callback()
       }
     }
-    // const emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/
-    const regexMail = Config.REGEX_MAIL
     const validateEmail = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入电子邮箱！'))
-      } else if (!regexMail.test(value)) {
-        callback(new Error('邮箱地址有误！'))
+      if (!isValidEmail(value)) {
+        callback(new Error('请输入有效的邮箱！'))
       } else {
         callback()
       }
@@ -110,14 +104,14 @@ export default {
     }
   },
   methods: {
-    handleSendActiveMail() {
+    handleRequestActiveMail() {
       this.$refs.activeMailForm.validate(valid => {
         if (valid) {
           this.loading = true
           const userphone = this.activeMailForm.userphone
           const email = this.emailLowcase
 
-          sendActiveMail(userphone, email)
+          requestActiveMail(userphone, email)
             .then((data) => {
               console.log(data)
               this.loading = false
@@ -132,18 +126,9 @@ export default {
               }
               if (data.code === Constants.SUCCESS) {
                 this.btn_name = '返回登录页面'
-                const mailServerReg = /@([a-z1-9]{2,3})/
-                const mailServer = mailServerReg.exec(this.emailLowcase)
-                if (mailServer !== null && mailServer[0] === '@163') {
-                  this.mailServerUrl = Config.MAIL_163_URL
-                  this.btn_name = '登录邮箱'
-                }
-                if (mailServer !== null && mailServer[0] === '@126') {
-                  this.mailServerUrl = Config.MAIL_126_URL
-                  this.btn_name = '登录邮箱'
-                }
-                if (mailServer !== null && mailServer[0] === '@qq') {
-                  this.mailServerUrl = Config.MAIL_QQ_URL
+                const url = getMailServerUrl(this.emailLowcase)
+                if (url) {
+                  this.mailServerUrl = url
                   this.btn_name = '登录邮箱'
                 }
                 this.show_contents = 2

@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'home';
 $route['test'] = 'test';
 $route['reset_password/(:any)'] = 'home';
-$route['users/(:any)'] = 'users/$1';
+$route['users/(:any)'] = 'users/$1';  // 激活邮件中的 链接
 $route['(:any)'] = 'home';
 $route['(:any)/(:any)'] = 'home';
 
