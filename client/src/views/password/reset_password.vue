@@ -3,6 +3,7 @@
     <div class="reset-pwd-container">
       <div class="reset-pwd-header py-responsive is-center">
         <h1 class="title">设置新密码</h1>
+        <p>用户：{{ user }}</p>
       </div>
 
       <el-form ref="resetPwdForm" :model="resetPwdForm" :rules="resetPwdRules" class="container-sm px-responsive" label-position="left">
@@ -25,6 +26,7 @@
             <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
+        <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/login">去登录</router-link></div>
 
         <el-form-item>
           <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleResetPassword">提 交</el-button>
@@ -85,6 +87,9 @@ export default {
       immediate: true
     }
   },
+  created: function() {
+    this.user = this.$route.params.uid
+  },
   methods: {
     showPwd() {
       if (this.pwdType === 'password') {
@@ -97,7 +102,7 @@ export default {
       this.$refs.resetPwdForm.validate(valid => {
         if (valid) {
           this.loading = true
-          const hash_code = this.$route.params.code
+          const hash_code = this.$route.params.hash_code
           const password = this.resetPwdForm.password
 
           resetPassword(hash_code, password)
