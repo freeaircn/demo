@@ -101,22 +101,26 @@ export default {
               if (data.code === Constants.SUCCESS) {
                 const url = getMailServerUrl(this.emailLowcase)
                 if (url) {
-                  this.$alert('已发送邮件，请登录用户邮箱点击重置密码链接', '提示', {
+                  this.$alert('已发送邮件，请用户登录邮箱点击重置密码链接', '提示', {
                     confirmButtonText: '确定',
                     type: 'info'
                   }).then(() => {
+                    // 路由history 要replace
                     window.location.replace(url)
                   }).catch(() => {
-                    console.log('cancel')
+                    // 取消，也跳转
+                    window.location.replace(url)
                   })
                 } else {
-                  this.$alert('已发送邮件，请登录用户邮箱点击重置密码链接', '提示', {
+                  this.$alert('已发送邮件，请登用户录邮箱点击重置密码链接', '提示', {
                     confirmButtonText: '确定',
                     type: 'info'
                   }).then(() => {
+                    // 路由history 要replace
                     this.$router.replace({ name: 'login' })
                   }).catch(() => {
-                    console.log('cancel')
+                    // 取消，也跳转
+                    this.$router.replace({ name: 'login' })
                   })
                 }
               }
@@ -166,7 +170,6 @@ export default {
     }
   }
 }
-
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
@@ -202,11 +205,5 @@ export default {
   cursor: pointer;
   user-select: none;
   float: right;
-}
-
-.tips {
-  font-size: 14px;
-  color: $text-light-color;
-  text-align: left;
 }
 </style>

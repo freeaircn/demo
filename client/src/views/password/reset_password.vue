@@ -1,13 +1,10 @@
 <template>
   <div class="reset-pwd-wrapper">
-    <div class="forgot-pwd-container">
-      <div class="forgot-pwd-header py-responsive is-center">
+    <div class="reset-pwd-container">
+      <div class="reset-pwd-header py-responsive is-center">
         <h1 class="title">设置新密码</h1>
       </div>
 
-
-
-    <div v-show="show_contents === 0">
       <el-form ref="resetPwdForm" :model="resetPwdForm" :rules="resetPwdRules" class="container-sm px-responsive" label-position="left">
         <el-form-item prop="password">
           <span class="svg-container">
@@ -33,20 +30,9 @@
           <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleResetPassword">提 交</el-button>
         </el-form-item>
         <div class="tips">
-          <span style="margin-right:20px;">:)</span>
+          <p>密码请勿包含银行账号或支付软件密码</p>
         </div>
       </el-form>
-    </div>
-
-    <div v-show="show_contents === 1">
-      <div class="reset-pwd-form">
-        <h3 class="title">新密码</h3>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleGotoLogin">返回登录</el-button>
-        <hr align="center" width="100%" color="#DCDFE6" size="1" >
-        <div class="tips">
-          <span style="margin:20px 0px 20px 0px; text-align:left">用户(<span style="color:#409EFF;">{{ username }}</span>)新密码设置成功，用户请重新登录</span>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -85,12 +71,10 @@ export default {
         password: [{ required: true, trigger: 'change', validator: validatePssword }],
         confirmPassword: [{ required: true, trigger: 'change', validator: validateconfirmPassword }]
       },
-      // ! show_contents 0: 新密码表单页面；1：后台更新成功，提供登录页面链接。
-      show_contents: 0,
-      username: '',
       loading: false,
       pwdType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      user: ''
     }
   },
   watch: {
@@ -122,9 +106,10 @@ export default {
               if (data.code === Constants.SUCCESS) {
                 this.$message({
                   type: 'info',
-                  message: '密码修改成功，将返回登录页面',
+                  message: '密码修改成功，返回登录页面',
                   duration: 3 * 1000
                 })
+                // 路由history 要replace
                 this.$router.replace({ name: 'login' })
               } else {
                 this.$message({
@@ -154,85 +139,65 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-$bg:#fefefe;
-$light_gray:#eee;
-$dark_gray:#606266;
-$border_gray: #DCDFE6;
+@import "src/styles/_free_variables.scss";
+@import "src/styles/_layout.scss";
 
 /* reset element-ui css */
 .reset-pwd-container {
+  .el-form-item {
+    background: transparent;
+    border: 1px solid $border_gray;
+    border-radius: 5px;
+  }
   .el-input {
     display: inline-block;
-    height: 47px;
-    width: 85%;
+    width  : 75%;
     input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $dark_gray;
-      height: 47px;
-      &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: #fff !important;
-      }
+      background        : transparent;
+      border            : 0px;
+      border-radius     : 0px;
     }
   }
-  .el-form-item {
-    border: 1px solid $border_gray;
-    background: transparent;
-    border-radius: 5px;
-    //color: #454545;
-  }
 }
-
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-$bg:#fefefe;
-$light_gray:#eee;
-$dark_gray:#606266;
-$border_gray: #DCDFE6;
+@import "src/styles/_free_variables.scss";
+@import "src/styles/_layout.scss";
 
-.reset-pwd-container {
-  // position: fixed;
-  height: 100%;
+.reset-pwd-wrapper {
   width: 100%;
-  background-color: $bg;
-  .reset-pwd-form {
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 520px;
-    max-width: 100%;
-    padding: 15px 35px 15px 35px;
-    margin: 120px auto;
-  }
-  .tips {
-    font-size: 14px;
-    color: $dark_gray;
-    margin-bottom: 10px;
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
-  }
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-  }
-  .title {
-    font-size: 26px;
-    font-weight: 400;
-    color: $dark_gray;
-    margin: 40px auto 40px auto;
-    text-align: center;
-    font-weight: bold;
-  }
+  height: 100%;
+  background-color:  $bg-gray-light;
+}
+.reset-pwd-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10%;
+}
+.title {
+  font-weight: 400;
+  color: $title-color;
+  letter-spacing: 6px;
+}
+.svg-container {
+  padding: 0px 8px 0px 16px;
+  vertical-align: middle;
+  display: inline-block;
+}
+.show-pwd {
+  width: 30px;
+  padding-left: 8px;
+  padding-right: 8px;
+  color: $gray;
+  cursor: pointer;
+  user-select: none;
+  float: right;
+}
+.tips {
+  font-size: 14px;
+  color: $text-light-color;
+  text-align: left;
 }
 </style>

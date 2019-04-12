@@ -588,7 +588,8 @@ class Users extends CI_Controller {
 
       $data = [
 				'identity' => $user->phone,
-				'forgotten_password_code' => $code
+        'hash_code' => $code,
+        'dt' => date("Y-m-d H:i:s")
       ];
 
       $message = $this->load->view($this->config->item('email_templates', 'ion_auth') . $this->config->item('email_forgot_password', 'ion_auth'), $data, TRUE);
@@ -670,7 +671,6 @@ class Users extends CI_Controller {
 			{
 				$response['code'] = Constants::SUCCESS;
         $response['msg'] = '新密码设置成功';
-        $response['username'] = $user->username;
 			}
 			else
 			{

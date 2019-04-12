@@ -227,12 +227,13 @@ export default {
                 }).then(() => {
                   window.open(url, '_blank')
                 }).catch(() => {
-                  console.log('cancel')
+                  // 取消，也打开新窗口
+                  window.open(url, '_blank')
                 })
               } else {
                 this.$message({
                   type: 'info',
-                  message: '验证码已发送，请登录用户邮箱查看验证码',
+                  message: '验证码已发送，请用户登录邮箱查看验证码',
                   duration: 3 * 1000
                 })
               }
@@ -311,9 +312,7 @@ export default {
             createUser(phone, email, password)
               .then(function(data) {
                 if (data.code === Constants.SUCCESS) {
-                  this.$router.push({
-                    name: 'login'
-                  })
+                  this.$router.push({ name: 'login' })
                 } else {
                   this.$message({
                     type: 'info',
@@ -332,11 +331,6 @@ export default {
             })
           })
         }
-      })
-    },
-    handleToLogin() {
-      this.$router.push({
-        name: 'login'
       })
     }
   }
