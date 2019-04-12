@@ -198,7 +198,7 @@ class Users extends CI_Controller {
       if ($res !== FALSE)
       {
         $response['code'] = Constants::SUCCESS;
-        $response['msg'] = ;
+        $response['msg'] = '';
       }
       else
       {
@@ -618,35 +618,36 @@ class Users extends CI_Controller {
 
     /**
      * user reset password
-     * @param validate_code
+     * @param hash_code
      * @param password
      * @return void
      */
     public function reset_password()
     {
-      $validate_code = $this->input->post('validate_code');
+      $hash_code = $this->input->post('hash_code');
       $password = $this->input->post('password');
 
-      if (!isset($validate_code) || !isset($password))
+      if (!isset($hash_code) || !isset($password))
       {
-        $response['validate_code'] = Constants::POST_INPUT_EMPTY;
+        $response['hash_code'] = Constants::POST_INPUT_EMPTY;
         $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
 
         echo json_encode($response);
         return ;
       }
 
+      // 输入检查，hash code中间是否有.
       $reg = '/\./';
-      if (preg_match($reg, $validate_code) === 0)
+      if (preg_match($reg, $hash_code) === 0)
       {
-        $response['validate_code'] = Constants::POST_INPUT_EMPTY;
+        $response['hash_code'] = Constants::POST_INPUT_EMPTY;
         $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
 
         echo json_encode($response);
         return ;
       }
 
-      $user = $this->ion_auth->forgotten_password_check($validate_code);
+      $user = $this->ion_auth->forgotten_password_check($hash_code);
       if ($user === FALSE)
       {
         $response['code'] = Constants::USERS_PASSWORD_RESET_INVALID;

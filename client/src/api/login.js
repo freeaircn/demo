@@ -48,12 +48,12 @@ export function forgotPassword(userphone, email) {
   })
 }
 
-export function resetPassword(validate_code, password) {
+export function resetPassword(hash_code, password) {
   return request({
     url: '/users/reset_password',
     method: 'post',
     data: {
-      validate_code,
+      hash_code,
       password
     }
   })

@@ -2,9 +2,9 @@
   <div class="login-wrapper">
     <div class="login-container">
       <div class="login-header py-responsive is-center">
-        <h1 class="title">欢 迎</h1>
+        <h1 class="title">欢迎</h1>
       </div>
-      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form container-sm px-responsive" label-position="left">
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="container-sm px-responsive" label-position="left">
         <el-form-item prop="userphone">
           <span class="svg-container">
             <svg-icon icon-class="icon_mobilephone" />
@@ -20,7 +20,8 @@
             <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
-        <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/forgot_password">忘记密码？</router-link></div>
+        <div style="display:inline-block; margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/forgot_password">忘记密码？</router-link></div>
+        <div style="display:inline-block; margin: 0px 0px 15px 0px; color: #409EFF; float:right;"><router-link to="/signup">没有账号？去注册</router-link></div>
         <!-- <div style="margin: 0px 0px 15px 0px; color: #409EFF;text-align:right"><router-link to="/active_mail">激活账号</router-link></div> -->
         <el-form-item>
           <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">登 录</el-button>
@@ -85,10 +86,13 @@ export default {
             .catch((error) => {
               this.loading = false
               this.$refs.password_item.resetField()
-              console.log(error)
+              this.$message({
+                type: 'info',
+                message: error,
+                duration: 3 * 1000
+              })
             })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -105,7 +109,7 @@ export default {
 .login-container {
   .el-input {
     display: inline-block;
-    width: 80%;
+    width: 75%;
     input {
       background: transparent;
       border: 0px;
@@ -141,12 +145,13 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
-  top: 15%;
+  top: 10%;
 }
 
 .title {
   font-weight: 400;
   color: $title-color;
+  letter-spacing: 6px;
 }
 
 .svg-container {
@@ -156,9 +161,13 @@ export default {
 }
 
 .show-pwd {
+  width: 30px;
+  padding-left: 8px;
+  padding-right: 8px;
   color: $gray;
   cursor: pointer;
   user-select: none;
+  float: right;
 }
 
 </style>

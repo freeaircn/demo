@@ -2,69 +2,67 @@
   <div class="signup-wrapper">
     <div class="signup-container">
       <div class="signup-header py-responsive is-center">
-        <h1 class="title">欢迎加入我们</h1>
+        <h1 class="title">欢迎加入</h1>
       </div>
 
-      <div class="form-baseinfo-container">
-        <el-form ref="signupForm" :model="signupForm" :rules="signupFormRules" class="container-sm px-responsive" label-position="left" >
-          <el-form-item ref="email" prop="email" >
-            <span class="svg-container">
-              <svg-icon icon-class="icon_dmail_fill" />
-            </span>
-            <!-- <el-input v-model="signupForm.email" :disabled="isValidCode === true" name="email" type="text" placeholder="电子邮箱" clearable @blur="checkInfo('email')" /> -->
-            <el-input v-model="signupForm.email" :disabled="isValidCode === true" name="email" type="text" placeholder="电子邮箱" clearable />
-          </el-form-item>
+      <el-form ref="signupForm" :model="signupForm" :rules="signupFormRules" class="container-sm px-responsive" label-position="left" >
+        <el-form-item ref="email" prop="email" >
+          <span class="svg-container">
+            <svg-icon icon-class="icon_dmail_fill" />
+          </span>
+          <!-- <el-input v-model="signupForm.email" :disabled="isValidCode === true" name="email" type="text" placeholder="电子邮箱" clearable @blur="checkInfo('email')" /> -->
+          <el-input v-model="signupForm.email" :disabled="isValidCode === true" name="email" type="text" placeholder="电子邮箱" clearable />
+        </el-form-item>
 
-          <el-form-item v-show="isValidCode === false" ref="verificationCode" prop="verificationCode">
-            <span class="svg-container">
-              <svg-icon icon-class="verification_code" />
-            </span>
-            <el-input v-model="signupForm.verificationCode" type="text" name="verificationCode" placeholder="输入验证码" clearable />
-            <input v-model="btnCodeConent" :disabled="isBtnDisable" type="button" class="btn-code" @click="handleRequestCode">
-          </el-form-item>
+        <el-form-item v-show="isValidCode === false" ref="verificationCode" prop="verificationCode">
+          <span class="svg-container">
+            <svg-icon icon-class="verification_code" />
+          </span>
+          <el-input v-model="signupForm.verificationCode" type="text" class="code-field" name="verificationCode" placeholder="输入验证码" clearable />
+          <input v-model="btnCodeConent" :disabled="isBtnDisable" type="button" class="btn-code" @click="handleRequestCode">
+        </el-form-item>
 
-          <el-form-item v-show="isValidCode === true" ref="userphone" prop="userphone" >
-            <span class="svg-container">
-              <svg-icon icon-class="icon_mobilephone" />
-            </span>
-            <el-input v-model="signupForm.userphone" name="userphone" type="text" placeholder="手机号" clearable @blur="checkInfo('phone')" />
-          </el-form-item>
+        <el-form-item v-show="isValidCode === true" ref="userphone" prop="userphone" >
+          <span class="svg-container">
+            <svg-icon icon-class="icon_mobilephone" />
+          </span>
+          <el-input v-model="signupForm.userphone" name="userphone" type="text" placeholder="手机号" clearable @blur="checkInfo('phone')" />
+        </el-form-item>
 
-          <el-form-item v-show="isValidCode === true" prop="password">
-            <span class="svg-container">
-              <svg-icon icon-class="password" />
-            </span>
-            <el-input :type="pwdType" v-model="signupForm.password" name="password" placeholder="密码" clearable />
-            <span class="show-pwd" @click="showPwd">
-              <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
-            </span>
-          </el-form-item>
+        <el-form-item v-show="isValidCode === true" prop="password">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input :type="pwdType" v-model="signupForm.password" name="password" placeholder="密码" clearable />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
 
-          <el-form-item v-show="isValidCode === true" prop="confirmPassword">
-            <span class="svg-container">
-              <svg-icon icon-class="password2" />
-            </span>
-            <el-input :type="pwdType" v-model="signupForm.confirmPassword" name="confirmPassword" placeholder="确认密码" clearable />
-            <span class="show-pwd" @click="showPwd">
-              <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
-            </span>
-          </el-form-item>
+        <el-form-item v-show="isValidCode === true" prop="confirmPassword">
+          <span class="svg-container">
+            <svg-icon icon-class="password2" />
+          </span>
+          <el-input :type="pwdType" v-model="signupForm.confirmPassword" name="confirmPassword" placeholder="再次输入密码" clearable />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
 
-          <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/login">已有账号？去登录</router-link></div>
+        <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/login">已有账号？去登录</router-link></div>
 
-          <div v-show="isValidCode === false">
-            <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleVerification">验 证</el-button>
-          </div>
-          <div v-show="isValidCode === true">
-            <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleCreateUser">注 册</el-button>
-          </div>
-          <div class="tips">
-            <p>1. 验证码将发送到输入的邮箱</p>
-            <p>2. 密码请勿包含银行账号或支付软件密码</p>
-            <p>3. 注册成功后，请使用手机号登录</p>
-          </div>
-        </el-form>
-      </div>
+        <div v-show="isValidCode === false">
+          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleVerification">验 证</el-button>
+        </div>
+        <div v-show="isValidCode === true">
+          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleCreateUser">注 册</el-button>
+        </div>
+        <div class="tips">
+          <p>1. 验证码将发送到输入的邮箱</p>
+          <p>2. 密码请勿包含银行账号或支付软件密码</p>
+          <p>3. 注册成功后，请使用手机号登录</p>
+        </div>
+      </el-form>
     </div>
   </div>
 </template>
@@ -221,17 +219,23 @@ export default {
         requestCode(email)
           .then(function(data) {
             if (data.code === Constants.SUCCESS) {
-              this.$alert('验证码已发送，将在新窗口打开登录邮箱页面', '提示', {
-                confirmButtonText: '确定',
-                type: 'info'
-              }).then(() => {
-                const url = getMailServerUrl(email)
-                if (url) {
+              const url = getMailServerUrl(this.emailLowcase)
+              if (url) {
+                this.$alert('验证码已发送，将在新窗口打开邮箱登录页面', '提示', {
+                  confirmButtonText: '确定',
+                  type: 'info'
+                }).then(() => {
                   window.open(url, '_blank')
-                }
-              }).catch(() => {
-                console.log('err')
-              })
+                }).catch(() => {
+                  console.log('cancel')
+                })
+              } else {
+                this.$message({
+                  type: 'info',
+                  message: '验证码已发送，请登录用户邮箱查看验证码',
+                  duration: 3 * 1000
+                })
+              }
             } else if (data.code === Constants.USERS_SIGNUP_EMAIL_EXISTING) {
               this.$message({
                 type: 'info',
@@ -283,6 +287,7 @@ export default {
             }
           }.bind(this))
           .catch(function(err) {
+            console.log(err)
             this.$message({
               type: 'info',
               message: '验证码校验失败!!',
@@ -298,7 +303,7 @@ export default {
           const phone = this.signupForm.userphone
           const email = this.emailLowcase
           const password = this.signupForm.password
-          this.$confirm('请确认手机号(' + phone + ')是否正确?', '提示', {
+          this.$confirm('请确认手机号“' + phone + '”是否正确?', '提示', {
             confirmButtonText: '正确',
             cancelButtonText: '返回',
             type: 'warning'
@@ -343,36 +348,28 @@ export default {
 @import "src/styles/_layout.scss";
 
 /* reset element-ui css */
-.form-baseinfo-container {
+.signup-container {
   .el-form-item {
-    // width  : 100%;
     background: transparent;
     border: 1px solid $border_gray;
     border-radius: 5px;
   }
   .el-input {
     display: inline-block;
-    width  : 60%;
+    width  : 75%;
     input {
       background        : transparent;
       border            : 0px;
       border-radius     : 0px;
-      // padding           : 5px;
-      // color             : $dark_gray;
-      // height            : 47px;
-      // -webkit-appearance: none;
-      // &:-webkit-autofill {
-      //   -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
-      //   -webkit-text-fill-color: #fff !important;
-      // }
     }
   }
-}
-
-.form-moreinfo-container {
-  .el-select {
-    display: inline-block;
-    width  : 100%;
+  .code-field {
+    @media (min-width: 320px) {
+      width: 200px;
+    }
+    @media (min-width: 568px) {
+      width: 320px;
+    }
   }
 }
 </style>
@@ -395,10 +392,12 @@ export default {
 .title {
   font-weight: 400;
   color: $title-color;
+  letter-spacing: 6px;
 }
 
 .btn-code {
   border: 0px;
+  width: 90px;
   padding: 12px 4px;
   float: right;
   color: white;
@@ -411,11 +410,12 @@ export default {
   display: inline-block;
 }
 .show-pwd {
+  width: 30px;
+  padding-left: 8px;
+  padding-right: 8px;
   color: $gray;
   cursor: pointer;
   user-select: none;
-  margin-left: 8px;
-  margin-right: 8px;
   float: right;
 }
 

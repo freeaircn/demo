@@ -31,8 +31,6 @@ const user = {
       const userphone = userInfo.userphone.trim()
       return new Promise((resolve, reject) => {
         login(userphone, userInfo.password).then(data => {
-          // const data = response.data
-          console.log(data)
           if (data.code === Constants.SUCCESS) {
             setToken(data.token)
             commit('SET_TOKEN', data.token)

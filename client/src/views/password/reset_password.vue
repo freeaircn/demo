@@ -1,8 +1,14 @@
 <template>
-  <div class="reset-pwd-container">
+  <div class="reset-pwd-wrapper">
+    <div class="forgot-pwd-container">
+      <div class="forgot-pwd-header py-responsive is-center">
+        <h1 class="title">设置新密码</h1>
+      </div>
+
+
+
     <div v-show="show_contents === 0">
-      <el-form ref="resetPwdForm" :model="resetPwdForm" :rules="resetPwdRules" class="reset-pwd-form" label-position="left">
-        <h3 class="title">新密码</h3>
+      <el-form ref="resetPwdForm" :model="resetPwdForm" :rules="resetPwdRules" class="container-sm px-responsive" label-position="left">
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -17,14 +23,14 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input :type="pwdType" v-model="resetPwdForm.confirmPassword" name="confirmPassword" placeholder="确认新密码" clearable />
+          <el-input :type="pwdType" v-model="resetPwdForm.confirmPassword" name="confirmPassword" placeholder="再次输入新密码" clearable />
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
 
         <el-form-item>
-          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleResetPassword">提交新密码</el-button>
+          <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleResetPassword">提 交</el-button>
         </el-form-item>
         <div class="tips">
           <span style="margin-right:20px;">:)</span>
@@ -46,18 +52,15 @@
 </template>
 
 <script>
+import { isValidPassword } from '@/utils/validate'
 import { resetPassword } from '@/api/login'
 import { Constants } from '@/Constants'
-import { Config } from '@/Freeair_App_Config'
 
 export default {
   name: 'ResetPassword',
   data() {
-    const regexPassword = Config.REGEX_PASSWORD
     const validatePssword = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入新密码'))
-      } else if (!regexPassword.test(value)) {
+      if (!isValidPassword(value)) {
         callback(new Error('密码最小长度为8位，必须包含大写、小写字母、数字！'))
       } else {
         if (this.resetPwdForm.confirmPassword !== '') {
@@ -67,9 +70,7 @@ export default {
       }
     }
     const validateconfirmPassword = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入新密码'))
-      } else if (value !== this.resetPwdForm.password) {
+      if (value !== this.resetPwdForm.password) {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
@@ -84,7 +85,6 @@ export default {
         password: [{ required: true, trigger: 'change', validator: validatePssword }],
         confirmPassword: [{ required: true, trigger: 'change', validator: validateconfirmPassword }]
       },
-      validate_code: '',
       // ! show_contents 0: 新密码表单页面；1：后台更新成功，提供登录页面链接。
       show_contents: 0,
       username: '',
@@ -113,21 +113,25 @@ export default {
       this.$refs.resetPwdForm.validate(valid => {
         if (valid) {
           this.loading = true
-          const validate_code = this.$route.params.code
+          const hash_code = this.$route.params.code
           const password = this.resetPwdForm.password
 
-          resetPassword(validate_code, password)
+          resetPassword(hash_code, password)
             .then((data) => {
               this.loading = false
-              this.$message({
-                type: 'info',
-                message: data.msg,
-                duration: 3 * 1000
-              })
-
               if (data.code === Constants.SUCCESS) {
-                this.username = data.username
-                this.show_contents = 1
+                this.$message({
+                  type: 'info',
+                  message: '密码修改成功，将返回登录页面',
+                  duration: 3 * 1000
+                })
+                this.$router.replace({ name: 'login' })
+              } else {
+                this.$message({
+                  type: 'info',
+                  message: data.msg,
+                  duration: 3 * 1000
+                })
               }
             })
             .catch((error) => {
@@ -135,17 +139,16 @@ export default {
               console.log(error)
             })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
-    },
-    handleGotoLogin() {
-      // window.location.replace('http://127.0.0.1/login')
-      this.$router.replace({
-        name: 'login'
-      })
     }
+    // handleGotoLogin() {
+    //   // window.location.replace('http://127.0.0.1/login')
+    //   this.$router.replace({
+    //     name: 'login'
+    //   })
+    // }
   }
 }
 </script>
