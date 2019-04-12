@@ -61,7 +61,9 @@ VALUES (1, 1, UNIX_TIMESTAMP());
  * Create Tables for organization-ship
  */
 
-CREATE TABLE `org_parties` (
+
+/* 政党 */
+CREATE TABLE `org_political_party` (
   `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
@@ -166,13 +168,13 @@ CREATE TABLE `auth_users` (
   `phone` char(20) NOT NULL,
   `username` char(10) NULL,
   `email` char(40) NULL,
-  `gender` char(1) NULL,
-  `id_card_num` char(20) NULL,
-  `ip_address` char(45) NULL,
   `active` tinyint(1) unsigned DEFAULT NULL,
-  `activation_exptime` int(11) unsigned DEFAULT NULL,
+  `detailed_info_done` tinyint(1) unsigned DEFAULT NULL,
+  `updated_on` int(11) unsigned NULL,
   `created_on` int(11) unsigned NULL,
-  `last_login` int(11) unsigned DEFAULT NULL,
+  `last_login` int(11) unsigned NULL,
+  `gender` char(1) NULL,
+  `id_card_num` char(25) NULL,
   `party_id` tinyint(4) unsigned DEFAULT NULL,
   `company_id` tinyint(4) unsigned DEFAULT NULL,
   `dept_LV1_id` tinyint(4) unsigned DEFAULT NULL,
@@ -181,12 +183,14 @@ CREATE TABLE `auth_users` (
   `dept_LV4_id` tinyint(4) unsigned DEFAULT NULL,
   `dept_LV5_id` tinyint(4) unsigned DEFAULT NULL,
   `job_id` tinyint(4) unsigned DEFAULT NULL,
+  `ip_address` char(45) NULL,
   `password` varchar(255) NOT NULL,
-  `activation_selector` varchar(255) DEFAULT NULL,
-  `activation_code` varchar(255) DEFAULT NULL,
   `forgotten_password_selector` varchar(255) DEFAULT NULL,
   `forgotten_password_code` varchar(255) DEFAULT NULL,
   `forgotten_password_time` int(11) unsigned DEFAULT NULL,
+  `activation_selector` varchar(255) DEFAULT NULL,
+  `activation_code` varchar(255) DEFAULT NULL,
+  `activation_time` int(11) unsigned DEFAULT NULL,
   `remember_selector` varchar(255) DEFAULT NULL,
   `remember_code` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
