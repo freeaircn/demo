@@ -57,11 +57,11 @@ VALUES (1, 1, UNIX_TIMESTAMP());
 INSERT INTO `rbac_userroles` (`UserID`, `RoleID`, `AssignmentDate`)
 VALUES (1, 1, UNIX_TIMESTAMP());
 
+
+
 /*
  * Create Tables for organization-ship
  */
-
-
 /* 政党 */
 CREATE TABLE `org_political_party` (
   `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
@@ -75,31 +75,37 @@ CREATE TABLE `org_company` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `org_dept_level_1` (
+CREATE TABLE `org_dept_level_10` (
   `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `org_dept_level_2` (
+CREATE TABLE `org_dept_level_15` (
   `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `org_dept_level_3` (
+CREATE TABLE `org_dept_level_20` (
   `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `org_dept_level_4` (
+CREATE TABLE `org_dept_level_25` (
   `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `org_dept_level_5` (
+CREATE TABLE `org_dept_level_30` (
+  `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `org_dept_level_35` (
   `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
@@ -111,34 +117,39 @@ CREATE TABLE `org_jobs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `org_parties` (`id`, `name`)
+INSERT INTO `org_political_party` (`id`, `name`)
 VALUES (1, '无党派');
-INSERT INTO `org_parties` (`id`, `name`)
+INSERT INTO `org_political_party` (`id`, `name`)
 VALUES (2, '中共党员');
-INSERT INTO `org_parties` (`id`, `name`)
+INSERT INTO `org_political_party` (`id`, `name`)
 VALUES (3, '其他党派');
 
 INSERT INTO `org_company` (`id`, `name`)
 VALUES (1, '保山能源发展股份有限公司');
 
-INSERT INTO `org_dept_level_1` (`id`, `name`)
+INSERT INTO `org_dept_level_10` (`id`, `name`)
+VALUES (1, '保山槟榔江水电开发有限公司');
+INSERT INTO `org_dept_level_10` (`id`, `name`)
+VALUES (2, '直属电厂');
+
+INSERT INTO `org_dept_level_20` (`id`, `name`)
 VALUES (1, '松山河口电厂');
-INSERT INTO `org_dept_level_1` (`id`, `name`)
+INSERT INTO `org_dept_level_20` (`id`, `name`)
 VALUES (2, '苏家河口电厂');
 
-INSERT INTO `org_dept_level_2` (`id`, `name`)
+INSERT INTO `org_dept_level_30` (`id`, `name`)
 VALUES (1, '检修班');
-INSERT INTO `org_dept_level_2` (`id`, `name`)
+INSERT INTO `org_dept_level_30` (`id`, `name`)
 VALUES (2, '运行一班');
-INSERT INTO `org_dept_level_2` (`id`, `name`)
+INSERT INTO `org_dept_level_30` (`id`, `name`)
 VALUES (3, '运行二班');
-INSERT INTO `org_dept_level_2` (`id`, `name`)
+INSERT INTO `org_dept_level_30` (`id`, `name`)
 VALUES (4, '运行三班');
-INSERT INTO `org_dept_level_2` (`id`, `name`)
+INSERT INTO `org_dept_level_30` (`id`, `name`)
 VALUES (5, '运行四班');
-INSERT INTO `org_dept_level_2` (`id`, `name`)
+INSERT INTO `org_dept_level_30` (`id`, `name`)
 VALUES (6, '运行五班');
-INSERT INTO `org_dept_level_2` (`id`, `name`)
+INSERT INTO `org_dept_level_30` (`id`, `name`)
 VALUES (7, '办公室');
 
 INSERT INTO `org_jobs` (`id`, `name`)
@@ -165,23 +176,24 @@ INSERT INTO `auth_groups` (`id`, `name`, `description`) VALUES
 
 CREATE TABLE `auth_users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `phone` char(20) NOT NULL,
   `username` char(10) NULL,
+  `phone` char(20) NOT NULL,
   `email` char(40) NULL,
   `active` tinyint(1) unsigned DEFAULT NULL,
   `detailed_info_done` tinyint(1) unsigned DEFAULT NULL,
-  `updated_on` int(11) unsigned NULL,
   `created_on` int(11) unsigned NULL,
   `last_login` int(11) unsigned NULL,
+  `updated_on` int(11) unsigned NULL,
   `gender` char(1) NULL,
   `id_card_num` char(25) NULL,
-  `party_id` tinyint(4) unsigned DEFAULT NULL,
+  `political_party_id` tinyint(4) unsigned DEFAULT NULL,
   `company_id` tinyint(4) unsigned DEFAULT NULL,
-  `dept_LV1_id` tinyint(4) unsigned DEFAULT NULL,
-  `dept_LV2_id` tinyint(4) unsigned DEFAULT NULL,
-  `dept_LV3_id` tinyint(4) unsigned DEFAULT NULL,
-  `dept_LV4_id` tinyint(4) unsigned DEFAULT NULL,
-  `dept_LV5_id` tinyint(4) unsigned DEFAULT NULL,
+  `dept_lv10_id` tinyint(4) unsigned DEFAULT NULL,
+  `dept_lv15_id` tinyint(4) unsigned DEFAULT NULL,
+  `dept_lv20_id` tinyint(4) unsigned DEFAULT NULL,
+  `dept_lv25_id` tinyint(4) unsigned DEFAULT NULL,
+  `dept_lv30_id` tinyint(4) unsigned DEFAULT NULL,
+  `dept_lv35_id` tinyint(4) unsigned DEFAULT NULL,
   `job_id` tinyint(4) unsigned DEFAULT NULL,
   `ip_address` char(45) NULL,
   `password` varchar(255) NOT NULL,
@@ -199,26 +211,28 @@ CREATE TABLE `auth_users` (
   CONSTRAINT `uc_activation_selector` UNIQUE (`activation_selector`),
   CONSTRAINT `uc_forgotten_password_selector` UNIQUE (`forgotten_password_selector`),
   CONSTRAINT `uc_remember_selector` UNIQUE (`remember_selector`),
-  KEY `fk_users_party_idx` (`party_id`),
+  KEY `fk_users_political_party_idx` (`political_party_id`),
   KEY `fk_users_company_idx` (`company_id`),
-  KEY `fk_users_dept_LV1_idx` (`dept_LV1_id`),
-  KEY `fk_users_dept_LV2_idx` (`dept_LV2_id`),
-  KEY `fk_users_dept_LV3_idx` (`dept_LV3_id`),
-  KEY `fk_users_dept_LV4_idx` (`dept_LV4_id`),
-  KEY `fk_users_dept_LV5_idx` (`dept_LV5_id`),
+  KEY `fk_users_dept_lv10_idx` (`dept_lv10_id`),
+  KEY `fk_users_dept_lv15_idx` (`dept_lv15_id`),
+  KEY `fk_users_dept_lv20_idx` (`dept_lv20_id`),
+  KEY `fk_users_dept_lv25_idx` (`dept_lv25_id`),
+  KEY `fk_users_dept_lv30_idx` (`dept_lv30_id`),
+  KEY `fk_users_dept_lv35_idx` (`dept_lv35_id`),
   KEY `fk_users_job_idx` (`job_id`),
-  CONSTRAINT `fk_users_party_id` FOREIGN KEY (`party_id`) REFERENCES `org_parties` (`id`),
+  CONSTRAINT `fk_users_political_party_id` FOREIGN KEY (`political_party_id`) REFERENCES `org_political_party` (`id`),
   CONSTRAINT `fk_users_company_id` FOREIGN KEY (`company_id`) REFERENCES `org_company` (`id`),
-  CONSTRAINT `fk_users_dept_LV1_id` FOREIGN KEY (`dept_LV1_id`) REFERENCES `org_dept_level_1` (`id`),
-  CONSTRAINT `fk_users_dept_LV2_id` FOREIGN KEY (`dept_LV2_id`) REFERENCES `org_dept_level_2` (`id`),
-  CONSTRAINT `fk_users_dept_LV3_id` FOREIGN KEY (`dept_LV3_id`) REFERENCES `org_dept_level_3` (`id`),
-  CONSTRAINT `fk_users_dept_LV4_id` FOREIGN KEY (`dept_LV4_id`) REFERENCES `org_dept_level_4` (`id`),
-  CONSTRAINT `fk_users_dept_LV5_id` FOREIGN KEY (`dept_LV5_id`) REFERENCES `org_dept_level_5` (`id`),
+  CONSTRAINT `fk_users_dept_lv10_id` FOREIGN KEY (`dept_lv10_id`) REFERENCES `org_dept_level_10` (`id`),
+  CONSTRAINT `fk_users_dept_lv15_id` FOREIGN KEY (`dept_lv15_id`) REFERENCES `org_dept_level_15` (`id`),
+  CONSTRAINT `fk_users_dept_lv20_id` FOREIGN KEY (`dept_lv20_id`) REFERENCES `org_dept_level_20` (`id`),
+  CONSTRAINT `fk_users_dept_lv25_id` FOREIGN KEY (`dept_lv25_id`) REFERENCES `org_dept_level_25` (`id`),
+  CONSTRAINT `fk_users_dept_lv30_id` FOREIGN KEY (`dept_lv30_id`) REFERENCES `org_dept_level_30` (`id`),
+  CONSTRAINT `fk_users_dept_lv35_id` FOREIGN KEY (`dept_lv35_id`) REFERENCES `org_dept_level_35` (`id`),
   CONSTRAINT `fk_users_job_id` FOREIGN KEY (`job_id`) REFERENCES `org_jobs` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `auth_users` (`id`, `phone`, `username`, `email`, `active`, `password`) VALUES
-    ('1','13812345678','管理员','admin@163.com','1','$argon2i$v=19$m=4096,t=2,p=2$bWVjN0c4MEVtS2ZzakJUMw$IR3GQ945dWBrmjlZkKUUTqax09APo8EoMFIDOVwjdy0');
+INSERT INTO `auth_users` (`id`, `phone`, `username`, `email`, `active`, `detailed_info_done`, `password`) VALUES
+    ('1','13812345678','管理员','admin@163.com','1', '0', '$argon2i$v=19$m=4096,t=2,p=2$bWVjN0c4MEVtS2ZzakJUMw$IR3GQ945dWBrmjlZkKUUTqax09APo8EoMFIDOVwjdy0');
 
 /*
 INSERT INTO `auth_users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `created_on`, `last_login`, `active`, `company`, `phone`) VALUES
@@ -257,16 +271,34 @@ CREATE TABLE `auth_verification_code` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*
-*/
 
+/* */
+DROP TABLE IF EXISTS `auth_verification_code`;
+DROP TABLE IF EXISTS `auth_login_attempts`;
 DROP TABLE IF EXISTS `auth_users_groups`;
 DROP TABLE IF EXISTS `auth_users`;
+DROP TABLE IF EXISTS `auth_groups`;
 DROP TABLE IF EXISTS `org_jobs`;
+DROP TABLE IF EXISTS `org_dept_level_10`;
+DROP TABLE IF EXISTS `org_dept_level_15`;
+DROP TABLE IF EXISTS `org_dept_level_20`;
+DROP TABLE IF EXISTS `org_dept_level_25`;
+DROP TABLE IF EXISTS `org_dept_level_30`;
+DROP TABLE IF EXISTS `org_dept_level_35`;
+DROP TABLE IF EXISTS `org_company`;
+DROP TABLE IF EXISTS `org_political_party`;
+
+DROP TABLE IF EXISTS `org_dept_level_1`;
 DROP TABLE IF EXISTS `org_dept_level_5`;
+DROP TABLE IF EXISTS `org_dept_level_2`;
 DROP TABLE IF EXISTS `org_dept_level_4`;
 DROP TABLE IF EXISTS `org_dept_level_3`;
-DROP TABLE IF EXISTS `org_dept_level_2`;
-DROP TABLE IF EXISTS `org_dept_level_1`;
-DROP TABLE IF EXISTS `org_company`;
 DROP TABLE IF EXISTS `org_parties`;
+
+
+/* */
+DROP TABLE IF EXISTS `rbac_userroles`;
+DROP TABLE IF EXISTS `rbac_roles`;
+DROP TABLE IF EXISTS `rbac_rolepermissions`;
+DROP TABLE IF EXISTS `rbac_permissions`;
+

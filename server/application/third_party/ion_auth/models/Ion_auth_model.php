@@ -855,7 +855,9 @@ class Ion_auth_model extends CI_Model
 			'password' => $password,
 			'email' => $email,
 			'ip_address' => $ip_address,
-			'created_on' => time(),
+      'created_on' => time(),
+      'updated_on' => time(),
+      'detailed_info_done' => 0,
 			'active' => $this->config->item('force_activation', 'ion_auth')
 		];
 

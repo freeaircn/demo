@@ -306,7 +306,7 @@ export default {
           const password = this.signupForm.password
           this.$confirm('请确认手机号“' + phone + '”是否正确?', '提示', {
             confirmButtonText: '正确',
-            cancelButtonText: '返回',
+            cancelButtonText: '返回修改',
             type: 'warning'
           }).then(() => {
             createUser(phone, email, password)
