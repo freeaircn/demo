@@ -44,13 +44,14 @@ $config['tables']['users_groups']    = 'auth_users_groups';
 $config['tables']['login_attempts']  = 'auth_login_attempts';
 $config['tables']['verification_code']  = 'auth_verification_code';
 //
-$config['tables']['org_parties']  = 'org_parties';
+$config['tables']['org_political_party']  = 'org_political_party';
 $config['tables']['org_company']  = 'org_company';
-$config['tables']['org_dept_level_1']  = 'org_dept_level_1';
-$config['tables']['org_dept_level_2']  = 'org_dept_level_2';
-$config['tables']['org_dept_level_3']  = 'org_dept_level_3';
-$config['tables']['org_dept_level_4']  = 'org_dept_level_4';
-$config['tables']['org_dept_level_5']  = 'org_dept_level_5';
+$config['tables']['org_dept_level_10']  = 'org_dept_level_10';
+$config['tables']['org_dept_level_15']  = 'org_dept_level_15';
+$config['tables']['org_dept_level_20']  = 'org_dept_level_20';
+$config['tables']['org_dept_level_25']  = 'org_dept_level_25';
+$config['tables']['org_dept_level_30']  = 'org_dept_level_30';
+$config['tables']['org_dept_level_35']  = 'org_dept_level_35';
 $config['tables']['org_jobs']  = 'org_jobs';
 
 /*

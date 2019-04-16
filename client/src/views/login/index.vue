@@ -79,8 +79,19 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm)
-            .then(() => {
+            .then((userInfo) => {
               this.loading = false
+              if (userInfo.detailed_info_done === '0') {
+                this.$alert('跳转页面，完善用户个人信息', '提示', {
+                  confirmButtonText: '跳转',
+                  type: 'warning'
+                }).then(() => {
+                  // 路由跳转，replace方法
+                  this.$router.replace({ path: '/404' })
+                }).catch(() => {
+                  this.$router.replace({ path: '/404' })
+                })
+              }
               this.$router.push({ path: this.redirect || '/' })
             })
             .catch((error) => {

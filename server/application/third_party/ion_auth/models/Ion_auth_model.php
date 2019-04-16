@@ -2817,6 +2817,7 @@ class Ion_auth_model extends CI_Model
       $res['code'] = FALSE;
       return $res;
     }
+
     $user = $this->user($uid)->row();
     if (!isset($user))
     {
@@ -2824,26 +2825,63 @@ class Ion_auth_model extends CI_Model
       return $res;
     }
 
-    $party_id = $user->party_id;
+    $political_party_id = $user->political_party_id;
     $company_id = $user->company_id;
-    $dept_LV1_id = $user->dept_LV1_id;
-    $dept_LV2_id = $user->dept_LV2_id;
+    $dept_lv10_id = $user->dept_lv10_id;
+    // $dept_lv15_id = $user->dept_lv15_id;
+    $dept_lv20_id = $user->dept_lv20_id;
+    // $dept_lv25_id = $user->dept_lv25_id;
+    $dept_lv30_id = $user->dept_lv30_id;
+    // $dept_lv35_id = $user->dept_lv35_id;
     $job_id = $user->job_id;
 
-    $res['code'] = TRUE;
-    $res['username'] = $user->username;
+    $res['uid'] = $user->id;
     $res['phone'] = $user->phone;
     $res['email'] = $user->email;
-    $res['gender'] = $user->gender;
+    $res['active'] = $user->active;
+    $res['detailed_info_done'] = $user->detailed_info_done;
 
-    $res['parties'] = $this->db->get_where($this->tables['org_parties'], array('id' => $party_id))->row()->name;
-    $res['company'] = $this->db->get_where($this->tables['org_company'], array('id' => $company_id))->row()->name;
-    $res['deptLevel1'] = $this->db->get_where($this->tables['org_dept_level_1'], array('id' => $dept_LV1_id))->row()->name;
-    $res['deptLevel2'] = $this->db->get_where($this->tables['org_dept_level_2'], array('id' => $dept_LV2_id))->row()->name;
-    $res['job'] = $this->db->get_where($this->tables['org_jobs'], array('id' => $job_id))->row()->name;
-
+    if ($user->detailed_info_done !== "0")
+    {
+      $res['username'] = (isset($user->username)) ? $user->username : FALSE;
+      $res['gender'] = (isset($user->gender)) ? $user->gender : FALSE;
+      
+      $res['political_party'] = $this->get_user_org_item('org_political_party', $political_party_id);
+      $res['company'] = $this->get_user_org_item('org_company', $company_id);
+      $res['dept_lv10'] = $this->get_user_org_item('org_dept_level_10', $dept_lv10_id);
+      $res['dept_lv20'] = $this->get_user_org_item('org_dept_level_20', $dept_lv20_id);
+      $res['dept_lv30'] = $this->get_user_org_item('org_dept_level_30', $dept_lv30_id);
+      $res['job'] = $this->get_user_org_item('org_jobs', $job_id);
+      // $res['political_party'] = $this->db->get_where($this->tables['org_political_party'], array('id' => $political_party_id))->row()->name;
+    }
+    
+    $res['code'] = TRUE;
 		return $res;
   }
+
+  /**
+	 * make up user info
+	 *
+	 * @param int|null $id
+	 *
+	 * @return bool|string
+	 * @author
+	 */
+  public function get_user_org_item($tbl = NULL, $id = NULL)
+  {
+    if (!isset($tbl) || !isset($id))
+    {
+      return FALSE;
+    }
+
+    $query = $this->db->get_where($this->tables[$tbl], array('id' => $id));
+    if ($query->num_rows() !== 1)
+    {
+      return FALSE;
+    }
+    return $query->row()->name;
+  }
+
 
   /**
 	 * create_verification_code

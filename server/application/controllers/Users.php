@@ -314,6 +314,7 @@ class Users extends CI_Controller {
       }
 
       $uid = $this->ion_auth->get_user_id_from_identity($userphone);
+      $user_info = $this->ion_auth->get_user_info($uid);
 
       $jwt_config = $this->config->item('jwt_config', 'ion_auth');
       $signer = new Sha256();
@@ -326,10 +327,11 @@ class Users extends CI_Controller {
                         ->sign($signer, $jwt_config['secret_code'])
                         ->getToken();
       $token_string = (string) $token;
-      if (isset($token_string))
+      if ($user_info['code'] === TRUE && isset($token_string))
       {
-        $response['code'] = Constants::SUCCESS;
+        $response = $user_info;
         $response['token'] = $token_string;
+        $response['code'] = Constants::SUCCESS;
       }
       else
       {
