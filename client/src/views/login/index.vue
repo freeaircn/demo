@@ -82,17 +82,16 @@ export default {
             .then((userInfo) => {
               this.loading = false
               if (userInfo.detailed_info_done === '0') {
-                this.$alert('跳转页面，完善用户个人信息', '提示', {
-                  confirmButtonText: '跳转',
-                  type: 'warning'
-                }).then(() => {
-                  // 路由跳转，replace方法
-                  this.$router.replace({ path: '/404' })
-                }).catch(() => {
-                  this.$router.replace({ path: '/404' })
+                this.$message({
+                  type: 'warning',
+                  message: '继续使用前，请完善用户个人信息！',
+                  duration: 3 * 1000
                 })
+                // 路由切换，replace
+                this.$router.replace({ path: '/update_user' })
+              } else {
+                this.$router.replace({ path: this.redirect || '/' })
               }
-              this.$router.push({ path: this.redirect || '/' })
             })
             .catch((error) => {
               this.loading = false

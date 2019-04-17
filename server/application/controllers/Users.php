@@ -245,50 +245,6 @@ class Users extends CI_Controller {
       $this->load->view('activate_message', $this->data);
     }
 
-    public function log_user_info()
-    {
-      $userid = $this->input->post('userid');
-      $username = $this->input->post('username');
-      $gender = $this->input->post('gender');
-      $parties = $this->input->post('parties');
-      $company = $this->input->post('company');
-      $dept_level_1 = $this->input->post('dept_level_1');
-      $dept_level_2 = $this->input->post('dept_level_2');
-      $job = $this->input->post('job');
-
-      if (!isset($userid) || !isset($username) || !isset($gender) || !isset($parties) || !isset($company) || !isset($dept_level_1) || !isset($dept_level_2) || !isset($job))
-      {
-        $response['code'] = Constants::POST_INPUT_EMPTY;
-        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
-
-        echo json_encode($response);
-        return ;
-      }
-
-      $data = array(
-        'username' => $username,
-        'gender' => $gender,
-        'party_id' => intval($parties),
-        'company_id' => intval($company),
-        'dept_LV1_id' => intval($dept_level_1),
-        'dept_LV2_id' => intval($dept_level_2),
-        'job_id' => intval($job)
-         );
-      $res = $this->ion_auth->update($userid, $data);
-      if ($res)
-      {
-        $response['code'] = Constants::SUCCESS;
-        $response['msg'] = '';
-      }
-      else
-      {
-        $response['code'] = Constants::USERS_SIGNUP_LOG_USER_INFO_FAILED;
-        $response['msg'] = Constants::USERS_SIGNUP_LOG_USER_INFO_FAILED_MSG;
-      }
-
-      echo json_encode($response);
-    }
-
     public function login()
     {
       $userphone = $this->input->post('userphone');
@@ -344,8 +300,8 @@ class Users extends CI_Controller {
 
     /**
      * check token
-     * @param token
-     * @return  BOOL / id
+     * @param string token
+     * @return  bool|int uid
      */
     protected function check_token($token)
     {
@@ -376,6 +332,72 @@ class Users extends CI_Controller {
     }
 
     /**
+     * update user info
+     * @param input - token
+     * @return
+     */
+    public function update_user_info()
+    {
+      $token = $this->input->get_request_header('X-Token', TRUE);
+   
+      $uid = $this->check_token($token);
+      if ($uid === FALSE)
+      {
+        $response['code'] = Constants::USERS_TOKEN_INVALID;
+        $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+
+      $username = $this->input->post('username');
+      $gender = $this->input->post('gender');
+      $political_party = $this->input->post('political_party');
+      $company = $this->input->post('company');
+      $dept_lv10 = $this->input->post('dept_lv10');
+      $dept_lv20 = $this->input->post('dept_lv20');
+      $dept_lv30 = $this->input->post('dept_lv30');
+      $job = $this->input->post('job');
+
+      if (!isset($username) || !isset($gender) || !isset($political_party) || !isset($company) || !isset($dept_lv10) || !isset($dept_lv20) || !isset($dept_lv30) || !isset($job))
+      {
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+
+      $data = array(
+        'detailed_info_done' => 1,
+        'updated_on' => time(),
+        //
+        'username' => $username,
+        'gender' => $gender,
+        'political_party_id' => intval($political_party),
+        'company_id' => intval($company),
+        'dept_lv10_id' => intval($dept_lv10),
+        'dept_lv20_id' => intval($dept_lv20),
+        'dept_lv30_id' => intval($dept_lv30),
+        'job_id' => intval($job)
+      );
+      $res = $this->ion_auth->update($uid, $data);
+      if ($res)
+      {
+        $response['code'] = Constants::SUCCESS;
+        $response['msg'] = '';
+      }
+      else
+      {
+        $response['code'] = Constants::USERS_SIGNUP_LOG_USER_INFO_FAILED;
+        $response['msg'] = Constants::USERS_SIGNUP_LOG_USER_INFO_FAILED_MSG;
+      }
+
+      echo json_encode($response);
+    }
+
+
+    /**
      * Get user info
      * @param input - token
      * @return
@@ -383,6 +405,7 @@ class Users extends CI_Controller {
     public function info()
     {
       $token = $this->input->post('token');
+
       // $token = (new Parser())->parse($this->input->get_request_header('X-Token', TRUE));
       if (!isset($token))
       {

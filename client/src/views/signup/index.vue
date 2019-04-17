@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
+// import { Message } from 'element-ui'
 import { isPhoneExisting, requestCode, checkVerificationCode, createUser } from '@/api/signup'
 import { isValidEmail, isValidCodeInput, isValidPhone, isValidPassword } from '@/utils/validate'
 import { getMailServerUrl } from '@/utils/auth'
@@ -170,10 +170,10 @@ export default {
             .then(function(data) {
               if (data.code === Constants.USERS_SIGNUP_IDENTITY_EXISTING) {
                 this.$refs.userphone.resetField()
-                Message({
-                  message: userPhone + data.msg,
-                  showClose: true,
+                this.$message({
                   type: 'error',
+                  showClose: true,
+                  message: userPhone + data.msg,
                   duration: 3 * 1000
                 })
               }

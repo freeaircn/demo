@@ -57,15 +57,25 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '/active_mail',
-    name: 'active_mail',
-    component: () => import('@/views/active_mail/index'),
+    path: '/update_user',
+    name: 'update_user',
+    component: () => import('@/views/userinfo/index'),
     meta: {
-      title: '激活',
+      title: '用户信息',
       hideInMenu: true
     },
     hidden: true
   },
+  // {
+  //   path: '/active_mail',
+  //   name: 'active_mail',
+  //   component: () => import('@/views/active_mail/index'),
+  //   meta: {
+  //     title: '激活',
+  //     hideInMenu: true
+  //   },
+  //   hidden: true
+  // },
   {
     path: '/forgot_password',
     name: 'forgot_password',

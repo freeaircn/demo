@@ -58,3 +58,20 @@ export function resetPassword(hash_code, password) {
     }
   })
 }
+
+export function updateUserInfo(userinfo) {
+  return request({
+    url: '/users/update_user_info',
+    method: 'post',
+    data: {
+      username: userinfo.username,
+      gender: userinfo.gender,
+      political_party: userinfo.political_party,
+      company: userinfo.company,
+      dept_lv10: userinfo.dept_lv10,
+      dept_lv20: userinfo.dept_lv20,
+      dept_lv30: userinfo.dept_lv30,
+      job: userinfo.job
+    }
+  })
+}

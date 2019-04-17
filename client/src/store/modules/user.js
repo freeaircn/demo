@@ -63,7 +63,6 @@ const user = {
       return new Promise((resolve, reject) => {
         login(userphone, userInfo.password).then(data => {
           if (data.code === Constants.SUCCESS) {
-            console.log(data)
             setToken(data.token)
             commit('SET_TOKEN', data.token)
             commit('SET_USER_INFO', data.phone, data.email, data.active, data.detailed_info_done)
