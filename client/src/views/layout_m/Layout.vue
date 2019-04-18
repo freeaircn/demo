@@ -1,9 +1,9 @@
 <template>
   <div class="app-wrapper">
-    <div class="main-container">
+    <!-- <div class="main-container"> -->
       <navbar/>
       <app-main/>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 

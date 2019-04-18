@@ -57,14 +57,18 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '/update_user',
-    name: 'update_user',
-    component: () => import('@/views/userinfo/index'),
-    meta: {
-      title: '用户信息',
-      hideInMenu: true
-    },
-    hidden: true
+    path: '/user_settings',
+    component: Layout,
+    name: 'user_settings',
+    hidden: true,
+    children: [
+      {
+        path: '/',
+        // name: 'UserInfo',
+        component: () => import('@/views/user/settings'),
+        meta: { title: '用户设置' }
+      }
+    ]
   },
   // {
   //   path: '/active_mail',
