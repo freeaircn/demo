@@ -15,9 +15,9 @@
             <i class="el-icon-caret-bottom"/>
           </div>
           <el-dropdown-menu slot="dropdown" class="user-dropdown">
-            <router-link class="inlineBlock" to="/">
+            <router-link class="inlineBlock" to="/user_settings">
               <el-dropdown-item>
-                个人信息
+                用户设置
               </el-dropdown-item>
             </router-link>
             <el-dropdown-item divided>

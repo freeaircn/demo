@@ -1,31 +1,5 @@
 import request from '@/utils/request'
 
-export function login(userphone, password) {
-  return request({
-    url: '/users/login',
-    method: 'post',
-    data: {
-      userphone,
-      password
-    }
-  })
-}
-
-export function getInfo(token) {
-  return request({
-    url: '/users/info',
-    method: 'post',
-    data: { token }
-  })
-}
-
-export function logout() {
-  return request({
-    url: '/users/logout',
-    method: 'post'
-  })
-}
-
 export function requestActiveMail(userphone, email) {
   return request({
     url: '/users/request_active_mail',
@@ -56,6 +30,13 @@ export function resetPassword(hash_code, password) {
       hash_code,
       password
     }
+  })
+}
+
+export function requestUserInfo() {
+  return request({
+    url: '/users/request_user_info',
+    method: 'post'
   })
 }
 

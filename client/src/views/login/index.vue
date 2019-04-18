@@ -79,16 +79,16 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm)
-            .then((userInfo) => {
+            .then((user_detailed_done) => {
               this.loading = false
-              if (userInfo.detailed_info_done === '0') {
+              if (user_detailed_done === '0') {
                 this.$message({
                   type: 'warning',
                   message: '继续使用前，请完善用户个人信息！',
                   duration: 3 * 1000
                 })
                 // 路由切换，replace
-                this.$router.replace({ path: '/update_user' })
+                this.$router.replace({ path: '/user_settings' })
               } else {
                 this.$router.replace({ path: this.redirect || '/' })
               }

@@ -9,7 +9,7 @@ const user = {
     roles: [],
     phone: '',
     email: '',
-    active: '',
+    user_active: '',
     user_detailed_done: '',
     //
     name: '',
@@ -40,10 +40,8 @@ const user = {
     SET_GENDER: (state, gender) => {
       state.gender = gender
     },
-    SET_USER_INFO: (state, phone, email, active, user_detailed_done) => {
-      state.phone = phone
-      state.email = email
-      state.active = active
+    SET_USER_KEY: (state, active, user_detailed_done) => {
+      state.user_active = active
       state.user_detailed_done = user_detailed_done
     },
     SET_USER_ORG_INFO: (state, political_party, company, dept_lv10, dept_lv20, dept_lv30, job) => {
@@ -65,13 +63,8 @@ const user = {
           if (data.code === Constants.SUCCESS) {
             setToken(data.token)
             commit('SET_TOKEN', data.token)
-            commit('SET_USER_INFO', data.phone, data.email, data.active, data.detailed_info_done)
-            if (data.detailed_info_done === '1') {
-              commit('SET_NAME', data.name)
-              commit('SET_GENDER', data.gender)
-              commit('SET_USER_ORG_INFO', data.political_party, data.company, data.dept_lv10, data.dept_lv20, data.dept_lv30, data.job)
-            }
-            resolve(data)
+            commit('SET_USER_KEY', data.active, data.detailed_info_done)
+            resolve(data.detailed_info_done)
           } else {
             reject(data.msg)
           }

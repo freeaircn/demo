@@ -270,7 +270,7 @@ class Users extends CI_Controller {
       }
 
       $uid = $this->ion_auth->get_user_id_from_identity($userphone);
-      $user_info = $this->ion_auth->get_user_info($uid);
+      $user = $this->ion_auth->get_user_info($uid);
 
       $jwt_config = $this->config->item('jwt_config', 'ion_auth');
       $signer = new Sha256();
@@ -283,11 +283,13 @@ class Users extends CI_Controller {
                         ->sign($signer, $jwt_config['secret_code'])
                         ->getToken();
       $token_string = (string) $token;
-      if ($user_info['code'] === TRUE && isset($token_string))
+
+       if (isset($token_string))
       {
-        $response = $user_info;
-        $response['token'] = $token_string;
         $response['code'] = Constants::SUCCESS;
+        $response['token'] = $token_string;
+        $response['active'] = (isset($user['active'])) ? $user['active'] : '0';
+        $response['detailed_info_done'] = (isset($user['detailed_info_done'])) ? $user['detailed_info_done'] : '0';
       }
       else
       {
@@ -332,6 +334,41 @@ class Users extends CI_Controller {
     }
 
     /**
+     * request user info
+     * @param input - token
+     * @return
+     */
+    public function request_user_info()
+    {
+      $token = $this->input->get_request_header('X-Token', TRUE);
+
+      $uid = $this->check_token($token);
+      if ($uid === FALSE)
+      {
+        $response['code'] = Constants::USERS_TOKEN_INVALID;
+        $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+
+      $user_info = $this->ion_auth->get_user_info($uid);
+      if ($user_info === FALSE)
+      {
+        $response['code'] = Constants::USERS_TOKEN_INVALID;
+        $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+
+      $response = $user_info;
+      $response['code'] = Constants::SUCCESS;
+
+      echo json_encode($response);
+    }
+
+    /**
      * update user info
      * @param input - token
      * @return
@@ -339,7 +376,7 @@ class Users extends CI_Controller {
     public function update_user_info()
     {
       $token = $this->input->get_request_header('X-Token', TRUE);
-   
+
       $uid = $this->check_token($token);
       if ($uid === FALSE)
       {

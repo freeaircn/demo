@@ -2801,12 +2801,12 @@ class Ion_auth_model extends CI_Model
   }
 
   /**
-	 * make up user info
+	 * user info
 	 *
 	 * @param int|null $id
 	 *
-	 * @return static
-	 * @author
+	 * @return bool|array
+	 * @author freeair
 	 */
 	public function get_user_info($uid = NULL)
 	{
@@ -2814,15 +2814,13 @@ class Ion_auth_model extends CI_Model
 
     if (!isset($uid))
     {
-      $res['code'] = FALSE;
-      return $res;
+      return FALSE;
     }
 
     $user = $this->user($uid)->row();
     if (!isset($user))
     {
-      $res['code'] = FALSE;
-      return $res;
+      return FALSE;
     }
 
     $political_party_id = $user->political_party_id;
@@ -2841,31 +2839,39 @@ class Ion_auth_model extends CI_Model
     $res['active'] = $user->active;
     $res['detailed_info_done'] = $user->detailed_info_done;
 
-    if ($user->detailed_info_done !== "0")
-    {
-      $res['username'] = (isset($user->username)) ? $user->username : FALSE;
-      $res['gender'] = (isset($user->gender)) ? $user->gender : FALSE;
-      
-      $res['political_party'] = $this->get_user_org_item('org_political_party', $political_party_id);
-      $res['company'] = $this->get_user_org_item('org_company', $company_id);
-      $res['dept_lv10'] = $this->get_user_org_item('org_dept_level_10', $dept_lv10_id);
-      $res['dept_lv20'] = $this->get_user_org_item('org_dept_level_20', $dept_lv20_id);
-      $res['dept_lv30'] = $this->get_user_org_item('org_dept_level_30', $dept_lv30_id);
-      $res['job'] = $this->get_user_org_item('org_jobs', $job_id);
-      // $res['political_party'] = $this->db->get_where($this->tables['org_political_party'], array('id' => $political_party_id))->row()->name;
-    }
-    
-    $res['code'] = TRUE;
+    $res['username'] = (isset($user->username)) ? $user->username : '';
+    $res['gender'] = (isset($user->gender)) ? $user->gender : '';
+    $res['political_party'] =  (isset($political_party_id)) ? $political_party_id : '';
+    $res['company'] = (isset($company_id)) ? $company_id : '';
+    $res['dept_lv10'] = (isset($dept_lv10_id)) ? $dept_lv10_id : '';
+    $res['dept_lv20'] = (isset($dept_lv20_id)) ? $dept_lv20_id : '';
+    $res['dept_lv30'] = (isset($dept_lv30_id)) ? $dept_lv30_id : '';
+    $res['job'] = (isset($job_id)) ? $job_id : '';
+
+    // $res['political_party'] = $this->db->get_where($this->tables['org_political_party'], array('id' => $political_party_id))->row()->name;
+    // if ($user->detailed_info_done !== "0")
+    // {
+    //   $res['username'] = (isset($user->username)) ? $user->username : FALSE;
+    //   $res['gender'] = (isset($user->gender)) ? $user->gender : FALSE;
+
+    //   $res['political_party'] = $this->get_user_org_item('org_political_party', $political_party_id);
+    //   $res['company'] = $this->get_user_org_item('org_company', $company_id);
+    //   $res['dept_lv10'] = $this->get_user_org_item('org_dept_level_10', $dept_lv10_id);
+    //   $res['dept_lv20'] = $this->get_user_org_item('org_dept_level_20', $dept_lv20_id);
+    //   $res['dept_lv30'] = $this->get_user_org_item('org_dept_level_30', $dept_lv30_id);
+    //   $res['job'] = $this->get_user_org_item('org_jobs', $job_id);
+    // }
+
 		return $res;
   }
 
   /**
-	 * make up user info
+	 * get user org item content
 	 *
 	 * @param int|null $id
 	 *
 	 * @return bool|string
-	 * @author
+	 * @author freeair
 	 */
   public function get_user_org_item($tbl = NULL, $id = NULL)
   {
@@ -2978,4 +2984,3 @@ class Ion_auth_model extends CI_Model
 
 
 }
-
