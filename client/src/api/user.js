@@ -40,19 +40,30 @@ export function requestUserInfo() {
   })
 }
 
-export function updateUserInfo(userinfo) {
+export function updateUserProfile(profile) {
   return request({
-    url: '/users/update_user_info',
+    url: '/users/update_user_profile',
     method: 'post',
     data: {
-      username: userinfo.username,
-      gender: userinfo.gender,
-      political_party: userinfo.political_party,
-      company: userinfo.company,
-      dept_lv10: userinfo.dept_lv10,
-      dept_lv20: userinfo.dept_lv20,
-      dept_lv30: userinfo.dept_lv30,
-      job: userinfo.job
+      username: profile.username,
+      gender: profile.gender,
+      political_party: profile.political_party,
+      company: profile.company,
+      dept_lv10: profile.dept_lv10,
+      dept_lv20: profile.dept_lv20,
+      dept_lv30: profile.dept_lv30,
+      job: profile.job
+    }
+  })
+}
+
+export function updatePassword(old_pwd, new_pwd) {
+  return request({
+    url: '/users/update_password',
+    method: 'post',
+    data: {
+      old_pwd,
+      new_pwd
     }
   })
 }

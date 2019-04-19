@@ -2982,5 +2982,33 @@ class Ion_auth_model extends CI_Model
     return ($res === FALSE) ? FALSE : TRUE;
   }
 
+  /**
+	 * Get identity from uid
+	 *
+	 * @param $identity string
+	 *
+	 * @return bool|int
+	 */
+	public function get_identity_from_uid($uid = NULL)
+	{
+		if (!isset($uid))
+		{
+			return FALSE;
+		}
+
+		$query = $this->db->select($this->identity_column)
+						  ->where('id', $uid)
+						  ->limit(1)
+						  ->get($this->tables['users']);
+
+		if ($query->num_rows() !== 1)
+		{
+			return FALSE;
+		}
+
+		$user = $query->row();
+
+		return $user->id;
+  }
 
 }

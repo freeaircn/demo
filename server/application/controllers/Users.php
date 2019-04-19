@@ -369,11 +369,11 @@ class Users extends CI_Controller {
     }
 
     /**
-     * update user info
+     * update user profile
      * @param input - token
      * @return
      */
-    public function update_user_info()
+    public function update_user_profile()
     {
       $token = $this->input->get_request_header('X-Token', TRUE);
 
@@ -433,25 +433,14 @@ class Users extends CI_Controller {
       echo json_encode($response);
     }
 
-
     /**
-     * Get user info
+     * update password
      * @param input - token
      * @return
      */
-    public function info()
+    public function update_password()
     {
-      $token = $this->input->post('token');
-
-      // $token = (new Parser())->parse($this->input->get_request_header('X-Token', TRUE));
-      if (!isset($token))
-      {
-        $response['code'] = Constants::POST_INPUT_EMPTY;
-        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
-
-        echo json_encode($response);
-        return ;
-      }
+      $token = $this->input->get_request_header('X-Token', TRUE);
 
       $uid = $this->check_token($token);
       if ($uid === FALSE)
@@ -463,20 +452,65 @@ class Users extends CI_Controller {
         return ;
       }
 
-      $res = $this->ion_auth->get_user_info($uid);
-      if ($res['code'] === TRUE)
+      $old_pwd = $this->input->post('old_pwd');
+      $new_pwd = $this->input->post('new_pwd');
+      if (!isset($old_pwd) || !isset($new_pwd))
       {
-        $response['code'] = Constants::SUCCESS;
-        $response['info'] = $res;
-      }
-      else
-      {
-        $response['code'] = Constants::USERS_GET_USER_INFO_FAILED;
-        $response['msg'] = Constants::USERS_GET_USER_INFO_FAILED_MSG;
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
+
+        echo json_encode($response);
+        return ;
       }
 
-      echo json_encode($response);
+      // $user = $this->iou_auth->user($uid)->row();
+      $res = $this->iou_auth->update_password($uid, $old_pwd, $new_pwd);
+
     }
+
+    // /**
+    //  * Get user info
+    //  * @param input - token
+    //  * @return
+    //  */
+    // public function info()
+    // {
+    //   $token = $this->input->post('token');
+
+    //   // $token = (new Parser())->parse($this->input->get_request_header('X-Token', TRUE));
+    //   if (!isset($token))
+    //   {
+    //     $response['code'] = Constants::POST_INPUT_EMPTY;
+    //     $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
+
+    //     echo json_encode($response);
+    //     return ;
+    //   }
+
+    //   $uid = $this->check_token($token);
+    //   if ($uid === FALSE)
+    //   {
+    //     $response['code'] = Constants::USERS_TOKEN_INVALID;
+    //     $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
+
+    //     echo json_encode($response);
+    //     return ;
+    //   }
+
+    //   $res = $this->ion_auth->get_user_info($uid);
+    //   if ($res['code'] === TRUE)
+    //   {
+    //     $response['code'] = Constants::SUCCESS;
+    //     $response['info'] = $res;
+    //   }
+    //   else
+    //   {
+    //     $response['code'] = Constants::USERS_GET_USER_INFO_FAILED;
+    //     $response['msg'] = Constants::USERS_GET_USER_INFO_FAILED_MSG;
+    //   }
+
+    //   echo json_encode($response);
+    // }
 
     /**
      * client request activa mail

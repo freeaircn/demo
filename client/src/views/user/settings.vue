@@ -3,19 +3,19 @@
     <div class="content-container py-3">
       <el-tabs v-loading="content_loading" type="card" class="container-sm px-responsive">
         <el-tab-pane label="个人信息">
-          <el-form ref="form" :model="userinfo" :rules="formRules" class="" label-position="right" >
+          <el-form ref="profile_form" :model="profile" :rules="profileRules" class="" label-position="right" >
             <el-form-item prop="username" >
-              <el-input v-model="userinfo.username" name="username" type="text" placeholder="中文姓名" clearable @change="userInfoChange()" />
+              <el-input v-model="profile.username" name="username" type="text" placeholder="中文姓名" clearable @change="profileItemChange()" />
             </el-form-item>
 
             <el-form-item label="性别" prop="gender">
-              <el-radio-group v-model="userinfo.gender" @change="userInfoChange()">
+              <el-radio-group v-model="profile.gender" @change="profileItemChange()">
                 <el-radio label="男">男</el-radio>
                 <el-radio label="女">女</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="党派" prop="political_party">
-              <el-radio-group v-model="userinfo.political_party" @change="userInfoChange()">
+              <el-radio-group v-model="profile.political_party" @change="profileItemChange()">
                 <el-radio label="1">无党派</el-radio>
                 <el-radio label="2">中共党员</el-radio>
                 <el-radio label="3">其他党派</el-radio>
@@ -23,27 +23,27 @@
             </el-form-item>
 
             <el-form-item prop="company">
-              <el-select v-model="userinfo.company" placeholder="请选择所属公司" @change="userInfoChange()">
+              <el-select v-model="profile.company" placeholder="请选择所属公司" @change="profileItemChange()">
                 <el-option label="保山能源发展股份有限公司" value="1" />
               </el-select>
             </el-form-item>
 
             <el-form-item prop="dept_lv10">
-              <el-select v-model="userinfo.dept_lv10" placeholder="请选择子公司" @change="userInfoChange()">
+              <el-select v-model="profile.dept_lv10" placeholder="请选择子公司" @change="profileItemChange()">
                 <el-option label="保山槟榔江水电开发有限公司" value="1"/>
                 <el-option label="直属电厂" value="2"/>
               </el-select>
             </el-form-item>
 
             <el-form-item prop="dept_lv20">
-              <el-select v-model="userinfo.dept_lv20" placeholder="请选择所属电厂" @change="userInfoChange()">
+              <el-select v-model="profile.dept_lv20" placeholder="请选择所属电厂" @change="profileItemChange()">
                 <el-option label="松山河口电厂" value="1"/>
                 <el-option label="苏家河口电厂" value="2"/>
               </el-select>
             </el-form-item>
 
             <el-form-item prop="dept_lv30">
-              <el-select v-model="userinfo.dept_lv30" placeholder="请选择所属班组" @change="userInfoChange()">
+              <el-select v-model="profile.dept_lv30" placeholder="请选择所属班组" @change="profileItemChange()">
                 <el-option label="检修班" value="1"/>
                 <el-option label="运行一班" value="2"/>
                 <el-option label="运行二班" value="3"/>
@@ -55,7 +55,7 @@
             </el-form-item>
 
             <el-form-item prop="job">
-              <el-select v-model="userinfo.job" placeholder="请选择职务" @change="userInfoChange()">
+              <el-select v-model="profile.job" placeholder="请选择职务" @change="profileItemChange()">
                 <el-option label="检修员" value="1"/>
                 <el-option label="运行员" value="2"/>
                 <el-option label="班长" value="3"/>
@@ -63,11 +63,77 @@
             </el-form-item>
 
             <el-form-item>
-              <el-button :disabled="isUpdateUserBtnDisable" type="primary" style="width:100%;" @click.native.prevent="handleUpdateUserinfo">更 新</el-button>
+              <el-button :disabled="isUpdateUserBtnDisable" type="primary" style="width:100%;" @click.native.prevent="handleUpdateUserProfile">更 新</el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="账号管理">账号管理</el-tab-pane>
+
+        <el-tab-pane label="密码">
+          <div class="password-container">
+            <div class="is-left">
+              <p class="p-text">更改密码</p>
+            </div>
+            <el-form ref="password_form" :model="password" :rules="passwordRules" label-position="right" >
+              <el-form-item prop="old_password">
+                <el-input v-model="password.oldPwd" type="password" name="old_password" placeholder="输入旧密码" clearable />
+              </el-form-item>
+
+              <el-form-item prop="new_password">
+                <el-input v-model="password.newPwd" type="password" name="new_password" placeholder="输入新密码" clearable />
+              </el-form-item>
+
+              <el-form-item prop="confirm_password">
+                <el-input v-model="password.newConfirm" type="password" name="confirm_password" placeholder="再次输入新密码" clearable />
+              </el-form-item>
+
+              <el-form-item>
+                <el-button type="primary" style="width:100%;" @click.native.prevent="handleUpdatePassword">更改密码</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-tab-pane>
+
+        <el-tab-pane label="邮箱">
+          <div class="email-container">
+            <div class="is-left">
+              <p class="p-text">注册邮箱 {{ this.email }}</p>
+            </div>
+            <el-form ref="email_form" :model="emailForm" :rules="emailRules" label-position="right" >
+              <el-form-item prop="new_email">
+                <el-input v-model="emailForm.newEmail" type="text" name="new_email" placeholder="输入新邮箱" clearable />
+              </el-form-item>
+
+              <el-form-item prop="verification_code">
+                <el-input v-model="emailForm.code" type="text" name="verification_code" placeholder="输入验证码" clearable />
+              </el-form-item>
+
+              <!-- <div class="pb-2 is-right" style="color: #409EFF;">获取验证码</div> -->
+              <input v-model="btnCodeConent" type="button" class="btn-code" @click="handleRequestCode">
+
+              <el-form-item>
+                <el-button type="primary" style="width:100%;" @click.native.prevent="handleUpdateEmail">更改邮箱</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-tab-pane>
+
+        <el-tab-pane label="手机号">
+          <div class="phone-container">
+            <div class="is-left">
+              <p class="p-text">注册手机号 {{ this.phone }}</p>
+            </div>
+            <el-form ref="phone_form" :model="newPhone" :rules="phoneRules" label-position="right" >
+              <el-form-item prop="new_phone">
+                <el-input v-model="newPhone" type="text" name="new_phone" placeholder="输入新手机号" clearable />
+              </el-form-item>
+
+              <el-form-item>
+                <el-button type="primary" style="width:100%;" @click.native.prevent="handleUpdatePhone">更改手机号</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-tab-pane>
+
       </el-tabs>
     </div>
 
@@ -95,8 +161,8 @@
 </template>
 
 <script>
-import { requestUserInfo, updateUserInfo } from '@/api/user'
-import { isValidChineseName } from '@/utils/validate'
+import { requestUserInfo, updateUserProfile } from '@/api/user'
+import { isValidChineseName, isValidPassword, isValidEmail, isValidCodeInput, isValidPhone } from '@/utils/validate'
 import { Constants } from '@/Constants'
 
 export default {
@@ -109,12 +175,51 @@ export default {
         callback()
       }
     }
+    const validatePssword = (rule, value, callback) => {
+      if (!isValidPassword(value)) {
+        callback(new Error('密码最小长度为8位，必须包含大写、小写字母、数字！'))
+      } else {
+        if (this.password.newConfirm !== '') {
+          this.$refs.password_form.validateField('confirm_password')
+        }
+        callback()
+      }
+    }
+    const validateconfirmPassword = (rule, value, callback) => {
+      if (value !== this.password.newPwd) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
+    const validateEmail = (rule, value, callback) => {
+      if (!isValidEmail(value)) {
+        callback(new Error('请输入有效的邮箱！'))
+      } else {
+        callback()
+      }
+    }
+    const validateCode = (rule, value, callback) => {
+      if (!isValidCodeInput(value)) {
+        callback(new Error('请输入5位验证码！'))
+      } else {
+        callback()
+      }
+    }
+    const validateUserphone = (rule, value, callback) => {
+      if (!isValidPhone(value)) {
+        callback(new Error('请输入11位有效的手机号！'))
+      } else {
+        callback()
+      }
+    }
     return {
       phone: '',
       email: '',
       account_active: '',
       account_detailed_done: '',
-      userinfo: {
+      //
+      profile: {
         username: '',
         gender: '',
         political_party: '',
@@ -124,7 +229,7 @@ export default {
         dept_lv30: '',
         job: ''
       },
-      formRules: {
+      profileRules: {
         username: [{ required: true, trigger: 'change', validator: validateUsername }],
         gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
         political_party: [{ required: true, message: '请选择党派', trigger: 'change' }],
@@ -134,7 +239,30 @@ export default {
         dept_lv30: [{ required: true, message: '请选择班组', trigger: 'change' }],
         job: [{ required: true, message: '请选择职务', trigger: 'change' }]
       },
-      content_loading: true,
+      password: {
+        oldPwd: '',
+        newPwd: '',
+        newConfirm: ''
+      },
+      passwordRules: {
+        old_password: [{ required: true, trigger: 'change' }],
+        new_password: [{ required: true, trigger: 'change', validator: validatePssword }],
+        confirm_password: [{ required: true, trigger: 'change', validator: validateconfirmPassword }]
+      },
+      emailForm: {
+        newEmail: '',
+        code: ''
+      },
+      emailRules: {
+        new_email: [{ required: true, trigger: 'change', validator: validateEmail }],
+        verification_code: [{ required: true, trigger: 'change', validator: validateCode }]
+      },
+      btnCodeConent: '获取验证码',
+      newPhone: '',
+      phoneRules: {
+        new_phone: [{ required: true, trigger: 'change', validator: validateUserphone }],
+      },
+      content_loading: false,
       isUpdateUserBtnDisable: true,
       redirect: undefined
     }
@@ -156,14 +284,14 @@ export default {
           this.account_active = data.active
           this.account_detailed_done = data.detailed_info_done
           //
-          this.userinfo.username = data.username
-          this.userinfo.gender = data.gender
-          this.userinfo.political_party = data.political_party
-          this.userinfo.company = data.company
-          this.userinfo.dept_lv10 = data.dept_lv10
-          this.userinfo.dept_lv20 = data.dept_lv20
-          this.userinfo.dept_lv30 = data.dept_lv30
-          this.userinfo.job = data.job
+          this.profile.username = data.username
+          this.profile.gender = data.gender
+          this.profile.political_party = data.political_party
+          this.profile.company = data.company
+          this.profile.dept_lv10 = data.dept_lv10
+          this.profile.dept_lv20 = data.dept_lv20
+          this.profile.dept_lv30 = data.dept_lv30
+          this.profile.job = data.job
           //
           this.content_loading = false
         } else {
@@ -184,14 +312,48 @@ export default {
       })
   },
   methods: {
-    userInfoChange() {
+    profileItemChange() {
       this.isUpdateUserBtnDisable = false
     },
 
-    handleUpdateUserinfo() {
-      this.$refs.form.validate((valid) => {
+    handleUpdateUserProfile() {
+      this.$refs.profile_form.validate((valid) => {
         if (valid) {
-          updateUserInfo(this.userinfo)
+          updateUserProfile(this.profile)
+            .then(function(data) {
+              if (data.code === Constants.SUCCESS) {
+                this.isUpdateUserBtnDisable = true
+                this.$message({
+                  type: 'info',
+                  message: '用户信息已更新！',
+                  duration: 3 * 1000
+                })
+              } else {
+                this.$message({
+                  type: 'info',
+                  message: '服务器更新失败，请重试！',
+                  duration: 3 * 1000
+                })
+              }
+            }.bind(this))
+            .catch(function(err) {
+              console.log(err)
+              this.$message({
+                type: 'info',
+                message: '服务器更新失败，请重试！！',
+                duration: 3 * 1000
+              })
+            })
+        } else {
+          return false
+        }
+      })
+    },
+
+    handleUpdatePassword() {
+      this.$refs.password_form.validate((valid) => {
+        if (valid) {
+          updatePassword(this.password.oldPwd, this.password.newPwd)
             .then(function(data) {
               if (data.code === Constants.SUCCESS) {
                 this.isUpdateUserBtnDisable = true
@@ -243,6 +405,20 @@ export default {
 }
 .el-select{
   width: 100%;
+}
+.p-text {
+  font-weight: 600;
+  color: $blue-light;
+  font-size: $font-size-base;
+}
+.btn-code {
+  border: 0px;
+  width: 90px;
+  padding-bottom: 16px;
+  float: right;
+  color: $blue-light;
+  background-color:  white;
+  font-size: $font-size-base;
 }
 
 .footer-wrapper {
