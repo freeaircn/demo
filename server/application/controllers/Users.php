@@ -77,8 +77,11 @@ class Users extends CI_Controller {
     // }
 
     /**
-     * Client请求通过邮件获取验证码
-     */
+     * Client请求发送验证码
+     *
+     * @param string email, code
+     * @return
+    */
     public function request_code()
     {
       $email = $this->input->post('email');
@@ -145,7 +148,10 @@ class Users extends CI_Controller {
 
     /**
      * Client请求校验验证码
-     */
+     *
+     * @param string email, code
+     * @return bool
+    */
     public function check_verification_code()
     {
       $email = $this->input->post('email');
@@ -305,7 +311,7 @@ class Users extends CI_Controller {
     /**
      * create token
      * @param string claim item   可以用id， phone， email等，见login处理
-     * @return  bool|string 
+     * @return  bool|string
      */
     protected function create_token($item)
     {
@@ -442,7 +448,7 @@ class Users extends CI_Controller {
         'dept_lv30_id' => intval($dept_lv30),
         'job_id' => intval($job)
       );
-      
+
       $res = $this->ion_auth->update($uid, $data);
       if ($res)
       {
@@ -541,10 +547,48 @@ class Users extends CI_Controller {
         echo json_encode($response);
         return ;
       }
+      // 校验 验证码
+      $res = $this->ion_auth->validate_verification_code($new_email, $verification_code);
+      if (!$res)
+      {
+        $response['code'] = Constants::USERS_SIGNUP_VERIFY_VERIFICATION_FAILED;
+        $response['msg'] = Constants::USERS_SIGNUP_VERIFY_VERIFICATION_FAILED_MSG;
 
+        echo json_encode($response);
+        return ;
+      }
 
-      $response['code'] = Constants::SUCCESS;
-      $response['msg'] = 'xxx';
+      // get用户
+      $user = $this->ion_auth->get_user_info($phone);
+      if ($user === FALSE)
+      {
+        $response['code'] = Constants::USERS_USER_INFO_INCORRECT;
+        $response['msg'] = Constants::USERS_USER_INFO_INCORRECT_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+      // 核对旧email
+      if ($old_email !== $user['email'])
+      {
+        $response['code'] = Constants::USERS_USER_INFO_INCORRECT;
+        $response['msg'] = Constants::USERS_USER_INFO_INCORRECT_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+
+      // 更新email
+      if ($this->ion_auth->update_email_db($phone, $new_email))
+      {
+        $response['code'] = Constants::SUCCESS;
+        $response['msg'] = '邮箱已更新！';
+      }
+      else
+      {
+        $response['code'] = Constants::USERS_EMAIL_UPDATE_FAILED;
+        $response['msg'] = Constants::USERS_EMAIL_UPDATE_FAILED_MSG;
+      }
 
       echo json_encode($response);
     }

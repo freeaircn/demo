@@ -2816,7 +2816,7 @@ class Ion_auth_model extends CI_Model
 		{
 			return FALSE;
     }
-    
+
     $query = $this->db->select('*')
 						  ->where($this->identity_column, $identity)
 						  ->limit(1)
@@ -3020,13 +3020,13 @@ class Ion_auth_model extends CI_Model
 			return FALSE;
 		}
     $user = $query->row();
-    
+
     return $this->verify_password($old, $user->password, $identity);
   }
   /**
 	 * update password db
 	 * @param    string $identity
-	 * @param    string $old
+	 * @param    string $new
 	 *
 	 * @return bool
 	 * @author freeair
@@ -3042,8 +3042,35 @@ class Ion_auth_model extends CI_Model
 			'updated_on' => time()
 		];
 		$this->db->update($this->tables['users'], $data, [$this->identity_column => $identity]);
-    
+
     $result = $this->_set_password_db($identity, $new);
 		return $result;
   }
+
+  /**
+	 * update email db
+	 * @param    string $identity
+	 * @param    string $new
+	 *
+	 * @return bool
+	 * @author freeair
+	 */
+  public function update_email_db($identity = '', $new = '')
+  {
+    if (empty($identity) || empty($new))
+    {
+      return FALSE;
+    }
+
+    $data = [
+      'email' => $new,
+			'updated_on' => time()
+		];
+		$this->db->update($this->tables['users'], $data, [$this->identity_column => $identity]);
+    $result = ($this->db->affected_rows() == 1);
+
+		return $result;
+  }
+
+
 }

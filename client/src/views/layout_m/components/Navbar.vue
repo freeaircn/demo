@@ -67,9 +67,13 @@ export default {
               message: '您已退出登录',
               duration: 3 * 1000
             })
+            // 路由跳转
+            this.$router.replace({ path: '/' })
           })
           .catch(err => {
             console.log(err)
+            // 异常，也路由跳转
+            this.$router.replace({ path: '/' })
           })
       }
     }

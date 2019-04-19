@@ -106,7 +106,7 @@
               <el-form-item prop="verificationCode">
                 <el-input v-model="emailForm.verificationCode" type="text" placeholder="输入验证码" clearable />
               </el-form-item>
-              <input v-model="requestCodeBtnContent" type="button" class="btn-code" @click="handleRequestCode">
+              <input v-model="requestCodeBtnContent" :disabled="isReuqestCodeBtnDisable" type="button" class="btn-code" @click="handleRequestCode">
 
               <el-form-item>
                 <el-button type="primary" style="width:100%;" @click.native.prevent="handleUpdateEmail">更改邮箱</el-button>
@@ -406,11 +406,10 @@ export default {
         this.diableRequestCodeBtn()
 
         // 请求Server 发送验证码邮件
-        const email = this.email
-        requestCode(email)
+        requestCode(this.emailForm.newEmail)
           .then(function(data) {
             if (data.code === Constants.SUCCESS) {
-              const url = getMailServerUrl(this.emailLowcase)
+              const url = getMailServerUrl(this.emailForm.newEmail)
               if (url) {
                 this.$alert('验证码已发送，将在新窗口打开邮箱登录页面', '提示', {
                   confirmButtonText: '确定',
@@ -507,7 +506,7 @@ export default {
   border: 0px;
   width: 90px;
   padding-bottom: 16px;
-  float: right;
+  // float: right;
   color: $blue-light;
   background-color:  white;
   font-size: $font-size-base;

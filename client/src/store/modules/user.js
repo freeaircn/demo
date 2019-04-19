@@ -103,6 +103,7 @@ const user = {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
+          commit('SET_USER_KEY', '', '')
           removeToken()
           resolve()
         }).catch(error => {
@@ -116,6 +117,7 @@ const user = {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
+        commit('SET_USER_KEY', '', '')
         removeToken()
         resolve()
       })

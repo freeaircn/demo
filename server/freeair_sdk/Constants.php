@@ -30,9 +30,11 @@ class Constants {
   const USERS_ACTIVATE_GEN_CODE_FAILED = 303;
   const USERS_ACTIVATE_SEND_MAIL_FAILED = 304;
 
-  // ! Users Get user info流程 code：350~399
+  // ! Users settings code：350~399
   const USERS_GET_USER_INFO_FAILED = 350;
   const USERS_UPDATE_PROFILE_FAILED = 351;
+  const USERS_USER_INFO_INCORRECT = 352;
+  const USERS_EMAIL_UPDATE_FAILED = 353;
 
   // ! Users Forgot Password流程 code：400~449
   const USERS_PASSWORD_IDENTITY_NOT_EXISTING = 400;
@@ -69,6 +71,8 @@ class Constants {
   //
   const USERS_GET_USER_INFO_FAILED_MSG = '服务器查询用户信息失败！';
   const USERS_UPDATE_PROFILE_FAILED_MSG = '服务器更新用户信息失败！';
+  const USERS_USER_INFO_INCORRECT_MSG = '提交的用户信息有误，请重新登录再更改！';
+  const USERS_EMAIL_UPDATE_FAILED_MSG = '邮箱更新失败，请重试！';
   //
   const USERS_PASSWORD_IDENTITY_NOT_EXISTING_MSG = ' 用户不存在';
   const USERS_PASSWORD_INPUT_EMAIL_INVALID_MSG = '邮箱不符，用户注册的邮箱是: ';
