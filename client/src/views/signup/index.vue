@@ -237,12 +237,12 @@ export default {
                   duration: 3 * 1000
                 })
               }
-            } else if (data.code === Constants.USERS_SIGNUP_EMAIL_EXISTING) {
-              this.$message({
-                type: 'info',
-                message: email + data.msg,
-                duration: 3 * 1000
-              })
+            // } else if (data.code === Constants.USERS_SIGNUP_EMAIL_EXISTING) {
+            //   this.$message({
+            //     type: 'info',
+            //     message: email + data.msg,
+            //     duration: 3 * 1000
+            //   })
             } else {
               this.$message({
                 type: 'info',

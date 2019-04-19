@@ -2803,25 +2803,38 @@ class Ion_auth_model extends CI_Model
   /**
 	 * user info
 	 *
-	 * @param int|null $id
+	 * @param int|null $identity
 	 *
 	 * @return bool|array
 	 * @author freeair
 	 */
-	public function get_user_info($uid = NULL)
+	public function get_user_info($identity = '')
 	{
 		// $this->trigger_events('get_user_info');
 
-    if (!isset($uid))
-    {
-      return FALSE;
+    if (empty($identity))
+		{
+			return FALSE;
     }
+    
+    $query = $this->db->select('*')
+						  ->where($this->identity_column, $identity)
+						  ->limit(1)
+						  ->get($this->tables['users']);
+		if ($query->num_rows() !== 1)
+		{
+			return FALSE;
+		}
 
-    $user = $this->user($uid)->row();
-    if (!isset($user))
-    {
-      return FALSE;
-    }
+		$user = $query->row();
+
+		// return $user->id;
+
+    // $user = $this->user($uid)->row();
+    // if (!isset($user))
+    // {
+    //   return FALSE;
+    // }
 
     $political_party_id = $user->political_party_id;
     $company_id = $user->company_id;
@@ -2983,32 +2996,54 @@ class Ion_auth_model extends CI_Model
   }
 
   /**
-	 * Get identity from uid
+	 * verify old password
+	 * @param    string $identity
+	 * @param    string $old
 	 *
-	 * @param $identity string
-	 *
-	 * @return bool|int
+	 * @return bool
+	 * @author freeair
 	 */
-	public function get_identity_from_uid($uid = NULL)
-	{
-		if (!isset($uid))
-		{
-			return FALSE;
-		}
+  public function verify_old_password($identity = '', $old = '')
+  {
+    if (empty($identity) || empty($old))
+    {
+      return FALSE;
+    }
 
-		$query = $this->db->select($this->identity_column)
-						  ->where('id', $uid)
-						  ->limit(1)
-						  ->get($this->tables['users']);
-
+    $query = $this->db->select('id, password')
+		                  ->where($this->identity_column, $identity)
+		                  ->limit(1)
+		                  ->order_by('id', 'desc')
+		                  ->get($this->tables['users']);
 		if ($query->num_rows() !== 1)
 		{
 			return FALSE;
 		}
-
-		$user = $query->row();
-
-		return $user->id;
+    $user = $query->row();
+    
+    return $this->verify_password($old, $user->password, $identity);
   }
+  /**
+	 * update password db
+	 * @param    string $identity
+	 * @param    string $old
+	 *
+	 * @return bool
+	 * @author freeair
+	 */
+  public function update_password_db($identity = '', $new = '')
+  {
+    if (empty($identity) || empty($new))
+    {
+      return FALSE;
+    }
 
+    $data = [
+			'updated_on' => time()
+		];
+		$this->db->update($this->tables['users'], $data, [$this->identity_column => $identity]);
+    
+    $result = $this->_set_password_db($identity, $new);
+		return $result;
+  }
 }

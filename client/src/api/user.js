@@ -67,3 +67,15 @@ export function updatePassword(old_pwd, new_pwd) {
     }
   })
 }
+
+export function updateEmail(old_email, new_email, verification_code) {
+  return request({
+    url: '/users/update_email',
+    method: 'post',
+    data: {
+      old_email,
+      new_email,
+      verification_code
+    }
+  })
+}

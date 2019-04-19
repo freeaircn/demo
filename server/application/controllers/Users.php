@@ -95,7 +95,7 @@ class Users extends CI_Controller {
       if ($query)
       {
         $response['code'] = Constants::USERS_SIGNUP_EMAIL_EXISTING;
-        $response['msg'] = Constants::USERS_SIGNUP_EMAIL_EXISTING_MSG;
+        $response['msg'] = $email . Constants::USERS_SIGNUP_EMAIL_EXISTING_MSG;
         echo json_encode($response);
         return ;
       }
@@ -269,25 +269,27 @@ class Users extends CI_Controller {
         return ;
       }
 
-      $uid = $this->ion_auth->get_user_id_from_identity($userphone);
-      $user = $this->ion_auth->get_user_info($uid);
+      // $uid = $this->ion_auth->get_user_id_from_identity($userphone);
+      $user = $this->ion_auth->get_user_info($userphone);
 
-      $jwt_config = $this->config->item('jwt_config', 'ion_auth');
-      $signer = new Sha256();
-      $token = (new Builder())->setIssuer($jwt_config['issuer'])
-                        ->setAudience($jwt_config['audience'])
-                        ->setIssuedAt(time())
-                        ->setNotBefore(time() + $jwt_config['nbf'])
-                        ->setExpiration(time() + $jwt_config['exp'])
-                        ->set('id', $uid)
-                        ->sign($signer, $jwt_config['secret_code'])
-                        ->getToken();
-      $token_string = (string) $token;
+      // $jwt_config = $this->config->item('jwt_config', 'ion_auth');
+      // $signer = new Sha256();
+      // $token = (new Builder())->setIssuer($jwt_config['issuer'])
+      //                   ->setAudience($jwt_config['audience'])
+      //                   ->setIssuedAt(time())
+      //                   ->setNotBefore(time() + $jwt_config['nbf'])
+      //                   ->setExpiration(time() + $jwt_config['exp'])
+      //                   ->set('id', $uid)
+      //                   ->sign($signer, $jwt_config['secret_code'])
+      //                   ->getToken();
 
-       if (isset($token_string))
+      // TODO: 此处Token包含phone
+      $token = $this->create_token($userphone);
+
+       if ($token !== FALSE)
       {
         $response['code'] = Constants::SUCCESS;
-        $response['token'] = $token_string;
+        $response['token'] = $token;
         $response['active'] = (isset($user['active'])) ? $user['active'] : '0';
         $response['detailed_info_done'] = (isset($user['detailed_info_done'])) ? $user['detailed_info_done'] : '0';
       }
@@ -301,9 +303,30 @@ class Users extends CI_Controller {
     }
 
     /**
+     * create token
+     * @param string claim item   可以用id， phone， email等，见login处理
+     * @return  bool|string 
+     */
+    protected function create_token($item)
+    {
+      $jwt_config = $this->config->item('jwt_config', 'ion_auth');
+      $signer = new Sha256();
+      $token = (new Builder())->setIssuer($jwt_config['issuer'])
+                        ->setAudience($jwt_config['audience'])
+                        ->setIssuedAt(time())
+                        ->setNotBefore(time() + $jwt_config['nbf'])
+                        ->setExpiration(time() + $jwt_config['exp'])
+                        ->set('claim_item', $item)
+                        ->sign($signer, $jwt_config['secret_code'])
+                        ->getToken();
+      $token_string = (string) $token;
+
+      return (isset($token_string)) ? $token_string : FALSE;
+    }
+    /**
      * check token
      * @param string token
-     * @return  bool|int uid
+     * @return  bool|int claim item 创建时，注入claim item，见login处理
      */
     protected function check_token($token)
     {
@@ -330,7 +353,7 @@ class Users extends CI_Controller {
       {
         return FALSE;
       }
-      return $token_str->getClaim('id');
+      return $token_str->getClaim('claim_item');
     }
 
     /**
@@ -342,8 +365,8 @@ class Users extends CI_Controller {
     {
       $token = $this->input->get_request_header('X-Token', TRUE);
 
-      $uid = $this->check_token($token);
-      if ($uid === FALSE)
+      $phone = $this->check_token($token);
+      if ($phone === FALSE)
       {
         $response['code'] = Constants::USERS_TOKEN_INVALID;
         $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
@@ -352,11 +375,11 @@ class Users extends CI_Controller {
         return ;
       }
 
-      $user_info = $this->ion_auth->get_user_info($uid);
+      $user_info = $this->ion_auth->get_user_info($phone);
       if ($user_info === FALSE)
       {
-        $response['code'] = Constants::USERS_TOKEN_INVALID;
-        $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
+        $response['code'] = Constants::USERS_GET_USER_INFO_FAILED;
+        $response['msg'] = Constants::USERS_GET_USER_INFO_FAILED_MSG;
 
         echo json_encode($response);
         return ;
@@ -377,8 +400,8 @@ class Users extends CI_Controller {
     {
       $token = $this->input->get_request_header('X-Token', TRUE);
 
-      $uid = $this->check_token($token);
-      if ($uid === FALSE)
+      $phone = $this->check_token($token);
+      if ($phone === FALSE)
       {
         $response['code'] = Constants::USERS_TOKEN_INVALID;
         $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
@@ -386,6 +409,7 @@ class Users extends CI_Controller {
         echo json_encode($response);
         return ;
       }
+      $uid = $this->ion_auth->get_user_id_from_identity($phone);
 
       $username = $this->input->post('username');
       $gender = $this->input->post('gender');
@@ -418,16 +442,17 @@ class Users extends CI_Controller {
         'dept_lv30_id' => intval($dept_lv30),
         'job_id' => intval($job)
       );
+      
       $res = $this->ion_auth->update($uid, $data);
       if ($res)
       {
         $response['code'] = Constants::SUCCESS;
-        $response['msg'] = '';
+        $response['msg'] = '用户信息已更新！';
       }
       else
       {
-        $response['code'] = Constants::USERS_SIGNUP_LOG_USER_INFO_FAILED;
-        $response['msg'] = Constants::USERS_SIGNUP_LOG_USER_INFO_FAILED_MSG;
+        $response['code'] = Constants::USERS_UPDATE_PROFILE_FAILED;
+        $response['msg'] = Constants::USERS_UPDATE_PROFILE_FAILED_MSG;
       }
 
       echo json_encode($response);
@@ -442,8 +467,8 @@ class Users extends CI_Controller {
     {
       $token = $this->input->get_request_header('X-Token', TRUE);
 
-      $uid = $this->check_token($token);
-      if ($uid === FALSE)
+      $phone = $this->check_token($token);
+      if ($phone === FALSE)
       {
         $response['code'] = Constants::USERS_TOKEN_INVALID;
         $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
@@ -462,56 +487,67 @@ class Users extends CI_Controller {
         echo json_encode($response);
         return ;
       }
+      // 验证旧密码
+      if (!$this->ion_auth->verify_old_password($phone, $old_pwd))
+      {
+        $response['code'] = Constants::USERS_PASSWORD_OLD_INVALID;
+        $response['msg'] = Constants::USERS_PASSWORD_OLD_INVALID_MSG;
 
-      // $user = $this->iou_auth->user($uid)->row();
-      $res = $this->iou_auth->update_password($uid, $old_pwd, $new_pwd);
+        echo json_encode($response);
+        return ;
+      }
+      // 更新密码
+      if ($this->ion_auth->update_password_db($phone, $new_pwd))
+      {
+        $response['code'] = Constants::SUCCESS;
+        $response['msg'] = '密码已更新！';
+      }
+      else
+      {
+        $response['code'] = Constants::USERS_PASSWORD_UPDATE_FAILED;
+        $response['msg'] = Constants::USERS_PASSWORD_UPDATE_FAILED_MSG;
+      }
 
+      echo json_encode($response);
     }
 
-    // /**
-    //  * Get user info
-    //  * @param input - token
-    //  * @return
-    //  */
-    // public function info()
-    // {
-    //   $token = $this->input->post('token');
+    /**
+     * update email
+     * @param input - token
+     * @return
+     */
+    public function update_email()
+    {
+      $token = $this->input->get_request_header('X-Token', TRUE);
 
-    //   // $token = (new Parser())->parse($this->input->get_request_header('X-Token', TRUE));
-    //   if (!isset($token))
-    //   {
-    //     $response['code'] = Constants::POST_INPUT_EMPTY;
-    //     $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
+      $phone = $this->check_token($token);
+      if ($phone === FALSE)
+      {
+        $response['code'] = Constants::USERS_TOKEN_INVALID;
+        $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
 
-    //     echo json_encode($response);
-    //     return ;
-    //   }
+        echo json_encode($response);
+        return ;
+      }
 
-    //   $uid = $this->check_token($token);
-    //   if ($uid === FALSE)
-    //   {
-    //     $response['code'] = Constants::USERS_TOKEN_INVALID;
-    //     $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
+      $old_email = $this->input->post('old_email');
+      $new_email = $this->input->post('new_email');
+      $verification_code = $this->input->post('verification_code');
+      if (!isset($old_email) || !isset($new_email) || !isset($verification_code))
+      {
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
 
-    //     echo json_encode($response);
-    //     return ;
-    //   }
+        echo json_encode($response);
+        return ;
+      }
 
-    //   $res = $this->ion_auth->get_user_info($uid);
-    //   if ($res['code'] === TRUE)
-    //   {
-    //     $response['code'] = Constants::SUCCESS;
-    //     $response['info'] = $res;
-    //   }
-    //   else
-    //   {
-    //     $response['code'] = Constants::USERS_GET_USER_INFO_FAILED;
-    //     $response['msg'] = Constants::USERS_GET_USER_INFO_FAILED_MSG;
-    //   }
 
-    //   echo json_encode($response);
-    // }
+      $response['code'] = Constants::SUCCESS;
+      $response['msg'] = 'xxx';
 
+      echo json_encode($response);
+    }
     /**
      * client request activa mail
      * @param userphone

@@ -3,7 +3,7 @@
     <div class="content-container py-3">
       <el-tabs v-loading="content_loading" type="card" class="container-sm px-responsive">
         <el-tab-pane label="个人信息">
-          <el-form ref="profile_form" :model="profile" :rules="profileRules" class="" label-position="right" >
+          <el-form ref="profile_form" :model="profile" :rules="profileRules" label-position="right" >
             <el-form-item prop="username" >
               <el-input v-model="profile.username" name="username" type="text" placeholder="中文姓名" clearable @change="profileItemChange()" />
             </el-form-item>
@@ -69,21 +69,21 @@
         </el-tab-pane>
 
         <el-tab-pane label="密码">
-          <div class="password-container">
+          <div class="pwd-container">
             <div class="is-left">
               <p class="p-text">更改密码</p>
             </div>
-            <el-form ref="password_form" :model="password" :rules="passwordRules" label-position="right" >
-              <el-form-item prop="old_password">
-                <el-input v-model="password.oldPwd" type="password" name="old_password" placeholder="输入旧密码" clearable />
+            <el-form ref="pwd_form" :model="pwdForm" :rules="pwdRules" label-position="right" >
+              <el-form-item prop="oldPwd">
+                <el-input v-model="pwdForm.oldPwd" type="password" placeholder="输入旧密码" clearable />
               </el-form-item>
 
-              <el-form-item prop="new_password">
-                <el-input v-model="password.newPwd" type="password" name="new_password" placeholder="输入新密码" clearable />
+              <el-form-item prop="newPwd">
+                <el-input v-model="pwdForm.newPwd" type="password" placeholder="输入新密码" clearable />
               </el-form-item>
 
-              <el-form-item prop="confirm_password">
-                <el-input v-model="password.newConfirm" type="password" name="confirm_password" placeholder="再次输入新密码" clearable />
+              <el-form-item prop="newConfirm">
+                <el-input v-model="pwdForm.newConfirm" type="password" placeholder="再次输入新密码" clearable />
               </el-form-item>
 
               <el-form-item>
@@ -96,19 +96,17 @@
         <el-tab-pane label="邮箱">
           <div class="email-container">
             <div class="is-left">
-              <p class="p-text">注册邮箱 {{ this.email }}</p>
+              <p class="p-text">注册邮箱 {{ email }}</p>
             </div>
             <el-form ref="email_form" :model="emailForm" :rules="emailRules" label-position="right" >
-              <el-form-item prop="new_email">
-                <el-input v-model="emailForm.newEmail" type="text" name="new_email" placeholder="输入新邮箱" clearable />
+              <el-form-item ref="newEmail" prop="newEmail">
+                <el-input v-model="emailForm.newEmail" type="text" placeholder="输入新邮箱" clearable />
               </el-form-item>
 
-              <el-form-item prop="verification_code">
-                <el-input v-model="emailForm.code" type="text" name="verification_code" placeholder="输入验证码" clearable />
+              <el-form-item prop="verificationCode">
+                <el-input v-model="emailForm.verificationCode" type="text" placeholder="输入验证码" clearable />
               </el-form-item>
-
-              <!-- <div class="pb-2 is-right" style="color: #409EFF;">获取验证码</div> -->
-              <input v-model="btnCodeConent" type="button" class="btn-code" @click="handleRequestCode">
+              <input v-model="requestCodeBtnContent" type="button" class="btn-code" @click="handleRequestCode">
 
               <el-form-item>
                 <el-button type="primary" style="width:100%;" @click.native.prevent="handleUpdateEmail">更改邮箱</el-button>
@@ -117,10 +115,10 @@
           </div>
         </el-tab-pane>
 
-        <el-tab-pane label="手机号">
+        <!-- <el-tab-pane label="手机号">
           <div class="phone-container">
             <div class="is-left">
-              <p class="p-text">注册手机号 {{ this.phone }}</p>
+              <p class="p-text">注册手机号 {{ phone }}</p>
             </div>
             <el-form ref="phone_form" :model="newPhone" :rules="phoneRules" label-position="right" >
               <el-form-item prop="new_phone">
@@ -132,7 +130,7 @@
               </el-form-item>
             </el-form>
           </div>
-        </el-tab-pane>
+        </el-tab-pane> -->
 
       </el-tabs>
     </div>
@@ -161,7 +159,9 @@
 </template>
 
 <script>
-import { requestUserInfo, updateUserProfile } from '@/api/user'
+import { requestCode } from '@/api/signup'
+import { requestUserInfo, updateUserProfile, updatePassword, updateEmail } from '@/api/user'
+import { getMailServerUrl } from '@/utils/auth'
 import { isValidChineseName, isValidPassword, isValidEmail, isValidCodeInput, isValidPhone } from '@/utils/validate'
 import { Constants } from '@/Constants'
 
@@ -175,18 +175,18 @@ export default {
         callback()
       }
     }
-    const validatePssword = (rule, value, callback) => {
+    const validatePassword = (rule, value, callback) => {
       if (!isValidPassword(value)) {
         callback(new Error('密码最小长度为8位，必须包含大写、小写字母、数字！'))
       } else {
-        if (this.password.newConfirm !== '') {
-          this.$refs.password_form.validateField('confirm_password')
+        if (this.pwdForm.newConfirm !== '') {
+          this.$refs.pwd_form.validateField('newConfirm')
         }
         callback()
       }
     }
     const validateconfirmPassword = (rule, value, callback) => {
-      if (value !== this.password.newPwd) {
+      if (value !== this.pwdForm.newPwd) {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
@@ -239,31 +239,35 @@ export default {
         dept_lv30: [{ required: true, message: '请选择班组', trigger: 'change' }],
         job: [{ required: true, message: '请选择职务', trigger: 'change' }]
       },
-      password: {
+      pwdForm: {
         oldPwd: '',
         newPwd: '',
         newConfirm: ''
       },
-      passwordRules: {
-        old_password: [{ required: true, trigger: 'change' }],
-        new_password: [{ required: true, trigger: 'change', validator: validatePssword }],
-        confirm_password: [{ required: true, trigger: 'change', validator: validateconfirmPassword }]
+      pwdRules: {
+        oldPwd: [{ required: true, trigger: 'change', message: '请输入旧密码' }],
+        newPwd: [{ required: true, trigger: 'change', validator: validatePassword }],
+        newConfirm: [{ required: true, trigger: 'change', validator: validateconfirmPassword }]
       },
       emailForm: {
         newEmail: '',
-        code: ''
+        verificationCode: ''
       },
       emailRules: {
-        new_email: [{ required: true, trigger: 'change', validator: validateEmail }],
-        verification_code: [{ required: true, trigger: 'change', validator: validateCode }]
+        newEmail: [{ required: true, trigger: 'change', validator: validateEmail }],
+        verificationCode: [{ required: true, trigger: 'change', validator: validateCode }]
       },
-      btnCodeConent: '获取验证码',
       newPhone: '',
       phoneRules: {
-        new_phone: [{ required: true, trigger: 'change', validator: validateUserphone }],
+        new_phone: [{ required: true, trigger: 'change', validator: validateUserphone }]
       },
-      content_loading: false,
+      content_loading: true,
       isUpdateUserBtnDisable: true,
+      isReuqestCodeBtnDisable: false,
+      requestCodeBtnContent: '获取验证码',
+      timer60: '',
+      countdown: 60,
+      //
       redirect: undefined
     }
   },
@@ -297,7 +301,7 @@ export default {
         } else {
           this.$message({
             type: 'info',
-            message: '服务器响应异常，请尝试刷新！',
+            message: data.msg,
             showClose: true
           })
         }
@@ -306,7 +310,7 @@ export default {
         console.log(err)
         this.$message({
           type: 'info',
-          message: '服务器响应异常，请尝试刷新！！',
+          message: '服务器响应超时，请重试！',
           showClose: true
         })
       })
@@ -323,24 +327,18 @@ export default {
             .then(function(data) {
               if (data.code === Constants.SUCCESS) {
                 this.isUpdateUserBtnDisable = true
-                this.$message({
-                  type: 'info',
-                  message: '用户信息已更新！',
-                  duration: 3 * 1000
-                })
-              } else {
-                this.$message({
-                  type: 'info',
-                  message: '服务器更新失败，请重试！',
-                  duration: 3 * 1000
-                })
               }
+              this.$message({
+                type: 'info',
+                message: data.msg,
+                duration: 3 * 1000
+              })
             }.bind(this))
             .catch(function(err) {
               console.log(err)
               this.$message({
                 type: 'info',
-                message: '服务器更新失败，请重试！！',
+                message: '服务器响应超时，请重试！',
                 duration: 3 * 1000
               })
             })
@@ -351,30 +349,124 @@ export default {
     },
 
     handleUpdatePassword() {
-      this.$refs.password_form.validate((valid) => {
+      this.$refs.pwd_form.validate((valid) => {
         if (valid) {
-          updatePassword(this.password.oldPwd, this.password.newPwd)
+          updatePassword(this.pwdForm.oldPwd, this.pwdForm.newPwd)
             .then(function(data) {
               if (data.code === Constants.SUCCESS) {
-                this.isUpdateUserBtnDisable = true
-                this.$message({
-                  type: 'info',
-                  message: '用户信息已更新！',
-                  duration: 3 * 1000
-                })
-              } else {
-                this.$message({
-                  type: 'info',
-                  message: '服务器更新失败，请重试！',
-                  duration: 3 * 1000
-                })
+                this.$refs.pwd_form.resetFields()
               }
+              this.$message({
+                type: 'info',
+                message: data.msg,
+                duration: 3 * 1000
+              })
             }.bind(this))
             .catch(function(err) {
               console.log(err)
               this.$message({
                 type: 'info',
-                message: '服务器更新失败，请重试！！',
+                message: '服务器响应超时，请重试！',
+                duration: 3 * 1000
+              })
+            })
+        } else {
+          return false
+        }
+      })
+    },
+
+    // disable 获取验证码button
+    diableRequestCodeBtn() {
+      this.isReuqestCodeBtnDisable = true
+      this.requestCodeBtnContent = '重新发送(' + this.countdown + ')'
+      if (!this.timer60) {
+        this.timer60 = setInterval(() => {
+          if (this.countdown > 0 && this.countdown <= 60) {
+            this.countdown--
+            if (this.countdown !== 0) {
+              this.requestCodeBtnContent = '重新发送(' + this.countdown + ')'
+            } else {
+              clearInterval(this.timer60)
+              this.isReuqestCodeBtnDisable = false
+              this.requestCodeBtnContent = '获取验证码'
+              this.countdown = 60
+              this.timer60 = null
+            }
+          }
+        }, 1000)
+      }
+    },
+
+    handleRequestCode() {
+      this.$refs.email_form.validateField('newEmail')
+      const isFieldValid = this.$refs.newEmail.validateMessage
+      if (isFieldValid === '') {
+        // disable 获取验证码button
+        this.diableRequestCodeBtn()
+
+        // 请求Server 发送验证码邮件
+        const email = this.email
+        requestCode(email)
+          .then(function(data) {
+            if (data.code === Constants.SUCCESS) {
+              const url = getMailServerUrl(this.emailLowcase)
+              if (url) {
+                this.$alert('验证码已发送，将在新窗口打开邮箱登录页面', '提示', {
+                  confirmButtonText: '确定',
+                  type: 'info'
+                }).then(() => {
+                  window.open(url, '_blank')
+                }).catch(() => {
+                  // 取消，也打开新窗口
+                  window.open(url, '_blank')
+                })
+              } else {
+                this.$message({
+                  type: 'info',
+                  message: '验证码已发送，请用户登录邮箱查看验证码',
+                  duration: 3 * 1000
+                })
+              }
+            } else {
+              this.$message({
+                type: 'info',
+                message: data.msg,
+                duration: 3 * 1000
+              })
+            }
+          }.bind(this))
+          .catch(function(err) {
+            console.log(err)
+            this.$message({
+              type: 'info',
+              message: '服务器响应超时，请重新获取!',
+              duration: 3 * 1000
+            })
+          })
+      }
+    },
+
+    handleUpdateEmail() {
+      this.$refs.email_form.validate((valid) => {
+        if (valid) {
+          updateEmail(this.email, this.emailForm.newEmail, this.emailForm.verificationCode)
+            .then(function(data) {
+              if (data.code === Constants.SUCCESS) {
+                this.email = this.emailForm.newEmail
+                this.$refs.email_form.resetFields()
+              }
+              this.$message({
+                type: 'info',
+                message: data.msg,
+                duration: 3 * 1000
+              })
+            }.bind(this))
+            .catch(function(err) {
+              console.log(err)
+              this.$message({
+                type: 'info',
+                message: '服务器响应超时，请重试！',
                 duration: 3 * 1000
               })
             })
