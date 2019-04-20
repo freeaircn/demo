@@ -115,14 +115,14 @@
           </div>
         </el-tab-pane>
 
-        <!-- <el-tab-pane label="手机号">
+        <el-tab-pane label="手机号">
           <div class="phone-container">
             <div class="is-left">
               <p class="p-text">注册手机号 {{ phone }}</p>
             </div>
-            <el-form ref="phone_form" :model="newPhone" :rules="phoneRules" label-position="right" >
-              <el-form-item prop="new_phone">
-                <el-input v-model="newPhone" type="text" name="new_phone" placeholder="输入新手机号" clearable />
+            <el-form ref="phone_form" :model="phoneForm" :rules="phoneRules" label-position="right" >
+              <el-form-item prop="newPhone">
+                <el-input v-model="phoneForm.newPhone" type="text" placeholder="输入新手机号" clearable />
               </el-form-item>
 
               <el-form-item>
@@ -130,7 +130,7 @@
               </el-form-item>
             </el-form>
           </div>
-        </el-tab-pane> -->
+        </el-tab-pane>
 
       </el-tabs>
     </div>
@@ -159,9 +159,11 @@
 </template>
 
 <script>
+import store from '@/store'
+// import { mapGetters } from 'vuex'
 import { requestCode } from '@/api/signup'
-import { requestUserInfo, updateUserProfile, updatePassword, updateEmail } from '@/api/user'
-import { getMailServerUrl } from '@/utils/auth'
+import { requestUserInfo, updateUserProfile, updatePassword, updateEmail, updatePhone } from '@/api/user'
+import { getMailServerUrl, wait5sOpenUrl } from '@/utils/common'
 import { isValidChineseName, isValidPassword, isValidEmail, isValidCodeInput, isValidPhone } from '@/utils/validate'
 import { Constants } from '@/Constants'
 
@@ -257,16 +259,20 @@ export default {
         newEmail: [{ required: true, trigger: 'change', validator: validateEmail }],
         verificationCode: [{ required: true, trigger: 'change', validator: validateCode }]
       },
-      newPhone: '',
+      phoneForm: {
+        newPhone: ''
+      },
       phoneRules: {
-        new_phone: [{ required: true, trigger: 'change', validator: validateUserphone }]
+        newPhone: [{ required: true, trigger: 'change', validator: validateUserphone }]
       },
       content_loading: true,
       isUpdateUserBtnDisable: true,
       isReuqestCodeBtnDisable: false,
       requestCodeBtnContent: '获取验证码',
-      timer60: '',
+      timer1s: null,
       countdown: 60,
+      //
+      timer5s: null,
       //
       redirect: undefined
     }
@@ -380,18 +386,18 @@ export default {
     diableRequestCodeBtn() {
       this.isReuqestCodeBtnDisable = true
       this.requestCodeBtnContent = '重新发送(' + this.countdown + ')'
-      if (!this.timer60) {
-        this.timer60 = setInterval(() => {
+      if (!this.timer1s) {
+        this.timer1s = setInterval(() => {
           if (this.countdown > 0 && this.countdown <= 60) {
             this.countdown--
             if (this.countdown !== 0) {
               this.requestCodeBtnContent = '重新发送(' + this.countdown + ')'
             } else {
-              clearInterval(this.timer60)
+              clearInterval(this.timer1s)
               this.isReuqestCodeBtnDisable = false
               this.requestCodeBtnContent = '获取验证码'
               this.countdown = 60
-              this.timer60 = null
+              this.timer1s = null
             }
           }
         }, 1000)
@@ -402,6 +408,15 @@ export default {
       this.$refs.email_form.validateField('newEmail')
       const isFieldValid = this.$refs.newEmail.validateMessage
       if (isFieldValid === '') {
+        // 没变化，不提交
+        if (this.emailForm.newEmail === this.email) {
+          this.$message({
+            type: 'info',
+            message: '与正在使用的邮箱相同！',
+            duration: 3 * 1000
+          })
+          return false
+        }
         // disable 获取验证码button
         this.diableRequestCodeBtn()
 
@@ -411,15 +426,13 @@ export default {
             if (data.code === Constants.SUCCESS) {
               const url = getMailServerUrl(this.emailForm.newEmail)
               if (url) {
-                this.$alert('验证码已发送，将在新窗口打开邮箱登录页面', '提示', {
-                  confirmButtonText: '确定',
-                  type: 'info'
-                }).then(() => {
-                  window.open(url, '_blank')
-                }).catch(() => {
-                  // 取消，也打开新窗口
-                  window.open(url, '_blank')
+                this.$message({
+                  type: 'info',
+                  message: '验证码已发送，5秒后将在新窗口打开邮箱登录页面',
+                  duration: 4 * 1000
                 })
+                //
+                wait5sOpenUrl(url, 'blank')
               } else {
                 this.$message({
                   type: 'info',
@@ -460,6 +473,54 @@ export default {
                 message: data.msg,
                 duration: 3 * 1000
               })
+            }.bind(this))
+            .catch(function(err) {
+              console.log(err)
+              this.$message({
+                type: 'info',
+                message: '服务器响应超时，请重试！',
+                duration: 3 * 1000
+              })
+            })
+        } else {
+          return false
+        }
+      })
+    },
+
+    handleUpdatePhone() {
+      this.$refs.phone_form.validate((valid) => {
+        if (valid) {
+          // 没变化，不提交
+          if (this.phoneForm.newPhone === this.phone) {
+            this.$message({
+              type: 'info',
+              message: '与正在使用的手机号相同！',
+              duration: 3 * 1000
+            })
+            return false
+          }
+          updatePhone(this.phoneForm.newPhone)
+            .then(function(data) {
+              this.$message({
+                type: 'info',
+                message: data.msg,
+                duration: 3 * 1000
+              })
+              if (data.code === Constants.SUCCESS) {
+                this.$refs.phone_form.resetFields()
+                // logout
+                store.dispatch('FedLogOut')
+                  .then(() => {
+                    // TODO：路由 replace Login 页面
+                    this.$router.replace({ path: '/login' })
+                  })
+                  .catch(err => {
+                    console.log(err)
+                    // TODO：路由 replace Login 页面
+                    this.$router.replace({ path: '/login' })
+                  })
+              }
             }.bind(this))
             .catch(function(err) {
               console.log(err)

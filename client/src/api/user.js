@@ -79,3 +79,13 @@ export function updateEmail(old_email, new_email, verification_code) {
     }
   })
 }
+
+export function updatePhone(new_phone) {
+  return request({
+    url: '/users/update_phone',
+    method: 'post',
+    data: {
+      new_phone
+    }
+  })
+}

@@ -3072,5 +3072,28 @@ class Ion_auth_model extends CI_Model
 		return $result;
   }
 
+  /**
+	 * update phone db
+	 * @param    string $identity
+	 * @param    string $new
+	 *
+	 * @return bool
+	 * @author freeair
+	 */
+  public function update_phone_db($identity = '', $new = '')
+  {
+    if (empty($identity) || empty($new))
+    {
+      return FALSE;
+    }
 
+    $data = [
+      'phone' => $new,
+			'updated_on' => time()
+		];
+		$this->db->update($this->tables['users'], $data, [$this->identity_column => $identity]);
+    $result = ($this->db->affected_rows() == 1);
+
+		return $result;
+  }
 }

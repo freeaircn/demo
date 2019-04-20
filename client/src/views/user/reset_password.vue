@@ -1,8 +1,9 @@
 <template>
   <div class="reset-pwd-wrapper">
-    <div class="reset-pwd-container">
+    <div class="reset-pwd-container mb-4">
       <div class="reset-pwd-header py-responsive is-center">
-        <h1 class="title">设置新密码</h1>
+        <router-link to="/home"><span><svg-logo logo-class="be_green" /></span></router-link>
+        <h2 class="title">设置新密码</h2>
         <p>用户：{{ user }}</p>
       </div>
 
@@ -111,7 +112,7 @@ export default {
               if (data.code === Constants.SUCCESS) {
                 this.$message({
                   type: 'info',
-                  message: '密码修改成功，返回登录页面',
+                  message: '密码修改成功，请重新登录',
                   duration: 3 * 1000
                 })
                 // 路由history 要replace

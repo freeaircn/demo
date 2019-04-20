@@ -83,7 +83,7 @@ export const constantRouterMap = [
   {
     path: '/forgot_password',
     name: 'forgot_password',
-    component: () => import('@/views/password/forgot_password'),
+    component: () => import('@/views/user/forgot_password'),
     meta: {
       title: '忘记密码',
       hideInMenu: true
@@ -93,7 +93,7 @@ export const constantRouterMap = [
   {
     path: '/reset_password/:uid/post/:hash_code',
     name: 'reset_password',
-    component: () => import('@/views/password/reset_password'),
+    component: () => import('@/views/user/reset_password'),
     meta: {
       title: '新密码',
       hideInMenu: true

@@ -1,8 +1,9 @@
 <template>
   <div class="forgot-pwd-wrapper">
-    <div class="forgot-pwd-container">
+    <div class="forgot-pwd-container mb-4">
       <div class="forgot-pwd-header py-responsive is-center">
-        <h1 class="title">忘记密码</h1>
+        <router-link to="/home"><span><svg-logo logo-class="be_green" /></span></router-link>
+        <h2 class="title">忘记密码</h2>
       </div>
 
       <el-form ref="forgotPwdForm" :model="forgotPwdForm" :rules="forgotPwdRules" class="container-sm px-responsive" label-position="left">
@@ -33,7 +34,7 @@
 
 <script>
 import { isValidPhone, isValidEmail } from '@/utils/validate'
-import { getMailServerUrl } from '@/utils/auth'
+import { getMailServerUrl, wait5sOpenUrl } from '@/utils/common'
 import { forgotPassword } from '@/api/login'
 import { Constants } from '@/Constants'
 
@@ -101,27 +102,21 @@ export default {
               if (data.code === Constants.SUCCESS) {
                 const url = getMailServerUrl(this.emailLowcase)
                 if (url) {
-                  this.$alert('已发送邮件，请用户登录邮箱点击重置密码链接', '提示', {
-                    confirmButtonText: '确定',
-                    type: 'info'
-                  }).then(() => {
-                    // 路由history 要replace
-                    window.location.replace(url)
-                  }).catch(() => {
-                    // 取消，也跳转
-                    window.location.replace(url)
+                  this.$message({
+                    type: 'info',
+                    message: '已发送邮件，5秒后将切换到邮箱登录页面',
+                    duration: 4 * 1000
                   })
+                  // TODO: 路由 replace
+                  wait5sOpenUrl(url, 'replace')
                 } else {
-                  this.$alert('已发送邮件，请登用户录邮箱点击重置密码链接', '提示', {
-                    confirmButtonText: '确定',
-                    type: 'info'
-                  }).then(() => {
-                    // 路由history 要replace
-                    this.$router.replace({ name: 'login' })
-                  }).catch(() => {
-                    // 取消，也跳转
-                    this.$router.replace({ name: 'login' })
+                  this.$message({
+                    type: 'info',
+                    message: '已发送邮件，请登用户录邮箱点击重置密码链接',
+                    duration: 4 * 1000
                   })
+                  // TODO: 路由 replace
+                  this.$router.replace({ name: 'login' })
                 }
               }
             }.bind(this))

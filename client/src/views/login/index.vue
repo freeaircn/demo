@@ -1,8 +1,9 @@
 <template>
   <div class="login-wrapper">
-    <div class="login-container">
+    <div class="login-container mb-4">
       <div class="login-header py-responsive is-center">
-        <h1 class="title">欢迎</h1>
+        <router-link to="/home"><span><svg-logo logo-class="be_green" /></span></router-link>
+        <h2 class="title">欢迎</h2>
       </div>
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="container-sm px-responsive" label-position="left">
         <el-form-item prop="userphone">

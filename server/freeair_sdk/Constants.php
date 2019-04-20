@@ -35,6 +35,7 @@ class Constants {
   const USERS_UPDATE_PROFILE_FAILED = 351;
   const USERS_USER_INFO_INCORRECT = 352;
   const USERS_EMAIL_UPDATE_FAILED = 353;
+  const USERS_PHONE_UPDATE_FAILED = 354;
 
   // ! Users Forgot Password流程 code：400~449
   const USERS_PASSWORD_IDENTITY_NOT_EXISTING = 400;
@@ -50,12 +51,12 @@ class Constants {
    * code map to msg
    */
   const POST_INPUT_EMPTY_MSG = '提交的数据有误！';
-  const USERS_TOKEN_INVALID_MSG = '非法用户，服务器拒绝访问！';
+  const USERS_TOKEN_INVALID_MSG = '用户凭据或失效，请重新登录！';
   //
   const USERS_SIGNUP_IDENTITY_EXISTING_MSG = ' 已被其他用户注册！';
   const USERS_SIGNUP_EMAIL_EXISTING_MSG = ' 已被其他用户注册！';
   const USERS_SIGNUP_USER_CREATE_FAILED_MSG = '服务器创建新用户失败，请稍后再试(203)';
-  const USERS_SIGNUP_LOG_USER_INFO_FAILED_MSG = '服务器保存用户信息失败，请再次提交！(204)';
+  // const USERS_SIGNUP_LOG_USER_INFO_FAILED_MSG = '服务器保存用户信息失败，请再次提交！(204)';
   const USERS_SIGNUP_CREATE_VERIFICATION_FAILED_MSG = '发送验证码失败，请重新获取！';
   const USERS_SIGNUP_VERIFY_VERIFICATION_FAILED_MSG = '验证码不正确或已失效！';
   // const USERS_LOGIN_FAILED_MSG = '用户登录失败！';
@@ -73,6 +74,7 @@ class Constants {
   const USERS_UPDATE_PROFILE_FAILED_MSG = '服务器更新用户信息失败！';
   const USERS_USER_INFO_INCORRECT_MSG = '提交的用户信息有误，请重新登录再更改！';
   const USERS_EMAIL_UPDATE_FAILED_MSG = '邮箱更新失败，请重试！';
+  const USERS_PHONE_UPDATE_FAILED_MSG = '手机号更新失败，请重试！';
   //
   const USERS_PASSWORD_IDENTITY_NOT_EXISTING_MSG = ' 用户不存在';
   const USERS_PASSWORD_INPUT_EMAIL_INVALID_MSG = '邮箱不符，用户注册的邮箱是: ';

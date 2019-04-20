@@ -1,7 +1,8 @@
 <template>
   <div class="navbar-wrapper pure-menu pure-menu-horizontal pure-menu-fixed">
     <div class="navbar-container container-xl px-responsive">
-      <a class="navbar-logo pure-menu-heading" href="#">BE</a>
+      <!-- <a class="navbar-logo pure-menu-heading" href="#">BE</a> -->
+      <router-link class="navbar-logo pure-menu-heading" to="/home">BE</router-link>
 
       <ul v-if="!isLogined" class="pure-menu-list">
         <li class="pure-menu-item"><router-link to="/login" class="navbar-link pure-menu-link">登 录</router-link></li>
@@ -67,13 +68,13 @@ export default {
               message: '您已退出登录',
               duration: 3 * 1000
             })
-            // 路由跳转
+            // TODO：路由 replace Home 页面
             this.$router.replace({ path: '/' })
           })
           .catch(err => {
             console.log(err)
-            // 异常，也路由跳转
-            this.$router.replace({ path: '/' })
+            // TODO：路由 replace Login 页面
+            this.$router.replace({ path: '/login' })
           })
       }
     }

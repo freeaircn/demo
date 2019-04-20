@@ -1,8 +1,9 @@
 <template>
   <div class="signup-wrapper">
-    <div class="signup-container">
+    <div class="signup-container mb-4">
       <div class="signup-header py-responsive is-center">
-        <h1 class="title">欢迎加入</h1>
+        <router-link to="/home"><span><svg-logo logo-class="be_green" /></span></router-link>
+        <h2 class="title">欢迎加入</h2>
       </div>
 
       <el-form ref="signupForm" :model="signupForm" :rules="signupFormRules" class="container-sm px-responsive" label-position="left" >
@@ -71,7 +72,7 @@
 // import { Message } from 'element-ui'
 import { isPhoneExisting, requestCode, checkVerificationCode, createUser } from '@/api/signup'
 import { isValidEmail, isValidCodeInput, isValidPhone, isValidPassword } from '@/utils/validate'
-import { getMailServerUrl } from '@/utils/auth'
+import { getMailServerUrl, wait5sOpenUrl } from '@/utils/common'
 import { Constants } from '@/Constants'
 
 export default {
@@ -221,15 +222,13 @@ export default {
             if (data.code === Constants.SUCCESS) {
               const url = getMailServerUrl(this.emailLowcase)
               if (url) {
-                this.$alert('验证码已发送，将在新窗口打开邮箱登录页面', '提示', {
-                  confirmButtonText: '确定',
-                  type: 'info'
-                }).then(() => {
-                  window.open(url, '_blank')
-                }).catch(() => {
-                  // 取消，也打开新窗口
-                  window.open(url, '_blank')
+                this.$message({
+                  type: 'info',
+                  message: '验证码已发送，5秒后将在新窗口打开邮箱登录页面',
+                  duration: 4 * 1000
                 })
+                //
+                wait5sOpenUrl(url, 'blank')
               } else {
                 this.$message({
                   type: 'info',

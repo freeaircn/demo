@@ -592,6 +592,62 @@ class Users extends CI_Controller {
 
       echo json_encode($response);
     }
+
+    /**
+     * update phone
+     * @param input - token
+     * @return
+     */
+    public function update_phone()
+    {
+      $token = $this->input->get_request_header('X-Token', TRUE);
+
+      $phone = $this->check_token($token);
+      if ($phone === FALSE)
+      {
+        $response['code'] = Constants::USERS_TOKEN_INVALID;
+        $response['msg'] = Constants::USERS_TOKEN_INVALID_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+
+      $new_phone = $this->input->post('new_phone');
+      if (!isset($new_phone))
+      {
+        $response['code'] = Constants::POST_INPUT_EMPTY;
+        $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+
+      // 检索新手机号 是否存在注册用户
+      if ($this->ion_auth->identity_check($new_phone))
+      {
+        $response['code'] = Constants::USERS_SIGNUP_IDENTITY_EXISTING;
+        $response['msg'] = Constants::USERS_SIGNUP_IDENTITY_EXISTING_MSG;
+
+        echo json_encode($response);
+        return ;
+      }
+
+      // 更新 phone
+      if ($this->ion_auth->update_phone_db($phone, $new_phone))
+      {
+        $response['code'] = Constants::SUCCESS;
+        $response['msg'] = '手机号已更新，请重新登录！';
+      }
+      else
+      {
+        $response['code'] = Constants::USERS_PHONE_UPDATE_FAILED;
+        $response['msg'] = Constants::USERS_PHONE_UPDATE_FAILED_MSG;
+      }
+
+      echo json_encode($response);
+    }
+
+
     /**
      * client request activa mail
      * @param userphone

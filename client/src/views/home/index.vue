@@ -17,7 +17,7 @@
     <div class="content-wrapper py-responsive">
       <div class="content-container container-xl px-responsive">
         <h1 class="content-head is-center">试一试</h1>
-        <div class="pure-g">
+        <!-- <div class="pure-g">
           <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3 gutter-space-responsive">
             <h3 class="content-subhead">考勤</h3>
             <p>
@@ -36,7 +36,7 @@
               对仓储货物的收发、结存等活动的有效控制，其目的是为企业保证仓储货物的完好无损，确保生产经营活动的正常进行，并在此基础上对各类货物的活动状况进行分类记录，以明确的图表方式表达仓储货物在数量、品质方面的状况，以及所在的地理位置、部门、订单归属和仓储分散程度等情况的综合管理形式。
             </p>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -45,6 +45,7 @@
         <div class="pure-g">
           <div class="pure-u-1 pure-u-lg-1-3 gutter-space-responsive">
             <h4>BE</h4>
+            <!-- <span><svg-logo logo-class="be_gray" /></span> -->
           </div>
           <div class="pure-u-1 pure-u-lg-1-3 gutter-space-responsive">
             <h4>链接</h4>
@@ -78,11 +79,17 @@ export default {
 @import "src/styles/_layout.scss";
 
 .home-container {
-    position: relative !important;
-    top: $navbar-height; left: 0;
+  position: relative !important;
+  top: $navbar-height; left: 0;
+  //
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
 }
 .jumbotron-wrapper {
   width: 100%;
+  flex: 1 0 auto;
   background: $jumbotron-bg;
 }
 .jumbotron-container {
@@ -92,18 +99,19 @@ export default {
   }
 }
 .jumbotron-head {
-    color: $title-color;
-    font-weight: 400;
+  color: $title-color;
+  font-weight: 400;
 }
 .jumbotron-subhead {
-    color: $text-color;
-    letter-spacing: 0.05em;
-    opacity: 0.8;
+  color: $text-color;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
 }
 
 .content-wrapper {
-    width: 100%;
-    background: white;
+  width: 100%;
+  flex: 1 0 auto;
+  background: white;
 }
 .content-container {
   p {
@@ -111,18 +119,19 @@ export default {
   }
 }
 .content-head {
-    color: $title-color;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+  color: $title-color;
+  font-weight: 600;
+  letter-spacing: 0.1em;
 }
 .content-subhead {
-    color: $title-color;
-    font-weight: 600;
+  color: $title-color;
+  font-weight: 600;
 }
 
 .footer-wrapper {
   background: $footer-default-bg;
   width: 100%;
+  flex: 0 0 auto;
   h4 {
     color: $title-color;
   }
