@@ -272,8 +272,6 @@ export default {
       timer1s: null,
       countdown: 60,
       //
-      timer5s: null,
-      //
       redirect: undefined
     }
   },
