@@ -3,6 +3,7 @@
     <div class="navbar-container container-xl px-responsive">
       <!-- <a class="navbar-logo pure-menu-heading" href="#">BE</a> -->
       <router-link class="navbar-logo pure-menu-heading" to="/home">BE</router-link>
+      <!-- <router-link class="navbar-logo pure-menu-heading" to="/home"><span><svg-logo logo-class="be_green" /></span></router-link> -->
 
       <ul v-if="!isLogined" class="pure-menu-list">
         <li class="pure-menu-item"><router-link to="/login" class="navbar-link pure-menu-link">登 录</router-link></li>
