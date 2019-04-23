@@ -1,10 +1,13 @@
-import { login, logout, getInfo } from '@/api/login'
+// import { login, logout, getInfo } from '@/api/login'
+import { login, logout } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { requestUserInfo } from '@/api/user'
 import { Constants } from '@/Constants'
 
 const user = {
   state: {
     token: getToken(),
+    // token: '',
     avatar: '',
     roles: [],
     phone: '',
@@ -12,14 +15,14 @@ const user = {
     user_active: '',
     user_detailed_done: '',
     //
-    name: '',
-    gender: '',
-    userOrgInfo: {
+    profile: {
+      name: '',
+      gender: '',
       politicalParty: '',
       company: '',
-      dept_lv10: '',
-      dept_lv20: '',
-      dept_lv30: '',
+      subcompany: '',
+      station: '',
+      department: '',
       job: ''
     }
   },
@@ -28,29 +31,32 @@ const user = {
     SET_TOKEN: (state, token) => {
       state.token = token
     },
-    SET_NAME: (state, name) => {
-      state.name = name
-    },
+    // SET_NAME: (state, name) => {
+    //   state.name = name
+    // },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
     },
-    SET_GENDER: (state, gender) => {
-      state.gender = gender
+    SET_USER_PHONE: (state, phone) => {
+      state.phone = phone
     },
-    SET_USER_KEY: (state, active, user_detailed_done) => {
+    SET_USER_EMAIL: (state, emial) => {
+      state.emial = emial
+    },
+    SET_USER_STATE: (state, active, user_detailed_done) => {
       state.user_active = active
       state.user_detailed_done = user_detailed_done
     },
-    SET_USER_ORG_INFO: (state, political_party, company, dept_lv10, dept_lv20, dept_lv30, job) => {
-      state.userOrgInfo.politicalParty = political_party
-      state.userOrgInfo.company = company
-      state.userOrgInfo.dept_lv10 = dept_lv10
-      state.userOrgInfo.dept_lv20 = dept_lv20
-      state.userOrgInfo.dept_lv30 = dept_lv30
-      state.userOrgInfo.job = job
+    SET_USER_PROFILE: (state, profile) => {
+      state.profile.politicalParty = profile.political_party
+      state.profile.company = profile.company
+      state.profile.subcompany = profile.subcompany
+      state.profile.station = profile.station
+      state.profile.department = profile.department
+      state.profile.job = profile.job
     }
   },
 
@@ -63,7 +69,7 @@ const user = {
           if (data.code === Constants.SUCCESS) {
             setToken(data.token)
             commit('SET_TOKEN', data.token)
-            commit('SET_USER_KEY', data.active, data.detailed_info_done)
+            commit('SET_USER_STATE', data.active, data.detailed_info_done)
             resolve(data.detailed_info_done)
           } else {
             reject(data.msg)
@@ -75,22 +81,39 @@ const user = {
     },
 
     // 获取用户信息
-    GetInfo({ commit, state }) {
+    // GetInfo({ commit, state }) {
+    //   return new Promise((resolve, reject) => {
+    //     getInfo(state.token).then(data => {
+    //       if (data.code === Constants.SUCCESS) {
+    //         resolve(data.info)
+    //       } else {
+    //         reject(data.msg)
+    //       }
+    //       if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+    //         commit('SET_ROLES', data.roles)
+    //       } else {
+    //         reject('getInfo: roles must be a non-null array !')
+    //       }
+    //       commit('SET_NAME', data.name)
+    //       commit('SET_AVATAR', data.avatar)
+    //       resolve(response)
+    //     }).catch(error => {
+    //       reject(error)
+    //     })
+    //   })
+    // },
+
+    GetUserProfile({ commit }) {
       return new Promise((resolve, reject) => {
-        getInfo(state.token).then(data => {
+        requestUserInfo().then(data => {
+          console.log(data)
           if (data.code === Constants.SUCCESS) {
-            resolve(data.info)
+            commit('SET_USER_PROFILE', data.profile)
+            resolve()
           } else {
+            console.log('call GetUserProfile failed')
             reject(data.msg)
           }
-          // if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-          //   commit('SET_ROLES', data.roles)
-          // } else {
-          //   reject('getInfo: roles must be a non-null array !')
-          // }
-          // commit('SET_NAME', data.name)
-          // commit('SET_AVATAR', data.avatar)
-          // resolve(response)
         }).catch(error => {
           reject(error)
         })
@@ -103,7 +126,7 @@ const user = {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
-          commit('SET_USER_KEY', '', '')
+          commit('SET_USER_STATE', '', '')
           removeToken()
           resolve()
         }).catch(error => {
@@ -117,7 +140,7 @@ const user = {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
-        commit('SET_USER_KEY', '', '')
+        commit('SET_USER_STATE', '', '')
         removeToken()
         resolve()
       })

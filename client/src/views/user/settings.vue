@@ -28,22 +28,22 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item prop="dept_lv10">
-              <el-select v-model="profile.dept_lv10" placeholder="请选择子公司" @change="profileItemChange()">
+            <el-form-item prop="subcompany">
+              <el-select v-model="profile.subcompany" placeholder="请选择子公司" @change="profileItemChange()">
                 <el-option label="保山槟榔江水电开发有限公司" value="1"/>
                 <el-option label="直属电厂" value="2"/>
               </el-select>
             </el-form-item>
 
-            <el-form-item prop="dept_lv20">
-              <el-select v-model="profile.dept_lv20" placeholder="请选择所属电厂" @change="profileItemChange()">
+            <el-form-item prop="station">
+              <el-select v-model="profile.station" placeholder="请选择所属电厂" @change="profileItemChange()">
                 <el-option label="松山河口电厂" value="1"/>
                 <el-option label="苏家河口电厂" value="2"/>
               </el-select>
             </el-form-item>
 
-            <el-form-item prop="dept_lv30">
-              <el-select v-model="profile.dept_lv30" placeholder="请选择所属班组" @change="profileItemChange()">
+            <el-form-item prop="department">
+              <el-select v-model="profile.department" placeholder="请选择所属班组" @change="profileItemChange()">
                 <el-option label="检修班" value="1"/>
                 <el-option label="运行一班" value="2"/>
                 <el-option label="运行二班" value="3"/>
@@ -226,9 +226,9 @@ export default {
         gender: '',
         political_party: '',
         company: '',
-        dept_lv10: '',
-        dept_lv20: '',
-        dept_lv30: '',
+        subcompany: '',
+        station: '',
+        department: '',
         job: ''
       },
       profileRules: {
@@ -236,9 +236,9 @@ export default {
         gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
         political_party: [{ required: true, message: '请选择党派', trigger: 'change' }],
         company: [{ required: true, message: '请选择公司', trigger: 'change' }],
-        dept_lv10: [{ required: true, message: '请选择子公司', trigger: 'change' }],
-        dept_lv20: [{ required: true, message: '请选择电厂', trigger: 'change' }],
-        dept_lv30: [{ required: true, message: '请选择班组', trigger: 'change' }],
+        subcompany: [{ required: true, message: '请选择子公司', trigger: 'change' }],
+        station: [{ required: true, message: '请选择电厂', trigger: 'change' }],
+        department: [{ required: true, message: '请选择班组', trigger: 'change' }],
         job: [{ required: true, message: '请选择职务', trigger: 'change' }]
       },
       pwdForm: {
@@ -292,14 +292,14 @@ export default {
           this.account_active = data.active
           this.account_detailed_done = data.detailed_info_done
           //
-          this.profile.username = data.username
-          this.profile.gender = data.gender
-          this.profile.political_party = data.political_party
-          this.profile.company = data.company
-          this.profile.dept_lv10 = data.dept_lv10
-          this.profile.dept_lv20 = data.dept_lv20
-          this.profile.dept_lv30 = data.dept_lv30
-          this.profile.job = data.job
+          this.profile.username = data.profile.username
+          this.profile.gender = data.profile.gender
+          this.profile.political_party = data.profile.political_party
+          this.profile.company = data.profile.company
+          this.profile.subcompany = data.profile.subcompany
+          this.profile.station = data.profile.station
+          this.profile.department = data.profile.department
+          this.profile.job = data.profile.job
           //
           this.content_loading = false
         } else {

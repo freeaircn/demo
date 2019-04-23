@@ -72,7 +72,7 @@
 </template>
 
 <script>
-// import store from '@/store'
+import store from '@/store'
 // import { mapGetters } from 'vuex'
 // import { Constants } from '@/Constants'
 
@@ -118,7 +118,8 @@ export default {
   },
   methods: {
     getStationIdxByUser() {
-      this.stationIdx = 1
+      // this.stationIdx = store.getters.profile
+      console.log('Gen: ' + store.getters.profile)
     },
     RequestGenStartLog(genIdx) {
       this.isRunning = '1'

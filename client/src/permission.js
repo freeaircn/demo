@@ -5,39 +5,42 @@ import 'nprogress/nprogress.css'// Progress 进度条样式
 import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth' // 验权
 
-const whiteList = ['/login'] // 不重定向白名单
+// const whiteList = ['/login'] // 不重定向白名单
 
 // router.beforeEach((to, from, next) => {
 //   NProgress.start()
-//   if (to.name === 'reset_password_by_code') {
-//     const code = this.$route.params.code
-//     console.log(code)
-//   }
+//   console.log('cookie: ' + getToken())
+//   console.log('store token: ' + store.getters.token)
+
+//   // if (to.name === 'reset_password_by_code') {
+//   //   const code = this.$route.params.code
+//   //   console.log(code)
+//   // }
 //   if (getToken()) {
-//     if (to.path === '/login') {
-//       next({ path: '/' })
-//       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
-//     } else {
-//       if (store.getters.roles.length === 0) {
-//         store.dispatch('GetInfo').then(res => { // 拉取用户信息
+//     if (store.getters.token === '') {
+//       console.log('begin to GetUserProfile')
+//       store.dispatch('GetUserProfile')
+//         .then(() => { // 拉取用户信息
+//           console.log('GetUserProfile success')
 //           next()
-//         }).catch((err) => {
-//           store.dispatch('FedLogOut').then(() => {
-//             Message.error(err || 'Verification failed, please login again')
-//             next({ path: '/' })
-//           })
+//         }).catch(() => {
+//           console.log('GetUserProfile catch err')
+//           // store.dispatch('FedLogOut').then(() => {
+//           //   Message.error(err)
+//           //   next({ path: '/' })
+//           // })
 //         })
-//       } else {
-//         next()
-//       }
+//     } else {
+//       next()
 //     }
 //   } else {
-//     if (whiteList.indexOf(to.path) !== -1) {
-//       next()
-//     } else {
-//       next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
-//       NProgress.done()
-//     }
+//     next()
+//     // if (whiteList.indexOf(to.path) !== -1) {
+//     //   next()
+//     // } else {
+//     //   next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
+//     //   NProgress.done()
+//     // }
 //   }
 // })
 

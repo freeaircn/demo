@@ -49,9 +49,9 @@ export function updateUserProfile(profile) {
       gender: profile.gender,
       political_party: profile.political_party,
       company: profile.company,
-      dept_lv10: profile.dept_lv10,
-      dept_lv20: profile.dept_lv20,
-      dept_lv30: profile.dept_lv30,
+      subcompany: profile.subcompany,
+      station: profile.station,
+      department: profile.department,
       job: profile.job
     }
   })

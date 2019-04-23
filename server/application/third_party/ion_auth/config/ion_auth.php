@@ -247,13 +247,13 @@ $config['error_end_delimiter']     = '';	// Error message end delimiter
 
 /*
  | -------------------------------------------------------------------------
- | JWT Config Para.
+ | JWT Config Para. exp - 1800s
  | -------------------------------------------------------------------------
  */
 $config['jwt_config'] = [
   'issuer' => 'b-Server',
   'audience' => 'client',
   'nbf' => 0,
-  'exp' => 3600,
+  'exp' => 1800,
   'secret_code' => 'QaLmW2N7'
 ];

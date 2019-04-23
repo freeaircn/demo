@@ -421,12 +421,12 @@ class Users extends CI_Controller {
       $gender = $this->input->post('gender');
       $political_party = $this->input->post('political_party');
       $company = $this->input->post('company');
-      $dept_lv10 = $this->input->post('dept_lv10');
-      $dept_lv20 = $this->input->post('dept_lv20');
-      $dept_lv30 = $this->input->post('dept_lv30');
+      $subcompany = $this->input->post('subcompany');
+      $station = $this->input->post('station');
+      $department = $this->input->post('department');
       $job = $this->input->post('job');
 
-      if (!isset($username) || !isset($gender) || !isset($political_party) || !isset($company) || !isset($dept_lv10) || !isset($dept_lv20) || !isset($dept_lv30) || !isset($job))
+      if (!isset($username) || !isset($gender) || !isset($political_party) || !isset($company) || !isset($subcompany) || !isset($station) || !isset($department) || !isset($job))
       {
         $response['code'] = Constants::POST_INPUT_EMPTY;
         $response['msg'] = Constants::POST_INPUT_EMPTY_MSG;
@@ -443,9 +443,9 @@ class Users extends CI_Controller {
         'gender' => $gender,
         'political_party_id' => intval($political_party),
         'company_id' => intval($company),
-        'dept_lv10_id' => intval($dept_lv10),
-        'dept_lv20_id' => intval($dept_lv20),
-        'dept_lv30_id' => intval($dept_lv30),
+        'subcompany_id' => intval($subcompany),
+        'station_id' => intval($station),
+        'dept_id' => intval($department),
         'job_id' => intval($job)
       );
 

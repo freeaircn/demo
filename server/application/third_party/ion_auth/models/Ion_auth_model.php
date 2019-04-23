@@ -2838,12 +2838,9 @@ class Ion_auth_model extends CI_Model
 
     $political_party_id = $user->political_party_id;
     $company_id = $user->company_id;
-    $dept_lv10_id = $user->dept_lv10_id;
-    // $dept_lv15_id = $user->dept_lv15_id;
-    $dept_lv20_id = $user->dept_lv20_id;
-    // $dept_lv25_id = $user->dept_lv25_id;
-    $dept_lv30_id = $user->dept_lv30_id;
-    // $dept_lv35_id = $user->dept_lv35_id;
+    $subcompany_id = $user->subcompany_id;
+    $station_id = $user->station_id;
+    $dept_id = $user->dept_id;
     $job_id = $user->job_id;
 
     $res['uid'] = $user->id;
@@ -2852,14 +2849,16 @@ class Ion_auth_model extends CI_Model
     $res['active'] = $user->active;
     $res['detailed_info_done'] = $user->detailed_info_done;
 
-    $res['username'] = (isset($user->username)) ? $user->username : '';
-    $res['gender'] = (isset($user->gender)) ? $user->gender : '';
-    $res['political_party'] =  (isset($political_party_id)) ? $political_party_id : '';
-    $res['company'] = (isset($company_id)) ? $company_id : '';
-    $res['dept_lv10'] = (isset($dept_lv10_id)) ? $dept_lv10_id : '';
-    $res['dept_lv20'] = (isset($dept_lv20_id)) ? $dept_lv20_id : '';
-    $res['dept_lv30'] = (isset($dept_lv30_id)) ? $dept_lv30_id : '';
-    $res['job'] = (isset($job_id)) ? $job_id : '';
+    $profile['username'] = (isset($user->username)) ? $user->username : '';
+    $profile['gender'] = (isset($user->gender)) ? $user->gender : '';
+    $profile['political_party'] =  (isset($political_party_id)) ? $political_party_id : '';
+    $profile['company'] = (isset($company_id)) ? $company_id : '';
+    $profile['subcompany'] = (isset($subcompany_id)) ? $subcompany_id : '';
+    $profile['station'] = (isset($station_id)) ? $station_id : '';
+    $profile['department'] = (isset($dept_id)) ? $dept_id : '';
+    $profile['job'] = (isset($job_id)) ? $job_id : '';
+
+    $res['profile'] = $profile;
 
     // $res['political_party'] = $this->db->get_where($this->tables['org_political_party'], array('id' => $political_party_id))->row()->name;
     // if ($user->detailed_info_done !== "0")
@@ -2869,9 +2868,9 @@ class Ion_auth_model extends CI_Model
 
     //   $res['political_party'] = $this->get_user_org_item('org_political_party', $political_party_id);
     //   $res['company'] = $this->get_user_org_item('org_company', $company_id);
-    //   $res['dept_lv10'] = $this->get_user_org_item('org_dept_level_10', $dept_lv10_id);
-    //   $res['dept_lv20'] = $this->get_user_org_item('org_dept_level_20', $dept_lv20_id);
-    //   $res['dept_lv30'] = $this->get_user_org_item('org_dept_level_30', $dept_lv30_id);
+    //   $res['dept_lv10'] = $this->get_user_org_item('org_dept_level_10', $subcompnay_id);
+    //   $res['dept_lv20'] = $this->get_user_org_item('org_dept_level_20', $station_id);
+    //   $res['dept_lv30'] = $this->get_user_org_item('org_dept_level_30', $dept_id);
     //   $res['job'] = $this->get_user_org_item('org_jobs', $job_id);
     // }
 

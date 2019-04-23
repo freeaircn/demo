@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie'
+import { Constants } from '@/Constants'
 
 const TokenKey = 'Admin-Token'
+var ExpTime = 1.0 / Constants.COOKIE_EXP
 
 export function getToken() {
   return Cookies.get(TokenKey)

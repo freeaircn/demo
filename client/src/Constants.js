@@ -2,6 +2,11 @@
 export const Constants = {
 
   TEST_MSG: 'Test message',
+  /**
+   * 全局配置
+   */
+  // unit - day, 1/48 indicated 30minutes
+  COOKIE_EXP: 48,
 
   SUCCESS: 0,
   /**

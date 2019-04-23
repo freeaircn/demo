@@ -34,29 +34,18 @@
 
 <script>
 import store from '@/store'
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 import { getToken } from '@/utils/auth' // 验权
 
 export default {
   name: 'Navbar',
   computed: {
     isLogined: function() {
-      if (this.token) {
+      if (store.getters.token) {
         return true
       } else {
         return false
       }
-    },
-    ...mapGetters([
-      'token',
-      'avatar'
-    ])
-  },
-  created() {
-    if (this.token) {
-      this.isLogined = true
-    } else {
-      this.isLogined = false
     }
   },
   methods: {
