@@ -206,6 +206,9 @@ CREATE TABLE `auth_users` (
 
 INSERT INTO `auth_users` (`id`, `phone`, `username`, `email`, `active`, `detailed_info_done`, `password`) VALUES
     ('1','13812345678','管理员','admin@163.com','1', '0', '$argon2i$v=19$m=4096,t=2,p=2$bWVjN0c4MEVtS2ZzakJUMw$IR3GQ945dWBrmjlZkKUUTqax09APo8EoMFIDOVwjdy0');
+    
+INSERT INTO `auth_users` (`id`, `phone`, `username`, `email`, `active`, `detailed_info_done`, `password`) VALUES
+  ('2','13','张三','a@163.com','1', '0', '$argon2i$v=19$m=4096,t=2,p=2$Z2VLaUtrUjJzMmJDTFFpMw$wbW9qgUiCUQy82u/ixRM5kP4z0q45SPS5nircEv7JGA');
 
 CREATE TABLE `auth_users_groups` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

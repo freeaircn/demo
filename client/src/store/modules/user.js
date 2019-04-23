@@ -106,12 +106,12 @@ const user = {
     GetUserProfile({ commit }) {
       return new Promise((resolve, reject) => {
         requestUserInfo().then(data => {
-          console.log(data)
           if (data.code === Constants.SUCCESS) {
+            commit('SET_USER_PHONE', data.phone)
+            commit('SET_USER_EMAIL', data.email)
             commit('SET_USER_PROFILE', data.profile)
             resolve()
           } else {
-            console.log('call GetUserProfile failed')
             reject(data.msg)
           }
         }).catch(error => {
