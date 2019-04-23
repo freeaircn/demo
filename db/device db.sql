@@ -9,7 +9,7 @@ CREATE TABLE `g1_start_stop_log` (
   `start_recoder` char(8) NOT NULL,
   `stop_on` int(11) unsigned NULL,
   `stop_recoder` char(8) NULL,
-  `is_stopped` tinyint(1) unsigned NOT NULL,
+  `is_running` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
@@ -19,7 +19,7 @@ CREATE TABLE `g2_start_stop_log` (
   `start_recoder` char(8) NOT NULL,
   `stop_on` int(11) unsigned NULL,
   `stop_recoder` char(8) NULL,
-  `is_stopped` tinyint(1) unsigned NOT NULL,
+  `is_running` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
@@ -29,7 +29,7 @@ CREATE TABLE `g3_start_stop_log` (
   `start_recoder` char(8) NOT NULL,
   `stop_on` int(11) unsigned NULL,
   `stop_recoder` char(8) NULL,
-  `is_stopped` tinyint(1) unsigned NOT NULL,
+  `is_running` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 

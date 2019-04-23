@@ -5,24 +5,24 @@
         <el-tab-pane label="启停记录">
           <el-form ref="new_record_form" :model="newRecord" :rules="newRecordRules" label-position="top" >
             <el-form-item prop="genIdx" label="机组编号">
-              <el-select v-model="newRecord.genIdx" placeholder="选择机组编号">
+              <el-select v-model="newRecord.genIdx" placeholder="选择机组编号" @change="RequestGenStartLog(newRecord.genIdx)" >
                 <el-option label="#1 发电机" value="1"/>
                 <el-option label="#2 发电机" value="2"/>
                 <el-option label="#3 发电机" value="3"/>
               </el-select>
             </el-form-item>
 
-            <el-form-item label="开机时间">
+            <el-form-item v-show="isShowStartItem" label="开机时间">
               <el-col :span="11">
-                <el-date-picker v-model="newRecord.startDate" type="date" style="width: 100%;" placeholder="选择日期" />
+                <el-date-picker v-model="newRecord.startDate" :readonly="isReadOnly" type="date" style="width: 100%;" placeholder="选择日期" />
               </el-col>
               <el-col :span="2" class="is-center">-</el-col>
               <el-col :span="11">
-                <el-time-picker v-model="newRecord.startTime" style="width: 100%;" placeholder="选择时间" />
+                <el-time-picker v-model="newRecord.startTime" :readonly="isReadOnly" style="width: 100%;" placeholder="选择时间" />
               </el-col>
             </el-form-item>
 
-            <el-form-item label="停机时间">
+            <el-form-item v-show="isShowStopItem" label="停机时间">
               <el-col :span="11">
                 <el-date-picker v-model="newRecord.stopDate" type="date" style="width: 100%;" placeholder="选择日期" />
               </el-col>
@@ -32,7 +32,7 @@
               </el-col>
             </el-form-item>
 
-            <el-form-item>
+            <el-form-item v-show="isShowStartItem">
               <el-button type="primary" style="width:100%;" @click.native.prevent="handlePostRecord">提 交</el-button>
             </el-form-item>
           </el-form>
@@ -80,12 +80,11 @@ export default {
   name: 'GenStartStopLog',
   data() {
     return {
+      stationIdx: '',
+      isRunning: '',
+      startRecoder: '',
+      stopRecorder: '',
       newRecord: {
-        stationIdx: '',
-        startRecoder: '',
-        isStopped: '',
-        stopRecorder: '',
-        //
         genIdx: '',
         startDate: '',
         startTime: '',
@@ -100,6 +99,9 @@ export default {
         stopTime: [{ required: true, message: '请选择停机时间', trigger: 'change' }]
       },
       //
+      isReadOnly: false,
+      isShowStartItem: false,
+      isShowStopItem: false,
       redirect: undefined
     }
   },
@@ -111,7 +113,27 @@ export default {
       immediate: true
     }
   },
+  mounted: function() {
+    this.getStationIdxByUser()
+  },
   methods: {
+    getStationIdxByUser() {
+      this.stationIdx = 1
+    },
+    RequestGenStartLog(genIdx) {
+      this.isRunning = '1'
+      // 未运行
+      if (this.isRunning === '0') {
+        this.isShowStartItem = true
+        this.isReadOnly = false
+        this.isShowStopItem = false
+      } else {
+        this.isShowStartItem = true
+        this.isReadOnly = true
+        this.isShowStopItem = true
+      }
+    },
+
     handlePostRecord() {
       this.$refs.new_record_form.validate((valid) => {
         if (valid) {
