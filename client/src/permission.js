@@ -6,7 +6,9 @@ import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth' // 验权
 
 // 不需要登录可访问的页面
-const whiteList = ['/home', '/login', '/signup']
+const whiteList = ['/home', '/login', '/signup', '/forgot_password', '/reset_password/:uid/post/:hash_code', '/404']
+// 所有前端路由
+const routerFullList = ['/home', '/signup', '/login', '/user_settings', '/forgot_password', '/reset_password/:uid/post/:hash_code', '/gen_start_log', '/404']
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
@@ -19,16 +21,26 @@ router.beforeEach((to, from, next) => {
     if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {
-      next({ path: '/login' })
+      if (routerFullList.indexOf(to.path) !== -1) {
+        Message({
+          type: 'warning',
+          message: '请登录后，继续访问！',
+          duration: 3 * 1000,
+          showClose: true
+        })
+        next(`/login?redirect=${to.path}`)
+      } else {
+        next({ path: '/404' })
+      }
     }
   } else {
     if (store.getters.phone === '') {
       store.dispatch('GetUserProfile')
         .then(() => { // 拉取用户信息
           next()
-        }).catch((err) => {
+        }).catch(() => {
           store.dispatch('FedLogOut').then(() => {
-            Message.error(err)
+            Message.error('服务器未响应，请重新登录！')
             next({ path: '/' })
           })
         })

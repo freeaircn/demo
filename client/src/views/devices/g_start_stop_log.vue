@@ -1,6 +1,7 @@
 <template>
   <div class="content-wrapper">
     <div class="content-container py-3">
+      <h2 class="title is-center">{{ stationName }}</h2>
       <el-tabs type="card" class="container-sm px-responsive">
         <el-tab-pane label="启停记录">
           <el-form ref="new_record_form" :model="newRecord" :rules="newRecordRules" label-position="top" >
@@ -73,7 +74,7 @@
 
 <script>
 import store from '@/store'
-// import { mapGetters } from 'vuex'
+import { getStationName } from '@/utils/device'
 // import { Constants } from '@/Constants'
 
 export default {
@@ -101,25 +102,20 @@ export default {
       //
       isReadOnly: false,
       isShowStartItem: false,
-      isShowStopItem: false,
-      redirect: undefined
+      isShowStopItem: false
     }
   },
-  watch: {
-    $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
+  computed: {
+    stationName: function() {
+      return getStationName(this.stationIdx)
     }
   },
   mounted: function() {
-    this.getStationIdxByUser()
+    this.getStationByUser()
   },
   methods: {
-    getStationIdxByUser() {
-      // this.stationIdx = store.getters.profile
-      console.log('Gen: ' + store.getters.profile)
+    getStationByUser() {
+      this.stationIdx = store.getters.profile.station
     },
     RequestGenStartLog(genIdx) {
       this.isRunning = '1'
@@ -136,6 +132,8 @@ export default {
     },
 
     handlePostRecord() {
+      console.log(this.stationIdx)
+      console.log(this.stationName)
       this.$refs.new_record_form.validate((valid) => {
         if (valid) {
           // updateUserProfile(this.profile)
@@ -181,6 +179,11 @@ export default {
 }
 .content-container {
   flex: 1 0 auto;
+}
+.title {
+  font-weight: 400;
+  color: $title-color;
+  letter-spacing: 6px;
 }
 .el-select{
   width: 100%;

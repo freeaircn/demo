@@ -51,6 +51,8 @@ const user = {
       state.user_detailed_done = user_detailed_done
     },
     SET_USER_PROFILE: (state, profile) => {
+      state.profile.name = profile.username
+      state.profile.gender = profile.gender
       state.profile.politicalParty = profile.political_party
       state.profile.company = profile.company
       state.profile.subcompany = profile.subcompany
@@ -120,6 +122,13 @@ const user = {
       })
     },
 
+    // EmptyUserProfile({ commit }) {
+    //   return new Promise((resolve, reject) => {
+    //     commit('SET_USER_PHONE', '')
+    //     resolve()
+    //   })
+    // },
+
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
@@ -127,6 +136,7 @@ const user = {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           commit('SET_USER_STATE', '', '')
+          commit('SET_USER_PHONE', '')
           removeToken()
           resolve()
         }).catch(error => {
@@ -141,6 +151,7 @@ const user = {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
         commit('SET_USER_STATE', '', '')
+        commit('SET_USER_PHONE', '')
         removeToken()
         resolve()
       })

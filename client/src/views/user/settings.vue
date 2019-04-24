@@ -160,7 +160,6 @@
 
 <script>
 import store from '@/store'
-// import { mapGetters } from 'vuex'
 import { requestCode } from '@/api/signup'
 import { requestUserInfo, updateUserProfile, updatePassword, updateEmail, updatePhone } from '@/api/user'
 import { getMailServerUrl, wait5sOpenUrl } from '@/utils/common'
@@ -329,14 +328,23 @@ export default {
         if (valid) {
           updateUserProfile(this.profile)
             .then(function(data) {
-              if (data.code === Constants.SUCCESS) {
-                this.isUpdateUserBtnDisable = true
-              }
               this.$message({
                 type: 'info',
                 message: data.msg,
                 duration: 3 * 1000
               })
+              if (data.code === Constants.SUCCESS) {
+                this.isUpdateUserBtnDisable = true
+                store.dispatch('GetUserProfile')
+                  .then(() => {
+                    console.log('update user profile')
+                  }).catch(() => {
+                    store.dispatch('FedLogOut').then(() => {
+                      this.$message.error('请重新登录！')
+                      this.$router.replace({ path: '/login' })
+                    })
+                  })
+              }
             }.bind(this))
             .catch(function(err) {
               console.log(err)
@@ -462,15 +470,24 @@ export default {
         if (valid) {
           updateEmail(this.email, this.emailForm.newEmail, this.emailForm.verificationCode)
             .then(function(data) {
-              if (data.code === Constants.SUCCESS) {
-                this.email = this.emailForm.newEmail
-                this.$refs.email_form.resetFields()
-              }
               this.$message({
                 type: 'info',
                 message: data.msg,
                 duration: 3 * 1000
               })
+              if (data.code === Constants.SUCCESS) {
+                this.email = this.emailForm.newEmail
+                this.$refs.email_form.resetFields()
+                store.dispatch('GetUserProfile')
+                  .then(() => {
+                    console.log('update user profile')
+                  }).catch(() => {
+                    store.dispatch('FedLogOut').then(() => {
+                      this.$message.error('请重新登录！')
+                      this.$router.replace({ path: '/login' })
+                    })
+                  })
+              }
             }.bind(this))
             .catch(function(err) {
               console.log(err)
