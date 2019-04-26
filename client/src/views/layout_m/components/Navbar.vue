@@ -14,7 +14,8 @@
         <li is="el-dropdown" class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
             <img src="@/assets/avatar/identicon01.png" class="pure-img">
-            <i class="el-icon-caret-bottom"/>
+            <!-- <i class="el-icon-caret-bottom"/> -->
+            <span style="color:#606266; font-size:14px;">{{ username }}</span>
           </div>
           <el-dropdown-menu slot="dropdown" class="user-dropdown">
             <router-link class="inlineBlock" to="/user_settings">
@@ -46,6 +47,9 @@ export default {
       } else {
         return false
       }
+    },
+    username: function() {
+      return store.getters.profile.username
     }
   },
   methods: {

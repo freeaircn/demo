@@ -16,7 +16,7 @@ const user = {
     user_detailed_done: '',
     //
     profile: {
-      name: '',
+      username: '',
       gender: '',
       politicalParty: '',
       company: '',
@@ -51,7 +51,7 @@ const user = {
       state.user_detailed_done = user_detailed_done
     },
     SET_USER_PROFILE: (state, profile) => {
-      state.profile.name = profile.username
+      state.profile.username = profile.username
       state.profile.gender = profile.gender
       state.profile.politicalParty = profile.political_party
       state.profile.company = profile.company

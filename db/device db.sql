@@ -1,4 +1,4 @@
-CREATE DATABASE db_sshk_devices CHARACTER SET utf8;
+CREATE DATABASE db_sshk_device CHARACTER SET utf8;
 
 /*
  * 机组启停时间记录
@@ -44,5 +44,5 @@ DROP TABLE IF EXISTS `g3_start_stop_log`;
 DROP TABLE IF EXISTS `g2_start_stop_log`;
 DROP TABLE IF EXISTS `g1_start_stop_log`;
 
-DROP DATABASE IF EXISTS `db_devices`;
-DROP DATABASE IF EXISTS `db_sshk_devices`;
+DROP DATABASE IF EXISTS `db_device`;
+DROP DATABASE IF EXISTS `db_sshk_device`;

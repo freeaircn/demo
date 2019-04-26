@@ -55,6 +55,9 @@ $route['test'] = 'test';
 $route['reset_password/(:any)/post/(:any)'] = 'home';
 // 激活邮件中的 url
 $route['users/(:any)'] = 'users/$1';
+// Device Controller
+$route['device/(:any)'] = 'device/$1';
+
 $route['(:any)'] = 'home';
 $route['(:any)/(:any)'] = 'home';
 
