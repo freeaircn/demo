@@ -89,8 +89,8 @@
 
 <script>
 import store from '@/store'
-import { getStationName } from '@/utils/device'
-import { getGenStartLastLog, logGenStartStop } from '@/api/device'
+import { getStationName } from '@/utils/station'
+import { queryStartLastLog, postStartStopLog } from '@/api/station/generator'
 import { Constants } from '@/Constants'
 
 export default {
@@ -159,7 +159,7 @@ export default {
 
     requestGenStartLastLog(isVisible) {
       if (!isVisible) {
-        getGenStartLastLog(this.stationIdx, this.newRecord.genIdx)
+        queryStartLastLog(this.stationIdx, this.newRecord.genIdx)
           .then(function(data) {
             console.log(data)
             if (data.code === Constants.SUCCESS) {
@@ -220,7 +220,7 @@ export default {
           // data 里是各个字段的验证错误信息, 如果为空串则认为验证通过, 如果数组里全为空串则所有验证通过
           if (data.indexOf(false) === -1) {
             const startDateTime = this.makeupDateTime(this.newRecord.startDate, this.newRecord.startTime)
-            logGenStartStop(this.stationIdx, this.newRecord.genIdx, this.isRunning, startDateTime.valueOf(), this.username, '0')
+            postStartStopLog(this.stationIdx, this.newRecord.genIdx, this.isRunning, startDateTime.valueOf(), this.username, '0')
               .then(function(data) {
                 console.log(data)
                 this.clearLogTab()
@@ -246,7 +246,7 @@ export default {
         this.$refs.new_record_form.validate((valid) => {
           if (valid) {
             const stopDateTime = this.makeupDateTime(this.newRecord.stopDate, this.newRecord.stopTime)
-            logGenStartStop(this.stationIdx, this.newRecord.genIdx, this.isRunning, stopDateTime.valueOf(), this.username, this.newRecord.stopCause)
+            postStartStopLog(this.stationIdx, this.newRecord.genIdx, this.isRunning, stopDateTime.valueOf(), this.username, this.newRecord.stopCause)
               .then(function(data) {
                 console.log(data)
                 this.clearLogTab()

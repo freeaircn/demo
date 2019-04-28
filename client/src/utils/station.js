@@ -1,15 +1,15 @@
 /**
  *
  */
-import { DEVICE } from '@/Device_Config'
+import { STATION } from '@/Station_Config'
 
 export function getStationName(idx) {
   if (idx === '') {
     return ''
   }
   const id = Number(idx) - 1
-  if (id >= 0 && id < DEVICE.STATION_LIST.length) {
-    return DEVICE.STATION_LIST[id]
+  if (id >= 0 && id < STATION.LIST.length) {
+    return STATION.LIST[id]
   } else {
     return ''
   }

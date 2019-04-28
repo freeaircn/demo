@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getGenStartLastLog(station_idx, gen_idx) {
+export function queryStartLastLog(station_idx, gen_idx) {
   return request({
     url: '/generators/query_start_last_log',
     method: 'post',
@@ -11,7 +11,7 @@ export function getGenStartLastLog(station_idx, gen_idx) {
   })
 }
 
-export function logGenStartStop(station_idx, gen_idx, is_running, date_time, username, stop_cause) {
+export function postStartStopLog(station_idx, gen_idx, is_running, date_time, username, stop_cause) {
   return request({
     url: '/generators/post_start_stop_log',
     method: 'post',

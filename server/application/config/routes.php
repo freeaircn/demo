@@ -51,15 +51,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'home';
 $route['test'] = 'test';
-// 重置密码url，reset_password/uid/post/hash_code
-$route['reset_password/(:any)/post/(:any)'] = 'home';
-// 激活邮件中的 url
+
+/**
+ * api
+ */
+// users Controller
 $route['users/(:any)'] = 'users/$1';
 // generators Controller
 $route['generators/(:any)'] = 'generators/$1';
 
+/**
+ * 前端路由
+ */
+// 重置密码url，reset_password/uid/post/hash_code
+$route['reset_password/(:any)/post/(:any)'] = 'home';
 $route['(:any)'] = 'home';
 $route['(:any)/(:any)'] = 'home';
 
+//
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

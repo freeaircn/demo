@@ -59,12 +59,10 @@ export const constantRouterMap = [
   {
     path: '/user_settings',
     component: Layout,
-    name: 'user_settings',
     hidden: true,
     children: [
       {
         path: '/',
-        // name: 'UserInfo',
         component: () => import('@/views/user/settings'),
         meta: { title: '用户设置' }
       }
@@ -101,15 +99,13 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '/gen_start_log',
+    path: '/generator',
     component: Layout,
-    name: 'gen_start_log',
     hidden: true,
     children: [
       {
-        path: '/',
-        // name: 'Gen',
-        component: () => import('@/views/devices/g_start_stop_log'),
+        path: 'start_stop_log',
+        component: () => import('@/views/station/generator/start_stop_log'),
         meta: { title: '机组启停' }
       }
     ]
