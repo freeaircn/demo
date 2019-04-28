@@ -41,18 +41,25 @@
               </el-col>
             </el-form-item>
 
+            <el-form-item v-show="isShowStopItem" prop="stopCause" label="停机原因">
+              <el-select v-model="newRecord.stopCause" placeholder="选择停机原因" >
+                <el-option label="调度发令" value="1"/>
+                <el-option label="事故停机" value="2"/>
+              </el-select>
+            </el-form-item>
+
             <el-form-item v-show="isShowStartItem">
               <el-button type="primary" style="width:100%;" @click.native.prevent="handlePostRecord">提 交</el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
 
-        <el-tab-pane label="查看">
-          <p>功能编写中</p>
+        <el-tab-pane label="历史记录">
+          <p>功能编写中...</p>
         </el-tab-pane>
 
-        <el-tab-pane label="图表">
-          <p>功能编写中</p>
+        <el-tab-pane label="统计图表">
+          <p>功能编写中...</p>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -98,14 +105,16 @@ export default {
         startDate: '',
         startTime: '',
         stopDate: '',
-        stopTime: ''
+        stopTime: '',
+        stopCause: ''
       },
       newRecordRules: {
         genIdx: [{ required: true, message: '请选择机组', trigger: 'change' }],
         startDate: [{ type: 'date', required: true, message: '请选择开机日期', trigger: 'change' }],
         startTime: [{ type: 'date', required: true, message: '请选择开机时间', trigger: 'change' }],
         stopDate: [{ type: 'date', required: true, message: '请选择停机日期', trigger: 'change' }],
-        stopTime: [{ type: 'date', required: true, message: '请选择停机时间', trigger: 'change' }]
+        stopTime: [{ type: 'date', required: true, message: '请选择停机时间', trigger: 'change' }],
+        stopCause: [{ required: true, message: '请选择停机原因', trigger: 'change' }]
       },
       //
       genState: '',
@@ -152,6 +161,7 @@ export default {
       if (!isVisible) {
         getGenStartLastLog(this.stationIdx, this.newRecord.genIdx)
           .then(function(data) {
+            console.log(data)
             if (data.code === Constants.SUCCESS) {
               this.isRunning = data.is_running
               if (data.is_running === '0') {
@@ -173,7 +183,7 @@ export default {
               this.clearLogTab()
               this.$message({
                 type: 'info',
-                message: '服务器响应失败，请再次选择机组编号！',
+                message: data.msg,
                 duration: 3 * 1000
               })
             }
@@ -183,7 +193,7 @@ export default {
             this.clearLogTab()
             this.$message({
               type: 'info',
-              message: '服务器响应超时，请再次选择机组编号！',
+              message: '服务器未响应，请选择机组编号！',
               duration: 3 * 1000
             })
           }.bind(this))
@@ -210,7 +220,7 @@ export default {
           // data 里是各个字段的验证错误信息, 如果为空串则认为验证通过, 如果数组里全为空串则所有验证通过
           if (data.indexOf(false) === -1) {
             const startDateTime = this.makeupDateTime(this.newRecord.startDate, this.newRecord.startTime)
-            logGenStartStop(this.isRunning, startDateTime.valueOf(), this.username)
+            logGenStartStop(this.stationIdx, this.newRecord.genIdx, this.isRunning, startDateTime.valueOf(), this.username, '0')
               .then(function(data) {
                 console.log(data)
                 this.clearLogTab()
@@ -225,7 +235,7 @@ export default {
                 this.clearLogTab()
                 this.$message({
                   type: 'info',
-                  message: '服务器响应超时，请重试！',
+                  message: '服务器未响应，请重试！',
                   duration: 3 * 1000
                 })
               }.bind(this))
@@ -236,7 +246,7 @@ export default {
         this.$refs.new_record_form.validate((valid) => {
           if (valid) {
             const stopDateTime = this.makeupDateTime(this.newRecord.stopDate, this.newRecord.stopTime)
-            logGenStartStop(this.isRunning, stopDateTime.valueOf(), this.username)
+            logGenStartStop(this.stationIdx, this.newRecord.genIdx, this.isRunning, stopDateTime.valueOf(), this.username, this.newRecord.stopCause)
               .then(function(data) {
                 console.log(data)
                 this.clearLogTab()
@@ -251,7 +261,7 @@ export default {
                 this.clearLogTab()
                 this.$message({
                   type: 'info',
-                  message: '服务器响应超时，请重试！',
+                  message: '服务器未响应，请重试！',
                   duration: 3 * 1000
                 })
               }.bind(this))

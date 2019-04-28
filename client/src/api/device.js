@@ -11,14 +11,17 @@ export function getGenStartLastLog(station_idx, gen_idx) {
   })
 }
 
-export function logGenStartStop(is_running, date_time, username) {
+export function logGenStartStop(station_idx, gen_idx, is_running, date_time, username, stop_cause) {
   return request({
     url: '/device/log_gen_start_stop',
     method: 'post',
     data: {
+      station_idx,
+      gen_idx,
       is_running,
       date_time,
-      username
+      username,
+      stop_cause
     }
   })
 }

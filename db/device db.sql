@@ -5,36 +5,57 @@ CREATE DATABASE db_sshk_device CHARACTER SET utf8;
  */
 CREATE TABLE `g1_start_stop_log` (
   `id` int(11) unsigned NOT NULL auto_increment,
+  `is_running` tinyint(1) unsigned NOT NULL,
   `start_on` int(11) unsigned NOT NULL,
   `start_recoder` char(8) NOT NULL,
   `stop_on` int(11) unsigned NULL,
   `stop_recoder` char(8) NULL,
-  `is_running` tinyint(1) unsigned NOT NULL,
+  `stop_cause` tinyint(1) unsigned NULL,
+  `update_on` int(11) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+INSERT INTO `g1_start_stop_log` (`id`, `is_running`, `start_on`, `start_recoder`, `stop_on`, `stop_recoder`, `stop_cause`, `update_on`) VALUES
+     (1,0,0,'张三',0,'张三',1,0);
+     
+INSERT INTO `g1_start_stop_log` (`is_running`, `start_on`, `start_recoder`, `stop_on`, `stop_recoder`, `stop_cause`, `update_on`) VALUES
+     (0,1,'张三',1,'张三',1,0);
+     
+INSERT INTO `g1_start_stop_log` (`is_running`, `start_on`, `start_recoder`, `stop_on`, `stop_recoder`, `stop_cause`, `update_on`) VALUES
+     (0,2,'张三',2,'张三',1,0);
+     
+INSERT INTO `g1_start_stop_log` (`is_running`, `start_on`, `start_recoder`, `stop_on`, `stop_recoder`, `stop_cause`, `update_on`) VALUES
+     (0,3,'张三',3,'张三',1,0);     
 
 CREATE TABLE `g2_start_stop_log` (
   `id` int(11) unsigned NOT NULL auto_increment,
+  `is_running` tinyint(1) unsigned NOT NULL,
   `start_on` int(11) unsigned NOT NULL,
   `start_recoder` char(8) NOT NULL,
   `stop_on` int(11) unsigned NULL,
   `stop_recoder` char(8) NULL,
-  `is_running` tinyint(1) unsigned NOT NULL,
+  `stop_cause` tinyint(1) unsigned NULL,
+  `update_on` int(11) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+INSERT INTO `g2_start_stop_log` (`id`, `is_running`, `start_on`, `start_recoder`, `stop_on`, `stop_recoder`, `stop_cause`, `update_on`) VALUES
+     (1,0,0,'张三',0,'张三',1,0);
 
 CREATE TABLE `g3_start_stop_log` (
   `id` int(11) unsigned NOT NULL auto_increment,
+  `is_running` tinyint(1) unsigned NOT NULL,
   `start_on` int(11) unsigned NOT NULL,
   `start_recoder` char(8) NOT NULL,
   `stop_on` int(11) unsigned NULL,
   `stop_recoder` char(8) NULL,
-  `is_running` tinyint(1) unsigned NOT NULL,
+  `stop_cause` tinyint(1) unsigned NULL,
+  `update_on` int(11) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-
-
+INSERT INTO `g3_start_stop_log` (`id`, `is_running`, `start_on`, `start_recoder`, `stop_on`, `stop_recoder`, `stop_cause`, `update_on`) VALUES
+     (1,0,0,'张三',0,'张三',1,0);
 
 
 /* 删除

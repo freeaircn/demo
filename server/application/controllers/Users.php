@@ -17,9 +17,8 @@ class Users extends CI_Controller {
       parent::__construct();
 
       $this->config->load('ion_auth', TRUE);
-      $db_group_name = $this->config->item('database_group_name', 'ion_auth');
-
-      $this->load->database($db_group_name, TRUE, TRUE);
+      // $db_group_name = $this->config->item('database_group_name', 'ion_auth');
+      // $this->load->database($db_group_name, TRUE, TRUE);
       $this->load->library(['ion_auth']);
       $this->load->library('email');
     }
