@@ -27,7 +27,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  | Default is empty: uses default group defined in CI's configuration
  | (see application/config/database.php, $active_group variable)
  */
-$config['database_group_name'] = 'to_db_sshk_device';
+$config['db_stations']['sshk'] = 'db_sshk';
+$config['db_stations']['sjhk'] = 'db_sjhk';
 
 /*
 | -------------------------------------------------------------------------
@@ -38,11 +39,3 @@ $config['database_group_name'] = 'to_db_sshk_device';
 $config['tables']['g1_start_stop_log']    = 'g1_start_stop_log';
 $config['tables']['g2_start_stop_log']    = 'g2_start_stop_log';
 $config['tables']['g3_start_stop_log']    = 'g3_start_stop_log';
-
-/*
- | Users table column and Group table column you want to join WITH.
- |
- | Joins from users.id
- | Joins from groups.id
- */
-$config['join']['users']  = 'user_id';

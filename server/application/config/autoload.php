@@ -40,7 +40,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // $autoload['packages'] = array();
-$autoload['packages'] = array(APPPATH.'third_party/ion_auth', APPPATH.'third_party/Be_device');
+// $autoload['packages'] = array(APPPATH.'third_party/ion_auth', APPPATH.'third_party/Be_device');
+$packages[0] = APPPATH.'third_party/ion_auth';
+$packages[1] = APPPATH.'third_party/station';
+$packages[2] = APPPATH.'third_party/generator';
+$autoload['packages'] = $packages;
+
 /*
 | -------------------------------------------------------------------
 |  Auto-load Libraries

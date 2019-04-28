@@ -1,4 +1,4 @@
-CREATE DATABASE db_sshk_device CHARACTER SET utf8;
+CREATE DATABASE db_sshk CHARACTER SET utf8;
 
 /*
  * 机组启停时间记录
@@ -18,15 +18,6 @@ CREATE TABLE `g1_start_stop_log` (
 INSERT INTO `g1_start_stop_log` (`id`, `is_running`, `start_on`, `start_recoder`, `stop_on`, `stop_recoder`, `stop_cause`, `update_on`) VALUES
      (1,0,0,'张三',0,'张三',1,0);
      
-INSERT INTO `g1_start_stop_log` (`is_running`, `start_on`, `start_recoder`, `stop_on`, `stop_recoder`, `stop_cause`, `update_on`) VALUES
-     (0,1,'张三',1,'张三',1,0);
-     
-INSERT INTO `g1_start_stop_log` (`is_running`, `start_on`, `start_recoder`, `stop_on`, `stop_recoder`, `stop_cause`, `update_on`) VALUES
-     (0,2,'张三',2,'张三',1,0);
-     
-INSERT INTO `g1_start_stop_log` (`is_running`, `start_on`, `start_recoder`, `stop_on`, `stop_recoder`, `stop_cause`, `update_on`) VALUES
-     (0,3,'张三',3,'张三',1,0);     
-
 CREATE TABLE `g2_start_stop_log` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `is_running` tinyint(1) unsigned NOT NULL,
@@ -67,3 +58,4 @@ DROP TABLE IF EXISTS `g1_start_stop_log`;
 
 DROP DATABASE IF EXISTS `db_device`;
 DROP DATABASE IF EXISTS `db_sshk_device`;
+DROP DATABASE IF EXISTS `db_sshk`;

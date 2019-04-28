@@ -47,9 +47,9 @@ class Constants {
   const USERS_PASSWORD_OLD_INVALID           = 407;
   const USERS_PASSWORD_UPDATE_FAILED         = 408;
 
-  // ! Device code：450~499
-  const DEVICE_GET_GEN_START_LAST_LOG_FAILED = 450;
-  const DEVICE_SET_GEN_START_STOP_LOG_FAILED = 451;
+  // ! Generators code：450~499
+  const GEN_GET_START_LAST_LOG_FAILED = 450;
+  const GEN_SET_START_STOP_LOG_FAILED = 451;
 
   /**
    * code map to msg

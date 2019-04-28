@@ -4,20 +4,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use \Freeair_App_SDK\Constants as Constants;
 // use \Freeair_App_SDK\conf\Conf as Conf;
 
-class Device extends CI_Controller {
+class Generators extends CI_Controller {
 
     public function __construct()
     {
       parent::__construct();
 
-      $this->config->load('Be_device_config', TRUE);
+      // $this->load->library(['']);
 
-      // $this->load->library(['Be_device_lib']);
-      $this->load->model('Be_device_model');
-      $this->lang->load('Be_device');
+      $this->config->load('station_config', TRUE);
+      $this->lang->load('station_lang');
+      $this->load->model('generator_model');
     }
 
-    public function gen_start_last_log()
+    public function query_start_last_log()
     {
       $station_idx = $this->input->post('station_idx');
       $gen_idx     = $this->input->post('gen_idx');
@@ -30,11 +30,11 @@ class Device extends CI_Controller {
         return ;
       }
 
-      $last_log = $this->Be_device_model->get_gen_start_last_log($gen_idx);
+      $last_log = $this->generator_model->get_start_last_log($gen_idx);
       if ($last_log === FALSE)
       {
-        $response['code'] = Constants::DEVICE_GET_GEN_START_LAST_LOG_FAILED;
-        $response['msg']  = $this->lang->line('DEVICE_GET_GEN_START_LAST_LOG_FAILED');
+        $response['code'] = Constants::GEN_GET_START_LAST_LOG_FAILED;
+        $response['msg']  = $this->lang->line('GEN_GET_START_LAST_LOG_FAILED');
 
         echo json_encode($response);
         return ;
@@ -48,7 +48,7 @@ class Device extends CI_Controller {
       echo json_encode($response);
     }
 
-    public function log_gen_start_stop()
+    public function post_start_stop_log()
     {
       $station_idx = $this->input->post('station_idx');
       $gen_idx     = $this->input->post('gen_idx');
@@ -72,18 +72,18 @@ class Device extends CI_Controller {
         'stop_cause' => $stop_cause
       );
 
-      $res = $this->Be_device_model->set_gen_start_last_log($gen_idx, $gen_data);
+      $res = $this->generator_model->set_start_last_log($gen_idx, $gen_data);
       if ($res === FALSE)
       {
-        $response['code'] = Constants::DEVICE_SET_GEN_START_STOP_LOG_FAILED;
-        $response['msg']  = $this->lang->line('DEVICE_SET_GEN_START_STOP_LOG_FAILED');
+        $response['code'] = Constants::GEN_SET_START_STOP_LOG_FAILED;
+        $response['msg']  = $this->lang->line('GEN_SET_START_STOP_LOG_FAILED');
 
         echo json_encode($response);
         return ;
       }
 
       $response['code'] = Constants::SUCCESS;
-      $response['msg']  = $this->lang->line('DEVICE_SET_GEN_START_STOP_LOG_SUCCESS');
+      $response['msg']  = $this->lang->line('GEN_SET_START_STOP_LOG_SUCCESS');
 
       echo json_encode($response);
     }

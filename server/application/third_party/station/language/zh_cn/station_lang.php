@@ -52,8 +52,7 @@ $lang['USERS_PASSWORD_RESET_FAILED']          = '服务器更新密码失败，�
 $lang['USERS_PASSWORD_OLD_INVALID']           = '输入的旧密码错误';
 $lang['USERS_PASSWORD_UPDATE_FAILED']         = '服务器更新密码失败，请重试';
 
-
-// Device $lang[''] = '';
-$lang['DEVICE_GET_GEN_START_LAST_LOG_FAILED']  = '服务器罢工了，请选择机组编号！';
-$lang['DEVICE_SET_GEN_START_STOP_LOG_FAILED']  = '服务器罢工了，请重新提交！';
-$lang['DEVICE_SET_GEN_START_STOP_LOG_SUCCESS'] = '机组开/停机事件上传成功！';
+// generators $lang[''] = '';
+$lang['GEN_GET_START_LAST_LOG_FAILED']  = '服务器罢工了，请选择机组编号！';
+$lang['GEN_SET_START_STOP_LOG_FAILED']  = '服务器罢工了，请重新提交！';
+$lang['GEN_SET_START_STOP_LOG_SUCCESS'] = '机组开/停机事件上传成功！';

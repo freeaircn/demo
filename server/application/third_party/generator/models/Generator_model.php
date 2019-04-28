@@ -1,6 +1,6 @@
 <?php
 /**
- * Name:    device Model
+ * Name:    Generator Model
  * Author:  freeair
  *
  * Created:  2019.04.28
@@ -20,9 +20,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Class Device Model
  * @property
  */
-class Be_device_model extends CI_Model
+class Generator_model extends CI_Model
 {
-	/**
+  /**
+	 * Holds an array of stations used
+	 *
+	 * @var array
+	 */
+	public $db_stations = [];
+
+  /**
 	 * Holds an array of tables used
 	 *
 	 * @var array
@@ -38,24 +45,38 @@ class Be_device_model extends CI_Model
 
 	public function __construct()
 	{
-		$this->config->load('Be_device_config', TRUE);
+    $this->config->load('station_config', TRUE);
+    $this->db_stations = $this->config->item('db_stations', 'station_config');
 
-		// initialize the database
-		$group_name = $this->config->item('database_group_name', 'Be_device_config');
-		if (empty($group_name))
-		{
-			// By default, use CI's db that should be already loaded
-			$CI =& get_instance();
-			$this->db = $CI->db;
-		}
-		else
-		{
-			// For specific group name, open a new specific connection
-			$this->db = $this->load->database($group_name, TRUE, TRUE);
-		}
+    // initialize the database
+    $station_idx = $this->input->post('station_idx');
+    switch ($station_idx)
+    {
+      case '1':
+        $db_name = $this->db_stations['sshk'];
+        break;
+      case '2':
+        $db_name = $this->db_stations['sjhk'];
+        break;
+      default:
+        $db_name = '';
+    }
+
+		// if (empty($db_name))
+		// {
+		// 	// By default, use CI's db that should be already loaded
+		// 	$CI =& get_instance();
+		// 	$this->db = $CI->db;
+		// }
+		// else
+		// {
+		// 	// For specific group name, open a new specific connection
+		// 	$this->db = $this->load->database($db_name, TRUE, TRUE);
+    // }
+    $this->db = $this->load->database($db_name, TRUE, TRUE);
 
 		// initialize db tables data
-		$this->tables = $this->config->item('tables', 'Be_device_config');
+		$this->tables = $this->config->item('tables', 'station_config');
 	}
 
 	/**
@@ -76,7 +97,7 @@ class Be_device_model extends CI_Model
 	 * @return bool
 	 * @author freeair
 	 */
-	public function get_gen_start_last_log($gen_idx = '')
+	public function get_start_last_log($gen_idx = '')
 	{
 		// $this->trigger_events('');
 
@@ -122,7 +143,7 @@ class Be_device_model extends CI_Model
 	 * @return bool|array
 	 * @author freeair
 	 */
-	public function set_gen_start_last_log($gen_idx = '', $gen_data = array())
+	public function set_start_last_log($gen_idx = '', $gen_data = array())
 	{
 		// $this->trigger_events('');
 
