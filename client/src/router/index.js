@@ -104,9 +104,25 @@ export const constantRouterMap = [
     hidden: true,
     children: [
       {
-        path: 'start_stop_log',
-        component: () => import('@/views/station/generator/start_stop_log'),
-        meta: { title: '机组启停' }
+        path: 'start_stop',
+        component: () => import('@/views/station/generator/start_stop/index'),
+        children: [
+          {
+            path: 'log',
+            component: () => import('@/views/station/generator/start_stop/log'),
+            meta: { title: '机组启停' }
+          },
+          {
+            path: 'history',
+            component: () => import('@/views/station/generator/start_stop/history'),
+            meta: { title: '查询历史' }
+          },
+          {
+            path: 'statistic',
+            component: () => import('@/views/station/generator/start_stop/statistic'),
+            meta: { title: '统计图表' }
+          }
+        ]
       }
     ]
   },

@@ -67,6 +67,7 @@ $route['generators/(:any)'] = 'generators/$1';
 $route['reset_password/(:any)/post/(:any)'] = 'home';
 $route['(:any)'] = 'home';
 $route['(:any)/(:any)'] = 'home';
+$route['(:any)/(:any)/(:any)'] = 'home';
 
 //
 $route['404_override'] = '';
