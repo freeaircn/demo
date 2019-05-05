@@ -1,7 +1,8 @@
 <template>
   <div class="content-wrapper">
     <div class="content-container container-sm px-responsive py-3">
-      <h2 class="title is-center">{{ stationName }}</h2>
+      <!-- <h2 class="title is-center">{{ stationName }}</h2> -->
+      <h2 class="title is-center">发电机启停统计</h2>
       <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
         <el-menu-item index="1">启停记录</el-menu-item>
         <el-menu-item index="2">查询历史</el-menu-item>
@@ -34,8 +35,8 @@
 </template>
 
 <script>
-import store from '@/store'
-import { getStationName } from '@/utils/station'
+// import store from '@/store'
+// import { getStationName } from '@/utils/station'
 
 export default {
   name: 'Index',
@@ -44,14 +45,14 @@ export default {
       activeIndex: '1'
     }
   },
-  computed: {
-    stationIdx: function() {
-      return store.getters.profile.station
-    },
-    stationName: function() {
-      return getStationName(this.stationIdx)
-    }
-  },
+  // computed: {
+  //   stationIdx: function() {
+  //     return store.getters.profile.station
+  //   },
+  //   stationName: function() {
+  //     return getStationName(this.stationIdx)
+  //   }
+  // },
   methods: {
     handleSelect(menuIndex) {
       switch (menuIndex) {
@@ -91,9 +92,7 @@ export default {
 .title {
   font-weight: 400;
   color: $title-color;
-  letter-spacing: 6px;
 }
-
 .p-text {
   font-weight: 600;
   color: $blue-light;
