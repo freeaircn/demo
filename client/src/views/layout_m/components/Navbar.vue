@@ -1,9 +1,37 @@
 <template>
-  <div class="navbar-wrapper pure-menu pure-menu-horizontal pure-menu-fixed">
+  <div class="navbar-wrapper">
     <div class="navbar-container container-xl px-responsive">
-      <!-- <a class="navbar-logo pure-menu-heading" href="#">BE</a> -->
+      <router-link class="navbar-logo" to="/home">BE</router-link>
+      <el-menu default-active="1" class="" mode="horizontal" >
+        <el-menu-item index="1">首页</el-menu-item>
+        <el-menu-item index="2">机组</el-menu-item>
+        <el-menu-item v-if="!isLogined" index="3"><router-link to="/login" class="navbar-link pure-menu-link">登 录</router-link></el-menu-item>
+        <el-menu-item v-if="!isLogined" index="4"><router-link to="/login" class="navbar-link pure-menu-link">注 册</router-link></el-menu-item>
+
+        <div v-if="isLogined" class="">
+          <el-dropdown class="avatar-container" trigger="click">
+            <div class="avatar-wrapper">
+              <img src="@/assets/avatar/identicon01.png" class="">
+              <span style="color:#606266; font-size:14px;">{{ username }}</span>
+            </div>
+            <el-dropdown-menu slot="dropdown" class="user-dropdown">
+              <router-link class="inlineBlock" to="/user_settings">
+                <el-dropdown-item>
+                  用户设置
+                </el-dropdown-item>
+              </router-link>
+              <el-dropdown-item divided>
+                <span style="display:block;" @click="handleLogout">退出</span>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+      </el-menu>
+    </div>
+  </div>
+  <!-- <div class="navbar-wrapper pure-menu pure-menu-horizontal pure-menu-fixed">
+    <div class="navbar-container container-xl px-responsive">
       <router-link class="navbar-logo pure-menu-heading" to="/home">BE</router-link>
-      <!-- <router-link class="navbar-logo pure-menu-heading" to="/home"><span><svg-logo logo-class="be_green" /></span></router-link> -->
 
       <ul v-if="!isLogined" class="pure-menu-list">
         <li class="pure-menu-item"><router-link to="/login" class="navbar-link pure-menu-link">登 录</router-link></li>
@@ -14,7 +42,6 @@
         <li is="el-dropdown" class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
             <img src="@/assets/avatar/identicon01.png" class="pure-img">
-            <!-- <i class="el-icon-caret-bottom"/> -->
             <span style="color:#606266; font-size:14px;">{{ username }}</span>
           </div>
           <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -30,7 +57,7 @@
         </li>
       </ul>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
