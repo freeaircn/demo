@@ -1,32 +1,40 @@
 <template>
   <div class="navbar-wrapper">
     <div class="navbar-container container-xl px-responsive">
-      <router-link class="navbar-logo" to="/home">BE</router-link>
-      <el-menu default-active="1" class="" mode="horizontal" >
-        <el-menu-item index="1">首页</el-menu-item>
-        <el-menu-item index="2">机组</el-menu-item>
-        <el-menu-item v-if="!isLogined" index="3"><router-link to="/login" class="navbar-link pure-menu-link">登 录</router-link></el-menu-item>
-        <el-menu-item v-if="!isLogined" index="4"><router-link to="/login" class="navbar-link pure-menu-link">注 册</router-link></el-menu-item>
-
-        <div v-if="isLogined" class="">
-          <el-dropdown class="avatar-container" trigger="click">
-            <div class="avatar-wrapper">
-              <img src="@/assets/avatar/identicon01.png" class="">
-              <span style="color:#606266; font-size:14px;">{{ username }}</span>
-            </div>
-            <el-dropdown-menu slot="dropdown" class="user-dropdown">
-              <router-link class="inlineBlock" to="/user_settings">
-                <el-dropdown-item>
-                  用户设置
-                </el-dropdown-item>
-              </router-link>
-              <el-dropdown-item divided>
-                <span style="display:block;" @click="handleLogout">退出</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+      <div class="nav-link-area">
+        <div class="nav-links">
+          <router-link class="nav-logo" to="/home">BE</router-link>
+          <el-menu default-active="1" mode="horizontal" background-color="#f8f8f9" class="nav-menus">
+            <el-menu-item index="1">首页</el-menu-item>
+            <el-menu-item index="2">机组</el-menu-item>
+          </el-menu>
         </div>
-      </el-menu>
+      </div>
+
+      <div v-if="!isLogined" class="nav-other-area">
+        <router-link to="/login" class="">登 录</router-link>
+        <el-divider direction="vertical" />
+        <router-link to="/login" class="">注 册</router-link>
+      </div>
+
+      <div v-if="isLogined" class="nav-other-area">
+        <el-dropdown class="avatar-container" trigger="click">
+          <div class="avatar-wrapper">
+            <img src="@/assets/avatar/identicon01.png" class="">
+            <span style="color:#606266; font-size:14px;">{{ username }}</span>
+          </div>
+          <el-dropdown-menu slot="dropdown" class="user-dropdown">
+            <router-link to="/user_settings">
+              <el-dropdown-item>
+                用户设置
+              </el-dropdown-item>
+            </router-link>
+            <el-dropdown-item divided>
+              <span style="display:block;" @click="handleLogout">退出</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </div>
   </div>
   <!-- <div class="navbar-wrapper pure-menu pure-menu-horizontal pure-menu-fixed">
@@ -107,53 +115,116 @@ export default {
 @import "src/styles/_free_variables";
 @import "src/styles/_layout.scss";
 
+// .navbar-wrapper{
+//   height: $navbar-height;
+//   line-height: $navbar-height;
+//   background: $navbar-default-bg;
+//   text-align: center;
+// }
+
+// .navbar-container {
+//     text-align: left;
+// }
+// .navbar-container ul {
+//     float: right;
+// }
+// .pure-menu.pure-menu-fixed {
+//     /* Fixed menus normally have a border at the bottom. */
+//     border-bottom: none;
+//     /* I need a higher z-index here because of the scroll-over effect. */
+//     z-index: $zindex-navbar-fixed;
+// }
+
+// .navbar-logo {
+//   display: inline-block;
+//   height: $navbar-height;
+//   line-height: $navbar-height;
+//   vertical-align: middle;
+//   padding: 0em 0em;
+// }
+// .navbar-link {
+//   display: inline-block;
+//   height: $navbar-height;
+//   line-height: $navbar-height;
+//   vertical-align: middle;
+//   padding: 0em 0.5em;
+// }
+// .navbar-container .pure-menu-heading {
+//   color: $navbar-default-color;
+//   font-weight: bold;
+// }
+// .navbar-container .pure-menu-selected a {
+//     color: $navbar-default-link-active-color;
+// }
+
+// .navbar-container a {
+//     color: $navbar-default-link-color;
+// }
+// .navbar-container li a:hover,
+// .navbar-container li a:focus {
+//     background: none;
+//     border: none;
+//     color: $navbar-default-link-hover-color;
+// }
+
+// .avatar-container {
+//   display: inline-block;
+//   position: relative;
+// }
+// .avatar-wrapper {
+//   cursor: pointer;
+//   position: relative;
+//   img {
+//     display: inline-block;
+//     height: $navbar-icon-height;
+//     line-height: $navbar-icon-height;
+//     vertical-align: middle;
+//     // padding: 0em 1em;
+//   }
+// }
+// .el-icon-caret-bottom {
+//   display: inline-block;
+//   font-size: $font-size-small;
+// }
+
+// new
 .navbar-wrapper{
+  width: 100%;
   height: $navbar-height;
   line-height: $navbar-height;
   background: $navbar-default-bg;
-  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $zindex-navbar-fixed;
 }
 
 .navbar-container {
-    text-align: left;
-}
-.navbar-container ul {
-    float: right;
-}
-.pure-menu.pure-menu-fixed {
-    /* Fixed menus normally have a border at the bottom. */
-    border-bottom: none;
-    /* I need a higher z-index here because of the scroll-over effect. */
-    z-index: $zindex-navbar-fixed;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
 }
 
-.navbar-logo {
-  display: inline-block;
-  height: $navbar-height;
-  line-height: $navbar-height;
-  vertical-align: middle;
-  padding: 0em 0em;
+.nav-link-area {
+  flex: 0 0 auto;
+  .nav-links {
+    display: flex;
+    .nav-menus {
+      padding-left: 48px;
+    }
+  }
 }
-.navbar-link {
-  display: inline-block;
-  height: $navbar-height;
-  line-height: $navbar-height;
-  vertical-align: middle;
-  padding: 0em 0.5em;
-}
-.navbar-container .pure-menu-heading {
-  color: $navbar-default-color;
-  font-weight: bold;
-}
-.navbar-container .pure-menu-selected a {
-    color: $navbar-default-link-active-color;
+
+.nav-other-area {
+  flex: 0 0 auto;
+  font-size: $font-size-base;
 }
 
 .navbar-container a {
     color: $navbar-default-link-color;
 }
-.navbar-container li a:hover,
-.navbar-container li a:focus {
+.navbar-container a:hover,
+.navbar-container a:focus {
     background: none;
     border: none;
     color: $navbar-default-link-hover-color;
@@ -171,23 +242,7 @@ export default {
     height: $navbar-icon-height;
     line-height: $navbar-icon-height;
     vertical-align: middle;
-    // padding: 0em 1em;
   }
-}
-.el-icon-caret-bottom {
-  display: inline-block;
-  font-size: $font-size-small;
-}
-
-@media (min-width: 320px) {
-  /* We can align the menu header to the left, but float the
-  menu items to the right. */
-  // .navbar-container {
-  //     text-align: left;
-  // }
-  // .navbar-container ul {
-  //     float: right;
-  // }
 }
 </style>
 
