@@ -1,23 +1,24 @@
 <template>
   <div class="navbar-wrapper">
     <div class="navbar-container container-xl px-responsive">
-      <div class="nav-link-area">
-        <div class="nav-links">
+      <div class="nav-link-wrapper">
+        <div class="nav-link-container">
           <router-link class="nav-logo" to="/home">BE</router-link>
           <el-menu default-active="1" mode="horizontal" background-color="#f8f8f9" class="nav-menus">
             <el-menu-item index="1">首页</el-menu-item>
             <el-menu-item index="2">机组</el-menu-item>
+            <el-menu-item index="3">电量</el-menu-item>
           </el-menu>
         </div>
       </div>
 
-      <div v-if="!isLogined" class="nav-other-area">
+      <div v-if="!isLogined" class="nav-other-wrapper">
         <router-link to="/login" class="">登 录</router-link>
         <el-divider direction="vertical" />
         <router-link to="/login" class="">注 册</router-link>
       </div>
 
-      <div v-if="isLogined" class="nav-other-area">
+      <div v-if="isLogined" class="nav-other-wrapper">
         <el-dropdown class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
             <img src="@/assets/avatar/identicon01.png" class="">
@@ -205,9 +206,9 @@ export default {
   justify-content: space-between;
 }
 
-.nav-link-area {
+.nav-link-wrapper {
   flex: 0 0 auto;
-  .nav-links {
+  .nav-link-container {
     display: flex;
     .nav-menus {
       padding-left: 48px;
@@ -215,7 +216,7 @@ export default {
   }
 }
 
-.nav-other-area {
+.nav-other-wrapper {
   flex: 0 0 auto;
   font-size: $font-size-base;
 }

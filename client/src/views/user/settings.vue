@@ -135,7 +135,7 @@
       </el-tabs>
     </div>
 
-    <div class="footer-wrapper py-responsive">
+    <!-- <div class="footer-wrapper py-responsive">
       <div class="footer-container container-xl px-responsive">
         <div class="pure-g">
           <div class="pure-u-1 pure-u-lg-1-3 gutter-space-responsive">
@@ -154,7 +154,7 @@
           <p>© 2019 Freeair Studio.</p>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

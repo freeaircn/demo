@@ -39,6 +39,10 @@
   text-align: right;
 }
 
+.px-3 {
+  padding-right: 24px!important;
+  padding-left: 24px!important;
+}
 .py-1 {
   padding-top: 8px!important;
   padding-bottom: 8px!important;
@@ -118,9 +122,9 @@
 }
 
 //lg
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
   .container-lg {
-    max-width: 1024px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
   }
