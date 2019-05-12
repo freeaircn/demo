@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container py-responsive">
+  <div class="home-container">
     <div class="jumbotron-wrapper py-responsive">
       <div class="jumbotron-container container-xl px-responsive">
         <div class="pure-g">

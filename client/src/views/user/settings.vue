@@ -75,15 +75,15 @@
             </div>
             <el-form ref="pwd_form" :model="pwdForm" :rules="pwdRules" label-position="right" >
               <el-form-item prop="oldPwd">
-                <el-input v-model="pwdForm.oldPwd" type="password" placeholder="输入旧密码" clearable />
+                <el-input v-model="pwdForm.oldPwd" placeholder="输入旧密码" show-password clearable />
               </el-form-item>
 
               <el-form-item prop="newPwd">
-                <el-input v-model="pwdForm.newPwd" type="password" placeholder="输入新密码" clearable />
+                <el-input v-model="pwdForm.newPwd" placeholder="输入新密码" show-password clearable />
               </el-form-item>
 
               <el-form-item prop="newConfirm">
-                <el-input v-model="pwdForm.newConfirm" type="password" placeholder="再次输入新密码" clearable />
+                <el-input v-model="pwdForm.newConfirm" placeholder="再次输入新密码" show-password clearable />
               </el-form-item>
 
               <el-form-item>
@@ -561,15 +561,15 @@ export default {
 .content-wrapper {
   position: relative !important;
   top: $navbar-height; left: 0;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  // display: flex;
+  // flex-direction: column;
+  // height: 100%;
   width: 100%;
   // background-color:  $bg-gray-light;
 }
-.content-container {
-  flex: 1 0 auto;
-}
+// .content-container {
+//   flex: 1 0 auto;
+// }
 .el-select{
   width: 100%;
 }
@@ -586,22 +586,5 @@ export default {
   color: $blue-light;
   background-color:  white;
   font-size: $font-size-base;
-}
-
-.footer-wrapper {
-  background: $footer-default-bg;
-  width: 100%;
-  flex: 0 0 auto;
-  h4 {
-    color: $title-color;
-  }
-  .footer-link {
-    font-size: 14px;
-    color: $text-color;
-  }
-  p {
-    font-size: 14px;
-    color: $text-color;
-  }
 }
 </style>

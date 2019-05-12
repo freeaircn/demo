@@ -34,20 +34,14 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input :type="pwdType" v-model="signupForm.password" name="password" placeholder="密码" clearable />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
+          <el-input v-model="signupForm.password" name="password" placeholder="密码" show-password clearable />
         </el-form-item>
 
         <el-form-item v-show="isValidCode === true" prop="confirmPassword">
           <span class="svg-container">
             <svg-icon icon-class="password2" />
           </span>
-          <el-input :type="pwdType" v-model="signupForm.confirmPassword" name="confirmPassword" placeholder="再次输入密码" clearable />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
+          <el-input v-model="signupForm.confirmPassword" name="confirmPassword" placeholder="再次输入密码" show-password clearable />
         </el-form-item>
 
         <div style="margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/login">已有账号？去登录</router-link></div>
@@ -138,7 +132,6 @@ export default {
         confirmPassword: [{ required: true, trigger: 'change', validator: validateconfirmPassword }]
       },
       loading: false,
-      pwdType: 'password',
       redirect: undefined
     }
   },
@@ -156,13 +149,6 @@ export default {
     }
   },
   methods: {
-    showPwd() {
-      if (this.pwdType === 'password') {
-        this.pwdType = ''
-      } else {
-        this.pwdType = 'password'
-      }
-    },
     checkInfo(infoItem) {
       const userPhone = this.signupForm.userphone
       if (infoItem === 'phone') {
@@ -349,7 +335,7 @@ export default {
   }
   .el-input {
     display: inline-block;
-    width  : 75%;
+    width  : 85%;
     input {
       background        : transparent;
       border            : 0px;

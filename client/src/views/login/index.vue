@@ -16,10 +16,7 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input :type="pwdType" v-model="loginForm.password" name="password" placeholder="请输入密码" clearable />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
+          <el-input v-model="loginForm.password" name="password" placeholder="请输入密码" show-password clearable />
         </el-form-item>
         <div style="display:inline-block; margin: 0px 0px 15px 0px; color: #409EFF;"><router-link to="/forgot_password">忘记密码？</router-link></div>
         <div style="display:inline-block; margin: 0px 0px 15px 0px; color: #409EFF; float:right;"><router-link to="/signup">没有账号？去注册</router-link></div>
@@ -55,7 +52,6 @@ export default {
         password: [{ required: true, message: '请输入密码', trigger: 'change' }]
       },
       loading: false,
-      pwdType: 'password',
       redirect: undefined
     }
   },
@@ -68,13 +64,6 @@ export default {
     }
   },
   methods: {
-    showPwd() {
-      if (this.pwdType === 'password') {
-        this.pwdType = ''
-      } else {
-        this.pwdType = 'password'
-      }
-    },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
@@ -120,7 +109,7 @@ export default {
 .login-container {
   .el-input {
     display: inline-block;
-    width: 75%;
+    width: 85%;
     input {
       background: transparent;
       border: 0px;
@@ -170,15 +159,4 @@ export default {
   vertical-align: middle;
   display: inline-block;
 }
-
-.show-pwd {
-  width: 30px;
-  padding-left: 8px;
-  padding-right: 8px;
-  color: $gray;
-  cursor: pointer;
-  user-select: none;
-  float: right;
-}
-
 </style>
