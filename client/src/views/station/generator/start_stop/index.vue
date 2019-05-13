@@ -3,10 +3,10 @@
     <div class="content-container container-sm px-responsive py-3">
       <!-- <h2 class="title is-center">{{ stationName }}</h2> -->
       <h2 class="title is-center">发电机启停统计</h2>
-      <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
-        <el-menu-item index="1">启停记录</el-menu-item>
-        <el-menu-item index="2">查询历史</el-menu-item>
-        <el-menu-item index="3">统计图表</el-menu-item>
+      <el-menu :default-active="activeIndex" router mode="horizontal">
+        <el-menu-item index="/generator/start_stop/log">启停记录</el-menu-item>
+        <el-menu-item index="/generator/start_stop/history">查询历史</el-menu-item>
+        <el-menu-item index="/generator/start_stop/statistic">统计图表</el-menu-item>
       </el-menu>
       <router-view />
     </div>
@@ -21,7 +21,7 @@ export default {
   name: 'Index',
   data() {
     return {
-      activeIndex: '1'
+      activeIndex: this.$route.path
     }
   },
   // computed: {
@@ -32,22 +32,25 @@ export default {
   //     return getStationName(this.stationIdx)
   //   }
   // },
+  mounted() {
+    this.activeIndex = this.$route.path
+  },
   methods: {
-    handleSelect(menuIndex) {
-      switch (menuIndex) {
-        case '1':
-          this.$router.push({ path: '/generator/start_stop/log' })
-          break
-        case '2':
-          this.$router.push({ path: '/generator/start_stop/history' })
-          break
-        case '3':
-          this.$router.push({ path: '/generator/start_stop/statistic' })
-          break
-        default:
-          break
-      }
-    }
+  //   handleSelect(menuIndex) {
+  //     switch (menuIndex) {
+  //       case '1':
+  //         this.$router.push({ path: '/generator/start_stop/log' })
+  //         break
+  //       case '2':
+  //         this.$router.push({ path: '/generator/start_stop/history' })
+  //         break
+  //       case '3':
+  //         this.$router.push({ path: '/generator/start_stop/statistic' })
+  //         break
+  //       default:
+  //         break
+  //     }
+  //   }
   }
 }
 </script>

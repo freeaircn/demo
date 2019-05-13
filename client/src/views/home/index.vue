@@ -22,21 +22,18 @@
             <el-card shadow="hover" class="is-center">
               <router-link to="/generator/start_stop/log"><img class="w-20" src="@/assets/start_stop.svg" alt="web_pic" ></router-link>
               <h3 class="content-subhead">机组启停</h3>
-              <p>机组启停</p>
             </el-card>
           </div>
           <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3 gutter-space-responsive">
             <el-card shadow="hover" class="is-center">
-              <img class="w-20" src="@/assets/work_attendance.svg" alt="web_pic" >
-              <h3 class="content-subhead">考勤</h3>
-              <p>考勤</p>
+              <img class="w-20" src="@/assets/electricity_quantity.svg" alt="web_pic" >
+              <h3 class="content-subhead">电量</h3>
             </el-card>
           </div>
           <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3 gutter-space-responsive">
             <el-card shadow="hover" class="is-center">
               <img class="w-20" src="@/assets/others.svg" alt="web_pic" >
               <h3 class="content-subhead">更多功能</h3>
-              <p>期待你的意见</p>
             </el-card>
           </div>
         </div>

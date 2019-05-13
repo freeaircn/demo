@@ -4,9 +4,9 @@
       <div class="nav-link-wrapper">
         <div class="nav-link-container">
           <router-link class="nav-logo" to="/home">BE</router-link>
-          <el-menu default-active="1" mode="horizontal" background-color="#f8f8f9" class="nav-menus">
-            <el-menu-item index="1">首页</el-menu-item>
-            <el-menu-item index="2">机组</el-menu-item>
+          <el-menu :default-active="$route.path" router mode="horizontal" background-color="#f8f8f9" class="nav-menus">
+            <el-menu-item index="/home">首页</el-menu-item>
+            <el-menu-item index="/generator/start_stop/log">机组</el-menu-item>
             <el-menu-item index="3">电量</el-menu-item>
           </el-menu>
         </div>
@@ -38,6 +38,7 @@
       </div>
     </div>
   </div>
+  <!-- https://blog.csdn.net/baidu_27438681/article/details/82729776 -->
   <!-- <div class="navbar-wrapper pure-menu pure-menu-horizontal pure-menu-fixed">
     <div class="navbar-container container-xl px-responsive">
       <router-link class="navbar-logo pure-menu-heading" to="/home">BE</router-link>
