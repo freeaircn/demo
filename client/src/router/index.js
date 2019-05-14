@@ -29,7 +29,7 @@ export const constantRouterMap = [
     redirect: 'home',
     name: 'Home',
     meta: {
-      title: 'Home'
+      title: '首页'
     },
     children: [{
       path: 'home',

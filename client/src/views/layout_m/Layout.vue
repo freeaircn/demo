@@ -2,6 +2,7 @@
   <div class="app-wrapper">
     <!-- <div class="main-container"> -->
     <navbar class="navbar" />
+    <breadcrumb />
     <app-main class="app-main" />
     <app-footer class="app-footer" />
     <!-- </div> -->
@@ -10,12 +11,14 @@
 
 <script>
 import ResizeMixin from './mixin/ResizeHandler'
+import Breadcrumb from '@/components/Breadcrumb'
 import { Navbar, AppMain, AppFooter } from './components'
 
 export default {
   name: 'Layout',
   components: {
     Navbar,
+    Breadcrumb,
     AppMain,
     AppFooter
   },

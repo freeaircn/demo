@@ -28,14 +28,16 @@ export default {
   },
   methods: {
     getBreadcrumb() {
+      console.log(this.$route.matched)
       let matched = this.$route.matched.filter(item => item.name)
 
       const first = matched[0]
       if (first && first.name !== 'dashboard') {
         matched = [{ path: '/dashboard', meta: { title: 'Dashboard' }}].concat(matched)
       }
-
+      console.log(matched)
       this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
+      console.log(this.levelList)
     },
     pathCompile(path) {
       // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
