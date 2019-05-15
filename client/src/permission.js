@@ -19,6 +19,9 @@ router.beforeEach((to, from, next) => {
   const token = getToken()
   if (!token) {
     if (whiteList.indexOf(to.path) !== -1) {
+      const pageTitle = to.meta.title
+      const resTitle = pageTitle ? `${pageTitle}` : 'BE'
+      window.document.title = resTitle
       next()
     } else {
       if (routerFullList.indexOf(to.path) !== -1) {
@@ -37,6 +40,9 @@ router.beforeEach((to, from, next) => {
     if (store.getters.phone === '') {
       store.dispatch('GetUserProfile')
         .then(() => { // 拉取用户信息
+          const pageTitle = to.meta.title
+          const resTitle = pageTitle ? `${pageTitle}` : 'BE'
+          window.document.title = resTitle
           next()
         }).catch(() => {
           store.dispatch('FedLogOut').then(() => {
@@ -45,6 +51,9 @@ router.beforeEach((to, from, next) => {
           })
         })
     } else {
+      const pageTitle = to.meta.title
+      const resTitle = pageTitle ? `${pageTitle}` : 'BE'
+      window.document.title = resTitle
       next()
     }
   }

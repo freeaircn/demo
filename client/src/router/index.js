@@ -27,46 +27,26 @@ export const constantRouterMap = [
     path: '/',
     component: Layout,
     redirect: 'home',
-    name: 'Home',
-    meta: {
-      title: '首页'
-    },
     children: [{
       path: 'home',
-      component: () => import('@/views/home/index')
+      name: 'home',
+      component: () => import('@/views/home/index'),
+      meta: { title: 'BE', breadcrumb: true }
     }]
   },
   {
     path: '/signup',
     name: 'signup',
+    hidden: true,
     component: () => import('@/views/signup/index'),
-    meta: {
-      title: '注册',
-      hideInMenu: true
-    },
-    hidden: true
+    meta: { title: '注册', breadcrumb: true }
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/login/index'),
-    meta: {
-      title: '登录',
-      hideInMenu: true
-    },
-    hidden: true
-  },
-  {
-    path: '/user_settings',
-    component: Layout,
     hidden: true,
-    children: [
-      {
-        path: '/',
-        component: () => import('@/views/user/settings'),
-        meta: { title: '用户设置' }
-      }
-    ]
+    component: () => import('@/views/login/index'),
+    meta: { title: '登录', breadcrumb: true }
   },
   // {
   //   path: '/active_mail',
@@ -81,22 +61,27 @@ export const constantRouterMap = [
   {
     path: '/forgot_password',
     name: 'forgot_password',
+    hidden: true,
     component: () => import('@/views/user/forgot_password'),
-    meta: {
-      title: '忘记密码',
-      hideInMenu: true
-    },
-    hidden: true
+    meta: { title: '忘记密码', breadcrumb: true }
   },
   {
     path: '/reset_password/:uid/post/:hash_code',
     name: 'reset_password',
+    hidden: true,
     component: () => import('@/views/user/reset_password'),
-    meta: {
-      title: '新密码',
-      hideInMenu: true
-    },
-    hidden: true
+    meta: { title: '重置密码', breadcrumb: true }
+  },
+  {
+    path: '/user_settings',
+    component: Layout,
+    hidden: true,
+    children: [{
+      path: '/',
+      name: 'user_settings',
+      component: () => import('@/views/user/settings'),
+      meta: { title: '用户设置', breadcrumb: true }
+    }]
   },
   {
     path: '/generator',
@@ -109,18 +94,21 @@ export const constantRouterMap = [
         children: [
           {
             path: 'log',
+            name: 'gen_start_log',
             component: () => import('@/views/station/generator/start_stop/log'),
-            meta: { title: '机组启停' }
+            meta: { title: '机组启停', breadcrumb: true }
           },
           {
             path: 'history',
+            name: 'gen_start_his',
             component: () => import('@/views/station/generator/start_stop/history'),
-            meta: { title: '查询历史' }
+            meta: { title: '历史查询', breadcrumb: true }
           },
           {
             path: 'statistic',
+            name: 'gen_start_stat',
             component: () => import('@/views/station/generator/start_stop/statistic'),
-            meta: { title: '统计图表' }
+            meta: { title: '统计图表', breadcrumb: true }
           }
         ]
       }

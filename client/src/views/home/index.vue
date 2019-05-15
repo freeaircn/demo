@@ -57,8 +57,9 @@ export default {
 @import "src/styles/_layout.scss";
 
 .home-container {
-  position: relative !important;
-  top: $navbar-height; left: 0;
+  // position: relative !important;
+  // top: 100px; left: 0;
+  // top: calc(#{$navbar-height} + #{$breadcrumb-height}); left: 0;
   width: 100%;
 }
 .jumbotron-wrapper {

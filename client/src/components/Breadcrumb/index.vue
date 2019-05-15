@@ -1,5 +1,5 @@
 <template>
-  <el-breadcrumb class="app-breadcrumb" separator="/">
+  <el-breadcrumb class="app-breadcrumb container-xl px-responsive" separator="/">
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="(item,index) in levelList" :key="item.path">
         <span v-if="item.redirect==='noredirect'||index==levelList.length-1" class="no-redirect">{{ item.meta.title }}</span>
@@ -28,16 +28,15 @@ export default {
   },
   methods: {
     getBreadcrumb() {
-      console.log(this.$route.matched)
       let matched = this.$route.matched.filter(item => item.name)
 
       const first = matched[0]
-      if (first && first.name !== 'dashboard') {
-        matched = [{ path: '/dashboard', meta: { title: 'Dashboard' }}].concat(matched)
+      if (first && first.name !== 'home') {
+        matched = [{ path: '/home', meta: { title: '首页' }}].concat(matched)
+      } else {
+        matched[0].meta.title = '首页'
       }
-      console.log(matched)
       this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
-      console.log(this.levelList)
     },
     pathCompile(path) {
       // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
@@ -58,11 +57,18 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+  @import "src/styles/_free_variables";
+  @import "src/styles/_layout.scss";
+
   .app-breadcrumb.el-breadcrumb {
-    display: inline-block;
+    // position: relative !important;
+    // top: $navbar-height; left: 0;
+    display: block;
+    width: 100%;
+    height: $breadcrumb-height;
     font-size: 14px;
-    line-height: 50px;
-    margin-left: 10px;
+    line-height: $breadcrumb-height;
+    // margin-left: 10px;
     .no-redirect {
       color: #97a8be;
       cursor: text;

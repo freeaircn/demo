@@ -559,8 +559,9 @@ export default {
 @import "src/styles/_layout.scss";
 
 .content-wrapper {
-  position: relative !important;
-  top: $navbar-height; left: 0;
+  // position: relative !important;
+  // top: 100px; left: 0;
+  // top: calc(#{$navbar-height} + #{$breadcrumb-height}); left: 0;
   // display: flex;
   // flex-direction: column;
   // height: 100%;

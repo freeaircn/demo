@@ -73,7 +73,7 @@
 <script>
 import store from '@/store'
 // import { mapGetters } from 'vuex'
-import { getToken } from '@/utils/auth' // 验权
+// import { getToken } from '@/utils/auth' // 验权
 
 export default {
   name: 'Navbar',
@@ -91,23 +91,23 @@ export default {
   },
   methods: {
     handleLogout() {
-      if (getToken()) {
-        store.dispatch('FedLogOut')
-          .then(() => {
-            this.$message({
-              type: 'info',
-              message: '您已退出登录',
-              duration: 3 * 1000
-            })
-            // TODO：路由 replace Home 页面
-            this.$router.replace({ path: '/' })
+      // if (getToken()) {
+      store.dispatch('FedLogOut')
+        .then(() => {
+          this.$message({
+            type: 'info',
+            message: '您已退出登录',
+            duration: 3 * 1000
           })
-          .catch(err => {
-            console.log(err)
-            // TODO：路由 replace Login 页面
-            this.$router.replace({ path: '/login' })
-          })
-      }
+          // TODO：路由 replace Home 页面
+          this.$router.replace({ path: '/' })
+        })
+        .catch(err => {
+          console.log(err)
+          // TODO：路由 replace Login 页面
+          this.$router.replace({ path: '/login' })
+        })
+      // }
     }
   }
 }

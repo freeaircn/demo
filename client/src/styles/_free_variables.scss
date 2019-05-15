@@ -143,6 +143,13 @@ $navbar-default-brand-hover-bg:            transparent !default;
 // $navbar-default-toggle-border-color:       #ddd !default;
 $navbar-icon-height:  ($navbar-height / 2) !default;
 
+//== breadcrumb
+//
+//##
+$breadcrumb-height:                    40px !default;
+$breadcrumb-default-color:              $text-color;
+$breadcrumb-default-bg:                 $bg-gray-light;
+
 //== jumbotron
 $jumbotron-bg:  lighten($bg-gray-light, 1.5%);
 
