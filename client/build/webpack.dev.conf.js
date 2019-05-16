@@ -56,7 +56,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'index.html',
       inject: true,
-      favicon: resolve('logo.ico'),
+      favicon: resolve('favicon.ico'),
       title: 'vue-admin-template'
     })
   ]

@@ -54,8 +54,8 @@ const webpackConfig = merge(baseWebpackConfig, {
       filename: config.build.index,
       template: 'index.html',
       inject: true,
-      favicon: resolve('logo.ico'),
-      title: 'vue-admin-template',
+      favicon: resolve('favicon.ico'),
+      title: 'BE',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
