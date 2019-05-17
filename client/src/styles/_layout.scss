@@ -68,6 +68,12 @@
   height: auto;
 }
 
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 // xs
 @media (min-width: 320px) {
   .px-responsive {

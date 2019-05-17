@@ -48,7 +48,8 @@ export default {
     }
     .app-main {
       position: relative !important;
-      top: calc(#{$navbar-height} + #{$breadcrumb-height}); left: 0;
+      // top: calc(#{$navbar-height} + #{$breadcrumb-height}); left: 0;
+      top: $navbar-height; left: 0;
       flex: 1 0 auto;
       margin-bottom: 64px;
     }
