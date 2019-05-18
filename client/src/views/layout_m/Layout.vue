@@ -28,8 +28,6 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   @import "src/styles/mixin.scss";
-  @import "src/styles/_free_variables.scss";
-  @import "src/styles/_layout.scss";
 
   .app-wrapper {
     // @include clearfix;

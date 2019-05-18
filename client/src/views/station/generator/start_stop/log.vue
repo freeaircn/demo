@@ -236,8 +236,6 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-@import "src/styles/_free_variables.scss";
-@import "src/styles/_layout.scss";
 
 .el-select{
   width: 100%;

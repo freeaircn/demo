@@ -127,26 +127,11 @@ export default {
         }
       })
     }
-
-    // handleGotoMailBox() {
-    //   if (this.mailServerUrl === '') {
-    //     this.$router.push({
-    //       name: 'login'
-    //     })
-    //   } else {
-    //     // ! 重置data
-    //     this.$refs.forgotPwdForm.resetFields()
-    //     window.location.replace(this.mailServerUrl)
-    //     this.mailServerUrl = ''
-    //   }
-    // }
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-@import "src/styles/_free_variables.scss";
-@import "src/styles/_layout.scss";
 
 /* reset element-ui css */
 .forgot-pwd-container {
@@ -168,8 +153,6 @@ export default {
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-@import "src/styles/_free_variables.scss";
-@import "src/styles/_layout.scss";
 
 .forgot-pwd-wrapper {
   width: 100%;

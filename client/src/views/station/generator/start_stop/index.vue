@@ -56,8 +56,6 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-@import "src/styles/_free_variables.scss";
-@import "src/styles/_layout.scss";
 
 .content-wrapper {
   // position: relative !important;

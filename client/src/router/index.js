@@ -31,7 +31,7 @@ export const constantRouterMap = [
       path: 'home',
       name: 'home',
       component: () => import('@/views/home/index'),
-      meta: { title: 'BE', breadcrumb: true }
+      meta: { title: '首页', breadcrumb: true }
     }]
   },
   {
@@ -81,6 +81,17 @@ export const constantRouterMap = [
       name: 'user_settings',
       component: () => import('@/views/user/settings'),
       meta: { title: '用户设置', breadcrumb: true }
+    }]
+  },
+  {
+    path: '/station',
+    component: Layout,
+    hidden: true,
+    children: [{
+      path: '/',
+      name: 'station',
+      component: () => import('@/views/station/layout'),
+      meta: { title: '厂站', breadcrumb: true }
     }]
   },
   {

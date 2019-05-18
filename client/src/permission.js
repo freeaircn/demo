@@ -6,7 +6,7 @@ import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth' // 验权
 
 // 不需要登录可访问的页面
-const whiteList = ['/home', '/login', '/signup', '/forgot_password', '/reset_password/:uid/post/:hash_code', '/404']
+const whiteList = ['/home', '/login', '/signup', '/forgot_password', '/reset_password/:uid/post/:hash_code', '/station', '/404']
 // 所有前端路由
 const routerFullList = ['/home', '/signup', '/login', '/user_settings', '/forgot_password', '/reset_password/:uid/post/:hash_code', '/generator/start_stop/log', '/404']
 
@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
         Message({
           type: 'warning',
           message: '请登录后，继续访问！',
-          duration: 3 * 1000,
+          duration: 2 * 1000,
           showClose: true
         })
         next(`/login?redirect=${to.path}`)

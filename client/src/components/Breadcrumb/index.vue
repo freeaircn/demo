@@ -33,8 +33,6 @@ export default {
       const first = matched[0]
       if (first && first.name !== 'home') {
         matched = [{ path: '/home', meta: { title: '首页' }}].concat(matched)
-      } else {
-        matched[0].meta.title = '首页'
       }
       this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
     },
@@ -57,8 +55,6 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/_free_variables";
-  @import "src/styles/_layout.scss";
 
   .app-breadcrumb.el-breadcrumb {
     // position: relative !important;

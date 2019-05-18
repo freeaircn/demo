@@ -131,30 +131,8 @@
             </el-form>
           </div>
         </el-tab-pane>
-
       </el-tabs>
     </div>
-
-    <!-- <div class="footer-wrapper py-responsive">
-      <div class="footer-container container-xl px-responsive">
-        <div class="pure-g">
-          <div class="pure-u-1 pure-u-lg-1-3 gutter-space-responsive">
-            <h4>BE</h4>
-          </div>
-          <div class="pure-u-1 pure-u-lg-1-3 gutter-space-responsive">
-            <h4>链接</h4>
-            <a href="#" class="footer-link">帮助</a>
-          </div>
-          <div class="pure-u-1 pure-u-lg-1-3 gutter-space-responsive">
-            <h4>社区</h4>
-            <a href="#" class="footer-link">反馈建议</a>
-          </div>
-        </div>
-        <div class="is-right mt-4">
-          <p>© 2019 Freeair Studio.</p>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -555,8 +533,6 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-@import "src/styles/_free_variables.scss";
-@import "src/styles/_layout.scss";
 
 .content-wrapper {
   // position: relative !important;

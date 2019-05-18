@@ -120,19 +120,11 @@ export default {
         }
       })
     }
-    // handleGotoLogin() {
-    //   // window.location.replace('http://127.0.0.1/login')
-    //   this.$router.replace({
-    //     name: 'login'
-    //   })
-    // }
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-@import "src/styles/_free_variables.scss";
-@import "src/styles/_layout.scss";
 
 /* reset element-ui css */
 .reset-pwd-container {
@@ -154,8 +146,6 @@ export default {
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-@import "src/styles/_free_variables.scss";
-@import "src/styles/_layout.scss";
 
 .reset-pwd-wrapper {
   width: 100%;

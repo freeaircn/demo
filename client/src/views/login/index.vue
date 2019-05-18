@@ -102,8 +102,6 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-@import "src/styles/_free_variables.scss";
-@import "src/styles/_layout.scss";
 
 /* reset element-ui css */
 .login-container {
@@ -133,8 +131,6 @@ export default {
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-@import "src/styles/_free_variables.scss";
-@import "src/styles/_layout.scss";
 
 .login-wrapper {
   width: 100%;
