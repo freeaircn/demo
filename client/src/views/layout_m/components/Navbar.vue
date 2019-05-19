@@ -18,7 +18,7 @@
       <div v-if="!isLogined" class="nav-other-wrapper">
         <router-link to="/login" class="">登录</router-link>
         <el-divider direction="vertical" />
-        <router-link to="/login" class="">注册</router-link>
+        <router-link to="/signup" class="">注册</router-link>
       </div>
 
       <div v-if="isLogined" class="nav-other-wrapper">

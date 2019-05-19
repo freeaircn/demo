@@ -2,7 +2,7 @@
   <div class="layout-wrapper container-xl">
     <div class="layout-container">
       <el-container style="height: 100%; border-top: 1px solid #eee">
-        <el-aside :width="sideBarWidth">
+        <el-aside width="auto">
           <el-menu :collapse="isCollapse" :collapse-transition="false" default-active="1-4-1" class="el-menu-vertical-demo">
             <el-submenu index="1">
               <template slot="title">
@@ -22,7 +22,7 @@
                 <el-menu-item index="1-4-1">选项1</el-menu-item>
               </el-submenu>
             </el-submenu>
-            <el-menu-item index="2">
+            <el-menu-item index="2" style="padding-left: 5px">
               <i class="el-icon-menu" />
               <span slot="title">导航二</span>
             </el-menu-item>
@@ -38,7 +38,7 @@
         </el-aside>
 
         <el-container style="height: 100%; border-left: 1px solid #eee">
-          <el-header style="text-align: right; font-size: 12px">
+          <el-header style="font-size: 12px">
             <el-radio-group v-model="isCollapse" style="">
               <el-radio-button :label="false">展开</el-radio-button>
               <el-radio-button :label="true">收起</el-radio-button>
@@ -53,7 +53,6 @@
             </el-dropdown>
             <span>Header</span>
           </el-header>
-
           <el-main>
             <p>Content</p>
           </el-main>
