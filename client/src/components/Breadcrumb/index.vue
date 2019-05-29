@@ -63,6 +63,7 @@ export default {
     width: 100%;
     height: $breadcrumb-height;
     font-size: 14px;
+    font-style: italic;
     line-height: $breadcrumb-height;
     // margin-left: 10px;
     .no-redirect {

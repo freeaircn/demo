@@ -87,6 +87,15 @@ export default {
 }
 </script>
 
+<style rel="stylesheet/scss" lang="scss">
+/* reset element-ui css */
+.navbar-container {
+  i {
+    display: none;
+  }
+}
+</style>
+
 <style rel="stylesheet/scss" lang="scss" scoped>
 
 .navbar-wrapper{
@@ -111,7 +120,7 @@ export default {
   .nav-link-container {
     display: flex;
     .nav-menus {
-      padding-left: 48px;
+      padding-left: 40px;
     }
   }
 }
