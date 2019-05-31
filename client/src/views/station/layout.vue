@@ -12,7 +12,7 @@
               <el-dropdown-item>删除</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown> -->
-          <span style="">松山河口电厂</span>
+          <span>松山河口电厂</span>
         </el-header>
         <el-container style="height: 100%;">
           <el-aside width="auto">
@@ -109,12 +109,13 @@ export default {
 }
 .layout-container {
   flex: 1 0 auto;
-}
-.el-header {
-  background-color: $bg-blue-light;
-  color: white;
-  text-align: center;
-  font-size: 14px;
-  line-height: 40px;
+  .el-header {
+    background-color: $bg-blue-light;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    line-height: 40px;
+    padding-left: 10px;
+  }
 }
 </style>

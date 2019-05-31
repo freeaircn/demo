@@ -31,14 +31,14 @@
             <el-form-item prop="subcompany">
               <el-select v-model="profile.subcompany" placeholder="请选择子公司" @change="profileItemChange()">
                 <el-option label="保山槟榔江水电开发有限公司" value="1"/>
-                <el-option label="直属电厂" value="2"/>
+                <!-- <el-option label="直属电厂" value="2"/> -->
               </el-select>
             </el-form-item>
 
             <el-form-item prop="station">
               <el-select v-model="profile.station" placeholder="请选择所属电厂" @change="profileItemChange()">
                 <el-option label="松山河口电厂" value="1"/>
-                <el-option label="苏家河口电厂" value="2"/>
+                <!-- <el-option label="苏家河口电厂" value="2"/> -->
               </el-select>
             </el-form-item>
 
@@ -50,7 +50,7 @@
                 <el-option label="运行三班" value="4"/>
                 <el-option label="运行四班" value="5"/>
                 <el-option label="运行五班" value="6"/>
-                <el-option label="办公室" value="7"/>
+                <el-option label="其他" value="7"/>
               </el-select>
             </el-form-item>
 
